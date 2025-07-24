@@ -1,0 +1,113 @@
+########################
+# === OS 관련 ===
+########################
+.DS_Store
+Thumbs.db
+
+########################
+# === IDE 관련 ===
+########################
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.factorypath
+.settings/
+.idea/
+.vscode/
+.metadata/
+.sts4-cache/
+.springBeans/
+.apt_generated/
+
+########################
+# === 빌드 및 산출물 ===
+########################
+bin/
+build/
+target/
+out/
+dist/
+tmp/
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+########################
+# === 로그/임시/백업 ===
+########################
+*.log
+*.tmp
+*.bak
+*.old
+/log/
+**/logs/
+**/log/
+
+########################
+# === 테스트/서버 관련 ===
+########################
+/Servers/
+server.xml
+hs_err_pid*
+replay_pid*
+
+########################
+# === Maven / Gradle ===
+########################
+.gradle/
+.mvn/
+!gradle-wrapper.jar
+dependency-reduced-pom.xml
+
+########################
+# === Web 리소스 무시 (업로드, 캐시 등) ===
+########################
+**/src/main/webapp/upload/
+**/src/main/webapp/images/
+**/src/main/webapp/assets/tmp/
+**/src/main/webapp/resources/tmp/
+
+########################
+# === 리소스 파일 예외 (설정은 커밋 대상) ===
+########################
+# 보통 설정 파일은 Git에 커밋함 (중요)
+!**/src/main/resources/
+!**/src/main/resources/**/application.yml
+!**/src/main/resources/**/application.properties
+
+# 예시 파일은 커밋하고, 실제는 무시할 수도 있음
+# application.yml
+**/src/main/resources/application-secret.yml
+**/src/main/resources/application-real.yml
+
+########################
+# === 데이터베이스 도구 ===
+########################
+.dbeaver/
+
+# === Spring Boot DevTools ===
+.spring-boot-devtools.properties
+
+# === 환경설정 파일 ===
+.env
+.env.*
+
+# === 인증서/키파일 ===
+*.pem
+*.key
+*.crt
+*.jks
+
+# === 테스트 커버리지 ===
+jacoco.exec
+/coverage/
+
+# IntelliJ 자동 저장 항목 추가
+.idea_modules/
+modules.xml
