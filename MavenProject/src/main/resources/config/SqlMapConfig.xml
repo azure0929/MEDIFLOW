@@ -11,7 +11,7 @@
 	 </settings>
 	 
 	<typeAliases>
-		<package name="com.service.spring.domain"/> <!-- book, user -->
+		<package name="com.service.spring.domain"/> <!-- booking, member,review, hospital -->
 	</typeAliases>
 	
 <!-- 2. MyBatis Framework Unit Test하기 위한 DataSource 설정부분 -->
