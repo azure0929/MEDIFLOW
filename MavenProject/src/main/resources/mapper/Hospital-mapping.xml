@@ -3,29 +3,56 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="HospitalMapper">
-	<!--병원 등록-->
-	<insert id="insertHospital" parameterType="hospital">
+	<sql id="selectHospital">
+		SELECT H_NUM,H_DEPARTMENT,H_TITLE,H_DISTRICT,H_ADDRESS,H_TEL,H_CONTENT,H_URL
+		FROM HOSPITAL
+	</sql>
 	
+	<!--병원 등록 -->
+	<!--*PK 값은 AUTO INCREMENT로 자동증가 -->
+	<insert id="insertHospital" parameterType="hospital" useGeneratedKeys="true"  keyProperty="hNum">
+		INSERT INTO HOSPITAL(H_DEPARTMENT,H_TITLE,H_DISTRICT,H_ADDRESS,H_TEL,H_CONTENT,H_URL)
+		VALUES(#{hDepartment},#{hTitle},#{hDistrict},#{hAddress},#{hTel},#{hContent},#{hUrl})
 	</insert>
 	
 	<!--병원 수정-->
+	<!--진료과목, 병원이름, 지역구, 상세주소, 전화번호, 병원소개 만 수정가능-->
 	<update id="updateHospital" parameterType="hospital">
-	
+		UPDATE HOSPITAL 
+		SET H_DEPARTMENT=#{hDepartment},H_TITLE=#{hTitle},H_DISTRICT=#{hDistrict},
+		H_ADDRESS=#{hAddress},H_TEL=#{hTel},H_CONTENT=#{hContent}
+		WHERE H_NUM = #{hNum}
 	</update>
 	
 	<!--병원 삭제-->
 	<delete id="deleteHospital" parameterType="int">
-	
+		DELETE FROM HOSPITAL WHERE H_NUM=#{VALUE}
 	</delete>
 	
 	<!--병원 전체조회-->
-	<select id="searchAllHospital">
+	<select id="searchAllHospital" resultType="hospital" >
+		<include refid="selectHospital" />
+	</select>
 	
+	<select id="searchHospitalByNum" parameterType="int" resultType="hospital" >
+		<include refid="selectHospital" />
+		WHERE H_NUM = #{VALUE}
 	</select>
 	
 	<!--병원 조건별 조회 동적 쿼리-->
-	<select id="searchHospital">
-	
+	<select id="searchHospital" parameterType="hospital" resultType="hospital">
+		<include refid="selectHospital" />
+		<trim prefix="WHERE" prefixOverrides="OR">
+			<if test="hDepartment != null">
+			 	H_DEPARTMENT LIKE CONCAT('%',#{hDepartment},'%')
+			</if>
+			<if test="hTitle != null">
+			 OR H_TITLE LIKE CONCAT('%',#{hTitle},'%')
+			</if>
+			<if test="hDistrict != null">
+			 OR H_DISTRICT LIKE CONCAT('%',#{hDistrict},'%')
+			</if>
+		</trim>
 	</select>
 </mapper>
 
