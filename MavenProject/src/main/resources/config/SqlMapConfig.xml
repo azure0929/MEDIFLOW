@@ -26,9 +26,12 @@
 			</dataSource>
 		</environment>
 	</environments> 
- 
 
 	<mappers>
 		<mapper resource="mapper/Member-mapping.xml"/>
+		<mapper resource="mapper/Hospital-mapping.xml"/>
+		<mapper resource="mapper/Booking-mapping.xml"/>
+		<mapper resource="mapper/Review-mapping.xml"/>
+		
 	</mappers>
 </configuration>

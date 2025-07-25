@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="HospitalMapper">
+	<!--병원 등록-->
+	<insert id="insertHospital" parameterType="hospital">
+	
+	</insert>
+	
+	<!--병원 수정-->
+	<update id="updateHospital" parameterType="hospital">
+	
+	</update>
+	
+	<!--병원 삭제-->
+	<delete id="deleteHospital" parameterType="int">
+	
+	</delete>
+	
+	<!--병원 전체조회-->
+	<select id="searchAllHospital">
+	
+	</select>
+	
+	<!--병원 조건별 조회 동적 쿼리-->
+	<select id="searchHospital">
+	
+	</select>
+</mapper>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
