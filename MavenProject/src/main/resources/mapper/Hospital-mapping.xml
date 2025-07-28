@@ -34,12 +34,14 @@
 		<include refid="selectHospital" />
 	</select>
 	
+	<!-- 병원 단일조회 -->
 	<select id="searchHospitalByNum" parameterType="int" resultType="hospital" >
 		<include refid="selectHospital" />
 		WHERE H_NUM = #{VALUE}
 	</select>
 	
 	<!--병원 조건별 조회 동적 쿼리-->
+	<!-- 부서별, 이름별, 지역별 -->
 	<select id="searchHospital" parameterType="hospital" resultType="hospital">
 		<include refid="selectHospital" />
 		<trim prefix="WHERE" prefixOverrides="OR">
