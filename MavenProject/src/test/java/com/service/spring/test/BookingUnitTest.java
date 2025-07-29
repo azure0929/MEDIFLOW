@@ -59,14 +59,14 @@ public class BookingUnitTest {
 //	@Test
 //	public void countBookingByDepartment()throws Exception {
 //		SqlSession session = getSqlSession();
-//	    List<Map<String, Object>> list = session.selectList(NS + "countBookingByDepartment");
+//	    List<Map<String, Object>> list = session.selectList(NS + "countBookingByDeptAge");
 //	    System.out.println(list);
 //	    list.forEach(e->System.out.println(e));
 //	}
 	@Test
 	public void countBookingByDistrict()throws Exception {
 		SqlSession session = getSqlSession();
-	    List<Map<String, Object>> list = session.selectList(NS + "countBookingByDistrict");
+	    List<Map<String, Object>> list = session.selectList(NS + "countBookingByDistrictDept");
 	    System.out.println(list);
 	    list.forEach(e->System.out.println(e));
 	}

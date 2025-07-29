@@ -57,7 +57,7 @@
 	</select>
 	
 	<!-- 진료과목 별 예약 연령 조회 -->
-	<select id="countBookingByDepartment" resultType="map">
+	<select id="countBookingByDeptAge" resultType="map">
 	    SELECT H.H_DEPARTMENT, M.M_AGE, COUNT(*) AS count
 	    FROM BOOKING B
 	    JOIN MEMBER M ON B.M_NUM = M.M_NUM
@@ -66,7 +66,7 @@
 	</select>
 	
 	<!-- 지역구 별 예약 진료과목 조회 -->
-	<select id="countBookingByDistrict" resultType="map">
+	<select id="countBookingByDistrictDept" resultType="map">
 	    SELECT H.H_DISTRICT, H.H_DEPARTMENT, COUNT(*) AS count
 	    FROM BOOKING B
 	    JOIN HOSPITAL H ON B.H_NUM = H.H_NUM
