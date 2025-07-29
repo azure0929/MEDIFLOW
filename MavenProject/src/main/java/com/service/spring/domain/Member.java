@@ -4,20 +4,29 @@ public class Member {
 	
 	private int mNum; // 회원번호(컬럼명 : m_num)
 	private String mId; // :회원 아이디(컬럼명 : m_id)
-	private String mPass; // 회원 비밀번호 (컬럼명 : m_password)
+	private String mPassword; // 회원 비밀번호 (컬럼명 : m_password)
 	private String mName; // 회원 이름 (컬럼명 : m_name)
 	private String mPhone; // 회원 전화번호 (컬럼명 : m_phone)
 	private String mAge; // 회원 나이 (컬럼명 : m_age)
 	
 	public Member() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
-	public Member(String mId, String mPass, String mName, String mPhone, String mAge) {
+	public Member(int mNum, String mId, String mPassword, String mName, String mPhone, String mAge) {
+		super();
+		this.mNum = mNum;
+		this.mId = mId;
+		this.mPassword = mPassword;
+		this.mName = mName;
+		this.mPhone = mPhone;
+		this.mAge = mAge;
+	}
+
+	public Member(String mId,String mPassword, String mName, String mPhone, String mAge) {
 		super();
 		this.mId = mId;
-		this.mPass = mPass;
+		this.mPassword = mPassword;
 		this.mName = mName;
 		this.mPhone = mPhone;
 		this.mAge = mAge;
@@ -32,11 +41,11 @@ public class Member {
 	public void setmId(String mId) {
 		this.mId = mId;
 	}
-	public String getmPass() {
-		return mPass;
+	public String getmPassword() {
+		return mPassword;
 	}
-	public void setmPass(String mPass) {
-		this.mPass = mPass;
+	public void setmPassword(String mPassword) {
+		this.mPassword = mPassword;
 	}
 	public String getmName() {
 		return mName;
@@ -59,7 +68,7 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member [mNum=" + mNum + ", mId=" + mId + ", mPass=" + mPass + ", mName=" + mName + ", mPhone=" + mPhone
+		return "Member [mNum=" + mNum + ", mId=" + mId + ", mPassword=" + mPassword + ", mName=" + mName + ", mPhone=" + mPhone
 				+ ", mAge=" + mAge + "]";
 	}
 	

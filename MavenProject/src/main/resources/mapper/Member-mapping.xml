@@ -3,7 +3,62 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="MemberMapper">
+	<sql id="selectMember">
+		SELECT M_NUM,M_ID,M_NAME,M_PHONE,M_AGE
+		FROM MEMBER
+	</sql>
+	
+	<!--로그인  -->
+	<select id="logIn" parameterType="member" resultType="member">
+		<include refid="selectMember" />
+			WHERE M_ID = #{mId} AND M_PASSWORD = #{mPassword} 
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="insertMember" parameterType="member" useGeneratedKeys="true"  keyProperty="mNum">
+		INSERT INTO MEMBER(M_ID,M_NAME,M_PASSWORD,M_PHONE,M_AGE) 
+		VALUES(#{mId},#{mName},#{mPassword},#{mPhone},#{mAge})
+	</insert>
 
+	<!--회원 수정-->
+	<!--비밀번호, 연락처 만 수정가능-->
+	<update id="updateMember" parameterType="member">
+		UPDATE MEMBER SET M_PASSWORD=#{mPassword},M_PHONE=#{mPhone}
+		WHERE M_NUM = #{mNum}
+	</update>
+	
+	<!--회원 탈퇴-->
+	<delete id="deleteMember" parameterType="int">
+		DELETE FROM MEMBER WHERE M_NUM=#{VALUE}
+	</delete>
+	
+	<!--회원 전체조회-->
+	<select id="searchAllMember" resultType="member" >
+		<include refid="selectMember" />
+	</select>
+	
+	<!-- 회원 단일조회 -->
+	<select id="searchMemberByNum" parameterType="int" resultType="member" >
+		<include refid="selectMember" />
+		WHERE M_NUM = #{VALUE}
+	</select>
+	
+	<!--회원 조건별 조회 동적 쿼리-->
+	<!-- 이름별,연령대별,연락처별 -->
+	<select id="searchMember" parameterType="member" resultType="member">
+		<include refid="selectMember" />
+		<trim prefix="WHERE" prefixOverrides="OR">
+			<if test="mName != null">
+			 	M_NAME LIKE CONCAT('%',#{mName},'%')
+			</if>
+			<if test="mAge != null">
+			 OR M_AGE LIKE CONCAT('%',#{mAge},'%')
+			</if>
+			<if test="mPhone != null">
+			 OR M_PHONE LIKE CONCAT('%',#{mPhone},'%')
+			</if>
+		</trim>
+	</select>
 </mapper>
 
  

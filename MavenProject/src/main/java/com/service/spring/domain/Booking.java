@@ -6,13 +6,19 @@ public class Booking {
 	private Hospital hospital;// 병원번호 (컬럼명은 h_num)
 	private String bDate;// 예약일자 (컬럼명은 b_date)
 	private String bTime;// 예약 시간대 (컬럼명은 b_time)
-	private int bStatus;// 예약 상태 (테이블에는 tinyint)
+	private int bStatus;// 예약 상태 (컬럼명은 b_status 타입은 tinyint)
 	
 	public Booking() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	public Booking(Member member, Hospital hospital, String bTime) {
+		super();
+		this.member = member;
+		this.hospital = hospital;
+		this.bTime = bTime;
+	}
 	public Booking(Member member, Hospital hospital, String bDate, String bTime, int bStatus) {
 		super();
 		this.member = member;
@@ -20,6 +26,14 @@ public class Booking {
 		this.bDate = bDate;
 		this.bTime = bTime;
 		this.bStatus = bStatus;
+	}
+
+	public Booking(int bNum, Member member, Hospital hospital, String bTime) {
+		super();
+		this.bNum = bNum;
+		this.member = member;
+		this.hospital = hospital;
+		this.bTime = bTime;
 	}
 
 	public int getbNum() {
