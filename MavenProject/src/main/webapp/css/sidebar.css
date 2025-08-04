@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+/* 좌측 사이드바 */
+.sidebar {
+	width: 360px;
+	background: linear-gradient(to bottom, #A0E7E5, #B9D7FF);
+	color: #FFFFFF;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.sidebar .logo {
+	color: var(--primary-color);
+	font-size: 40px;
+	margin-top : 40px;
+	margin-bottom: 200px;
+}
+
+.sidebar .menu {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content : center;
+	gap: 80px;
+	padding-left: 0;
+}
+
+.menu-item a{
+	color: #FFFFFF;
+	font-size: 20px;
+	display: flex;
+	align-items: center;
+	gap: 30px;
+	cursor: pointer;
+}
+
+.menu-item .active{
+	color: var(--primary-color);
+}

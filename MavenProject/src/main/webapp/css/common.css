@@ -70,4 +70,5 @@ table {
 a {
 	text-decoration: none;
 	color: #191919;
+	cursor: pointer;
 }
