@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,15 +7,21 @@
 <title>MEDIFLOW</title>
 
 <link rel="stylesheet" href="/css/common.css" />
+<link rel="stylesheet" href="/css/index.css" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-	h1{
-		color : var(--primary-color);
-	}
-</style>
+
 </head>
 <body>
-<h1>하이</h1>
+
+
+	<div id="wrap">
+		<jsp:include page="components/header.jsp" />
+		<main class="main">
+			
+		</main>
+	</div>
+
+
 </body>
 </html>
