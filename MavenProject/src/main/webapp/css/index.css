@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+.main {
+	height: 100vh;
+	background: linear-gradient(to bottom, #A0E7E5, #B9D7FF);
+}
