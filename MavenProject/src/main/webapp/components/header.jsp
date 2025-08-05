@@ -14,11 +14,11 @@
 		<header>
 			<div class="header-inner inner">
 				<div class="logo">
-					<img src="./images/logo.webp" alt="logo" />
+					<img src="./img/logo.webp" alt="logo" />
 				</div>
 				<nav>
 					<ul>
-						<li class="profile"><img src="./images/profile.webp" alt="profile" /></li>
+						<li class="profile"><img src="./img/profile.webp" alt="profile" /></li>
 						<li><span>홍길동</span>님</li>
 					</ul>
 				</nav>
