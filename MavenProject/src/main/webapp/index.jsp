@@ -14,14 +14,21 @@
 </head>
 <body>
 
-
 	<div id="wrap">
 		<jsp:include page="components/header.jsp" />
 		<main class="main">
-			
+			<div class="content">
+				<p>
+					반갑습니다! <br />
+					<span>메디플로우</span>입니다
+				</p>
+				<div class="link">
+					<a href="#none">로그인</a>
+					<a href="#none">회원가입</a>
+				</div>
+			</div>
 		</main>
 	</div>
-
 
 </body>
 </html>
