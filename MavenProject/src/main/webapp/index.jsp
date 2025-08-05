@@ -23,8 +23,8 @@
 					<span>메디플로우</span>입니다
 				</p>
 				<div class="link">
-					<a href="#none">로그인</a>
-					<a href="#none">회원가입</a>
+					<a href="/member/login.jsp">로그인</a>
+					<a href="/member/memberRegister.jsp">회원가입</a>
 				</div>
 			</div>
 		</main>
