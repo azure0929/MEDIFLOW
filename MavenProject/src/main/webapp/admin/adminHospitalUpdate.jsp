@@ -9,7 +9,7 @@
 <title>관리자 페이지</title>
 
 <link rel="stylesheet" href="/css/common.css" />
-<link rel="stylesheet" href="/css/adminHospitalRegister.css" />
+<link rel="stylesheet" href="/css/adminHospitalUpdate.css" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
@@ -27,52 +27,72 @@
 		<div class="top-bar">
 			<div class="logout"><a href="#">로그아웃</a></div>
 		</div>
-		<form action="admin/hospitalRegister" method="post" enctype="multipart/form-data" >
-			<label class="text-label">이미지 등록<font size="2" color="red">※썸네일 사진으로 등록됩니다.</font></label>
+		<form id="myForm" action="admin/hospitalUpdate" method="post" enctype="multipart/form-data" >
+			<label class="text-label">이미지</label>
 			<div class="register-container">
 				<div class="image-upload">
-					<label  class="image-form" for="file-input">
-						<p class="image-label">사진을 등록해 주세요.</p>
-				        <img class="uploadImg" src="/img/fileUpload.webp"/>
-				    <input id="file-input" name="uploadFile" type="file" style="display: none;"/>
-    				</label>
+			        <img class="uploadImg" src="/img/스마일병원.webp"/>
 				</div>
 				<div class="data-container">
 					<div class="textbox-container">
 						<div class="form-row">
 							<label class="text-label">진료과목</label>
-							<input type="text" name="hDepartment" placeholder="진료과목을 입력해주세요.">
+							<input type="text" name="hDepartment" placeholder="진료과목을 입력해주세요." value="${hospital.hDepartment} test">
 						</div>
 						<div class="form-row">
 							<label class="text-label">병원구역</label>
-							<input type="text" name="hDistrict" placeholder="병원구역을 입력해주세요. ex) 마포구">
+							<input type="text" name="hDistrict" placeholder="병원구역을 입력해주세요. ex) 마포구" value="${hospital.hDistrict} test">
 						</div>
 						<div class="form-row">
 							<label class="text-label">병원이름</label>
-							<input type="text" name="hTitle" placeholder="병원이름을 입력해주세요.">
+							<input type="text" name="hTitle" placeholder="병원이름을 입력해주세요." value="${hospital.hTitle} test">
 						</div>
 						<div class="form-row">
 							<label class="text-label">전화번호</label>
-							<input type="text" name="hTel" placeholder="전화번호를 입력해주세요. ex) 02-123-4567">
+							<input type="text" name="hTel" placeholder="전화번호를 입력해주세요. ex) 02-123-4567" value="${hospital.hTel} test">
 						</div>
 						<div class="form-row full-width">
 							<label class="text-label">병원주소</label>
-							<input type="text" name="hAddress" placeholder="병원주소를 입력해주세요.">
+							<input type="text" name="hAddress" placeholder="병원주소를 입력해주세요." value="${hospital.hAddress} test">
 						</div>
 					</div>
 					<div class="textarea-container">
 						<div class="form-row full-width">
 							<label class="text-label">병원소개<font size="2" color="red">※글자는 최대 1000자 까지 작성 가능합니다.</font></label>
-							<textarea name="hContent" placeholder="상세내용을 입력해주세요." cols="60" rows="10" maxlength="1000"></textarea>
+							<textarea name="hContent" placeholder="상세내용을 입력해주세요." cols="60" rows="10" maxlength="1000">${hospital.hContent} test</textarea>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="submit-container">
-				<input type="submit" value="등록">
+				<input type="submit" value="수정">
 			</div>
 		</form>
 	</div>
 </div>
+<!-- 모달창   -->
+<div id="myModal" class="modal" style="display: none;">
+	<div class="modal-content">
+		<div class="modal-title">
+				<p>정보가 수정되었습니다.</p>
+		</div>
+		<div class="modal-button">
+				<button id="confirmNo">닫기</button>	
+		</div>
+	</div>
+</div>
 </body>
+<script>
+let formRef = null;
+$('#myForm').on('submit',function(e){
+	e.preventDefault();
+	formRef=this;
+	$('#myModal').show();
+});
+
+$('#confirmNo').click(function(){
+    $('#myModal').hide(); // 모달 닫기
+    formRef.submit(); // 수동으로 폼 제출
+  });
+</script>
 </html>
