@@ -20,17 +20,17 @@
 	</div>
     <div class="menu">
         <div class="menu-item">
-            <a href="#" class="${activeMenu eq 'member' ? 'active' : ''}">
+            <a href="/admin/adminMain" class="${activeMenu eq 'member' ? 'active' : ''}">
                 <img src="${activeMenu eq 'member' ? '/img/memManagerActive.webp' : '/img/memManager.webp'}">회원관리
             </a>
         </div>
         <div class="menu-item">
-            <a href="#" class="${activeMenu eq 'hospital' ? 'active' : ''}">
+            <a href="/admin/searchAllHospital" class="${activeMenu eq 'hospital' ? 'active' : ''}">
                 <img src="${activeMenu eq 'hospital' ? '/img/hosManagerActive.webp' : '/img/hosManager.webp'}">병원관리
             </a>
         </div>
         <div class="menu-item">
-            <a href="#" class="${activeMenu eq 'dashboard' ? 'active' : ''}">
+            <a href="/admin/adminDashboard.jsp" class="${activeMenu eq 'dashboard' ? 'active' : ''}">
                 <img src="${activeMenu eq 'dashboard' ? '/img/dashManagerActive.webp' : '/img/dashManager.webp'}">통계보드
             </a>
         </div>

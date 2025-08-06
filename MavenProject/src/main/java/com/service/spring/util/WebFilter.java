@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class WebFilter implements Filter{
 	
 	 @Override
-	    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)throws IOException, ServletException {
+	 public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)throws IOException, ServletException {
 
 	        // UTF-8 인코딩 설정
 	        request.setCharacterEncoding("UTF-8");

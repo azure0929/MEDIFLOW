@@ -41,7 +41,7 @@
 	</select>
 	
 	<!--병원 조건별 조회 동적 쿼리-->
-	<!-- 부서별, 이름별, 지역별 -->
+	<!-- 부서별, 이름별, 주소별 -->
 	<select id="searchHospital" parameterType="hospital" resultType="hospital">
 		<include refid="selectHospital" />
 		<trim prefix="WHERE" prefixOverrides="OR">
@@ -51,8 +51,8 @@
 			<if test="hTitle != null">
 			 OR H_TITLE LIKE CONCAT('%',#{hTitle},'%')
 			</if>
-			<if test="hDistrict != null">
-			 OR H_DISTRICT LIKE CONCAT('%',#{hDistrict},'%')
+			<if test="hAddress != null">
+			 OR H_ADDRESS LIKE CONCAT('%',#{hAddress},'%')
 			</if>
 		</trim>
 	</select>

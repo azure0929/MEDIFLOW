@@ -32,6 +32,13 @@
 	border: 1px solid #ccc;
 }
 
+.filter-search input::placeholder {
+	color: #6c757d;      /* 회색 계열 */
+	font-size: 1em;      /* 부모 input의 font-size 상속 (보통 16px) */
+	font-style: normal;
+	font-weight: 400;
+}
+
 .filter-search button {
 	background: none;
 	border: none;

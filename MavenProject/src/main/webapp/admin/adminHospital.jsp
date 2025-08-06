@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="activeMenu" value="member" scope="request"/>
+<c:set var="activeMenu" value="hospital" scope="request"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,12 +12,6 @@
 <link rel="stylesheet" href="/css/adminHospital.css" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-/* h1 {
-	color: var(--primary-color);
-} */
-
-</style>
 </head>
 <body>
 <div class="wrapper">
@@ -27,20 +21,20 @@
 		<div class="top-bar">
 			<div class="logout"><a href="#">로그아웃</a></div>
 		</div>
-		<form class="filter-search" action="admin/searchMember" method="get">
+		<form class="filter-search" action="/admin/searchHospital" method="get">
 			<div class="filter-search">
-				<select>
-					<option>병원</option>
-					<option>진료과</option>
-					<option>병원이름</option>
-					<option>지역구</option>
+				<select id="searchKey">
+					<option value="">선택하세요</option>
+					<option value="hDepartment">진료과</option>
+					<option value="hTitle">병원이름</option>
+					<option value="hAddress">주소</option>
 				</select> 
-				<input type="text" placeholder="검색어 입력" />
+				<input type="text" id="searchValue" placeholder="검색어 입력" />
 				<button><img src="/img/search.webp"></button>
 			</div>
 		</form>
 		<div class="register-container">
-			<button id="hospital-register">등록</button>
+			<button id="hospital-register"><a href="/admin/adminHospitalRegister.jsp">등록</a></button>
 		</div>
 		<div class="table-container">
 			<table>
@@ -55,21 +49,21 @@
 					</tr>
 				</thead>
 				<tbody>
-					<%-- <c:forEach var="hospital" items="${hospitalList}"> --%>
+					<c:forEach var="hospital" items="${hospitalList}">
 						<tr>
-							<td>${hospital.hNum}1</td>
-							<td>${hospital.hTitle}스마일병원</td>
-							<td>${hospital.hDepartment}이비인후과</td>
-							<td>${hospital.hAddress}서울시 종로구 새문안로 89 정우빌딩 8층</td>
-							<td>${hospital.hTel}02-734-3999</td>
+							<td>${hospital.hNum}</td>
+							<td>${hospital.hTitle}</td>
+							<td>${hospital.hDepartment}</td>
+							<td>${hospital.hAddress}</td>
+							<td>${hospital.hTel}</td>
 							<td>
 								<div class="note-container">
-									<button id="hospital-update">수정</button>
-									<button id="hospital-delete">삭제</button>
+									<button data-hNum="${hospital.hNum}" class="hospital-update">수정</button>
+									<button data-hNum="${hospital.hNum}" class="hospital-delete">삭제</button>
 								</div>
 							</td>
 						</tr>
-					<%-- </c:forEach> --%>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -80,5 +74,58 @@
 		</div>
 	</div>
 </div>
+
+<!-- 모달창   -->
+<div id="myModal" class="modal" style="display: none;">
+	<div class="modal-content">
+		<div class="modal-title">
+			<c:if test="${not deleted}">
+				<p>정말로 삭제하시겠습니까?</p>
+			</c:if>
+			<c:if test="${deleted}">
+				<p>삭제 되었습니다.</p>
+			</c:if>
+		</div>
+		<div class="modal-button">
+			<c:if test="${not deleted}">
+				<button id="confirmYes">확인</button>
+				<button id="confirmNo">취소</button>
+			</c:if>
+			<c:if test="${deleted}">
+				<button id="confirmNo">닫기</button>	
+			</c:if>
+		</div>
+	</div>
+</div>
 </body>
+<script>
+$(function () {
+    $('#searchKey').on('change', function () {
+      const selectedKey = $(this).val();
+      $('#searchValue').attr('name', selectedKey);
+    });
+  });
+
+
+let hNum=null;
+$('.hospital-update').on('click',function(){
+	let hNum = $(this).data('hnum');
+	location.href = '/admin/hospitalUpdatePage?hNum='+hNum;
+});
+
+$('.hospital-delete').on('click',function(){
+	let hNum = $(this).data('hnum');
+	$('#myModal').show();
+	
+	$('#confirmYes').click(function(){
+		location.href = '/admin/hospitalDelete?hNum='+hNum;
+		//controller 에서 return "redirect:/admin/adminHospital.jsp?deleted=true";
+	})
+
+});
+
+$('#confirmNo').click(function(){
+    $('#myModal').hide(); // 모달 닫기
+  });
+</script>
 </html>

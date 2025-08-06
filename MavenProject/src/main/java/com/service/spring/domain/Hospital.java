@@ -44,6 +44,10 @@ public class Hospital {
 		return hNum;
 	}
 
+	public void sethNum(int hNum) {
+		this.hNum = hNum;
+	}
+
 	public String gethTitle() {
 		return hTitle;
 	}
