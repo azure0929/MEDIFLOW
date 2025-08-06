@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="activeMenu" value="member" scope="request"/>
+<c:set var="activeMenu" value="hospital" scope="request"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,12 +12,6 @@
 <link rel="stylesheet" href="/css/adminHospital.css" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-/* h1 {
-	color: var(--primary-color);
-} */
-
-</style>
 </head>
 <body>
 <div class="wrapper">
@@ -40,7 +34,7 @@
 			</div>
 		</form>
 		<div class="register-container">
-			<button id="hospital-register">등록</button>
+			<button id="hospital-register"><a href="/admin/adminHospitalRegister.jsp">등록</a></button>
 		</div>
 		<div class="table-container">
 			<table>
@@ -64,8 +58,8 @@
 							<td>${hospital.hTel}02-734-3999</td>
 							<td>
 								<div class="note-container">
-									<button id="hospital-update">수정</button>
-									<button id="hospital-delete">삭제</button>
+									<button data-hNum="${hospital.hNum}" class="hospital-update">수정</button>
+									<button data-hNum="${hospital.hNum}" class="hospital-delete">삭제</button>
 								</div>
 							</td>
 						</tr>
@@ -80,5 +74,49 @@
 		</div>
 	</div>
 </div>
+
+<!-- 모달창   -->
+<div id="myModal" class="modal" style="display: none;">
+	<div class="modal-content">
+		<div class="modal-title">
+			<c:if test="${not deleted}">
+				<p>정말로 삭제하시겠습니까?</p>
+			</c:if>
+			<c:if test="${deleted}">
+				<p>삭제 되었습니다.</p>
+			</c:if>
+		</div>
+		<div class="modal-button">
+			<c:if test="${not deleted}">
+				<button id="confirmYes">확인</button>
+				<button id="confirmNo">취소</button>
+			</c:if>
+			<c:if test="${deleted}">
+				<button id="confirmNo">닫기</button>	
+			</c:if>
+		</div>
+	</div>
+</div>
 </body>
+<script>
+$('.hospital-update').on('click',function(){
+	let hNum = $(this).data('hnum');
+	location.href = 'admin/hospitalUpdate?hNum='+hNum;
+});
+
+$('.hospital-delete').on('click',function(){
+	$('#myModal').show();
+	
+	$('#confirmYes').click(function(){
+		let hNum = $(this).data('hnum');
+		location.href = 'admin/hospitalDelete?hNum='+hNum;
+		//controller 에서 return "redirect:/admin/adminHospital.jsp?deleted=true";
+	})
+
+});
+
+$('#confirmNo').click(function(){
+    $('#myModal').hide(); // 모달 닫기
+  });
+</script>
 </html>
