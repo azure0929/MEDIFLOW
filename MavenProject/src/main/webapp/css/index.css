@@ -34,3 +34,62 @@
 	border-radius: 16px;
 	background-color: var(--primary-color);
 }
+
+/* 어느 지역 선택 */
+.question .questioninfo {
+	font-size: 26px;
+	font-weight: 500;
+	color: var(--primary-color);
+	text-align: center;
+}
+.question .questioninfo .selectquestion {
+	font-size: 60px;
+	color: var(--text-color);
+	font-weight: 700;
+	margin-top: 6px;
+	display: inline-block;
+}
+.location-buttons {
+	margin-top: 60px;
+	display: flex;
+	gap: 30px;
+	justify-content: center;
+}
+.location-buttons .location-btn {
+	width: 120px;
+	height: 64px;
+	border-radius: 8px;
+	border: 1px solid var(--primary-color);
+	color: var(--text-color);
+	font-size: 26px;
+	background-color: transparent;
+	cursor: pointer;
+	transition: .3s;
+}
+.location-buttons .location-btn:hover,
+.location-buttons .location-btn.active {
+	color: var(--text-white);
+	background-color: var(--primary-color);
+}
+.pain-buttons {
+	margin-top: 60px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 30px;
+}
+.pain-buttons .pain-btn {
+	width: 120px;
+	height: 64px;
+	border-radius: 8px;
+	border: 1px solid var(--primary-color);
+	color: var(--text-color);
+	font-size: 26px;
+	background-color: transparent;
+	cursor: pointer;
+	transition: .3s;
+}
+.pain-buttons .pain-btn:hover,
+.pain-buttons .pain-btn.active {
+	color: var(--text-white);
+	background-color: var(--primary-color);
+}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,29 +79,55 @@
 	  $('.cancelWithdraw').on('click', function() {
 	    $('#withdrawModal').fadeOut(100);
 	  });
-	  // 탈퇴 확인
+	  
+	  // 회원 탈퇴 확인 버튼 클릭 -> AJAX 요청 추가
 	  $('.confirmWithdraw').on('click', function() {
-	    $('.modal-text').text('탈퇴 되었습니다.');
-	    $('.modal-buttons').html('<button type="button" class="closeWithdraw">닫기</button>');
+	    $.ajax({
+	      type: "POST",
+	      url: "/deleteMember",
+	      success: function(response) {
+	        if (response === "Success") {
+	          $('.modal-text').text('탈퇴 되었습니다.');
+	          $('.modal-buttons').html('<button type="button" class="closeWithdraw">닫기</button>');
+	        } else {
+	          alert('회원 탈퇴에 실패했습니다.');
+	        }
+	      },
+	      error: function() {
+	        alert('회원 탈퇴 중 오류가 발생했습니다.');
+	      }
+	    });
 	  });
-	  // 닫기 클릭 → index.jsp 이동
+
+	  // 닫기 클릭 -> index.jsp 이동
 	  $(document).on('click', '.closeWithdraw', function() {
 	    window.location.href = '/index.jsp';
 	  });
 	  
-	  // 로그아웃 탭 클릭 임시
+	  // 로그아웃 탭 클릭
 	  $('.tabs li').eq(3).on('click', function() {
 		  $('#logoutModal').fadeIn(100);
 	  });
-	  // 로그아웃 모달 확인 버튼
+	  
+	  // 로그아웃 확인 버튼 클릭
 	  $(document).on('click', '.confirmLogout', function() {
 		  $('.modal-text').text('탈퇴 되었습니다.');
-		  $('.modal-buttons').html('<button type="button" class="closeLogout">닫기</button>');
+	    $('.modal-buttons').html('<button type="button" class="closeLogout">닫기</button>');
 	  });
+	  
 	  // 로그아웃 모달 닫기 버튼
 	  $(document).on('click', '.closeLogout', function() {
 		  $('#logoutModal').fadeOut(100);
-		  window.location.href = '/index.jsp';
+		  $.ajax({
+	      type: "POST",
+	      url: "/logout",
+	      success: function(response) {
+	    	  window.location.href = '/index.jsp';
+	      },
+	      error: function() {
+	        alert('로그아웃 중 오류가 발생했습니다.');
+	      }
+	    });
 	  })
 	  // 로그아웃 모달 취소 버튼
 	  $(document).on('click', '.cancelLogout', function() {
@@ -108,22 +135,9 @@
 	  })
 	  
 	  
-		// 예약 수정 버튼 클릭
-		/*
-    $('.reservemodify').on('click', function(e) {
-      e.preventDefault(); 
-      // $.ajax를 사용하여 예약일자와 예약시간을 서버에 전송
-      // 서버와 통신하는 로직이 없으므로 임시로 성공 로직만 실행
-      $('#modifyModal').fadeIn(100);
-      $('.modal-text-modify').text('정보가 수정되었습니다.');
-    });
-	  */
-		
 		// 예약 취소 버튼 클릭
 		$('.reservecancle').on('click', function(e) {
       e.preventDefault(); 
-      // $.ajax를 사용하여 예약일자와 예약시간을 서버에 전송
-      // 서버와 통신하는 로직이 없으므로 임시로 성공 로직만 실행
       $('#reserveCancleModal').fadeIn(100);
     });
 		// 예약 취소 모달 확인 버튼
@@ -170,8 +184,6 @@
           alert('리뷰를 선택해주세요.');
           return;
       }
-      // $.ajax를 사용하여 선택된 리뷰 내용 서버에 전송
-      // 서버와 통신하는 로직이 없으므로 임시로 성공 로직만 실행
       alert('리뷰가 성공적으로 제출되었습니다.');
       
       $('#reviewModal').fadeOut(100);
@@ -203,8 +215,8 @@
 				</p>
 				<form action="" method="post">
 					<input type="password" name="password" id="password" maxlength="8"
-						placeholder="비밀번호를 입력해주세요." required autocomplete="off" /> <input
-						type="text" name="phone" placeholder="전화번호를 입력해주세요."
+						placeholder="비밀번호를 입력해주세요." required autocomplete="off" />
+					<input type="text" name="phone" id="phone" placeholder="전화번호를 입력해주세요."
 						autocomplete="off" />
 					<div class="modifybtn">
 						<button type="submit">수정</button>
@@ -213,7 +225,7 @@
 			</section>
 			<section class="reserveinfo">
 				<p>
-					<span>홍길동</span>님의 예약 내역입니다.
+					<span><c:out value="${loggedInMember.mName}" /></span>님의 예약 내역입니다.
 				</p>
 				<ul class="reservelists">
 					<li class="reservelist">
@@ -238,7 +250,6 @@
 								<input type="text" name="reservetime" value="오후" />
 							</div>
 							<div class="reservation-buttons">
-								<!--<button type="button" class="reservemodify">예약 수정</button>-->
 								<button type="button" class="reviewbutton">리뷰 작성</button>
 								<button type="button" class="reservecancle">예약 취소</button>
 							</div>
@@ -251,7 +262,6 @@
 			</section>
 		</main>
 
-		<!-- 탈퇴 모달 -->
 		<div id="withdrawModal" class="modal">
 			<div class="modal-content">
 				<p class="modal-text">정말로 탈퇴 하시겠습니까?</p>
@@ -262,19 +272,6 @@
 			</div>
 		</div>
 
-		<!-- 예약 수정 모달 -->
-		<!--
-		<div id="modifyModal" class="modal">
-			<div class="modal-content">
-				<p class="modal-text-modify"></p>
-				<div class="modal-buttons-modify">
-					<button type="button" class="closeModify">닫기</button>
-				</div>
-			</div>
-		</div>
-		-->
-
-		<!-- 리뷰 모달 -->
 		<div id="reviewModal" class="modal">
 			<div
 				style="width: 300px; margin: 150px auto; background: #fff; padding: 20px; text-align: center; border-radius: 8px;">
@@ -292,7 +289,6 @@
 			</div>
 		</div>
 		
-		<!-- 예약 취소 모달 -->
 		<div id="reserveCancleModal" class="modal">
 			<div class="modal-content">
 				<p class="modal-text">예약을 취소 하시겠습니까?</p>
@@ -303,7 +299,6 @@
 			</div>
 		</div>
 		
-		<!-- 로그아웃 모달 -->
 		<div id="logoutModal" class="modal">
 			<div class="modal-content">
 				<p class="modal-text">로그아웃 하시겠습니까?</p>
