@@ -11,6 +11,8 @@
 	--secondary-color: #A0E7E5;
 	--error-color: #FF0000;
 	--text-color: #191919;
+	--text-white: #ffffff;
+	--input-bg: rgba(86, 139, 255, .14);
 }
 
 * {
@@ -85,6 +87,21 @@ a {
 	height: 100%;
 	object-fit: cover;
 }
+input {
+	display: block;
+	width: 100%;
+	border: none;
+	padding: 0 20px;
+}
+input::placeholder {
+	font-size: 20px;
+	font-weight: 400;
+	color: var(--primary-color);
+}
+button {
+	border: none;
+}
+
 
 /* header */
 header {
@@ -92,6 +109,7 @@ header {
 	top: 0;
 	left: 0;
 	width: 100%;
+	z-index: 999;
 }
 header .header-inner {
 	display: flex;

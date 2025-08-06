@@ -45,8 +45,30 @@
 	cursor: pointer;
 }
 
+.register-container {
+	margin-top:20px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.note-container{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+button {
+	width: 70px;
+	height: 46px;
+	border: 1px solid var(--primary-color);
+	border-radius: 16px;
+	background: var(--primary-color);
+	color: #FFFFFF;
+	font-size: 18px;
+}
+
 .table-container {
-	margin-top: 50px;
+	margin-top: 10px;
 	flex: 1;
 }
 
@@ -62,6 +84,7 @@ th, td {
 }
 
 th {
+	font-size:18px;
 	font-weight: bold;
 }
 

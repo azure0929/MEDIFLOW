@@ -9,7 +9,7 @@
 <title>관리자 페이지</title>
 
 <link rel="stylesheet" href="/css/common.css" />
-<link rel="stylesheet" href="/css/adminMain.css" />
+<link rel="stylesheet" href="/css/adminHospital.css" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
@@ -23,7 +23,6 @@
 <div class="wrapper">
  <%-- 사이드바 include --%>
     <jsp:include page="/components/sidebar.jsp" />
-
 	<div class="main">
 		<div class="top-bar">
 			<div class="logout"><a href="#">로그아웃</a></div>
@@ -31,36 +30,46 @@
 		<form class="filter-search" action="admin/searchMember" method="get">
 			<div class="filter-search">
 				<select>
-					<option>회원</option>
-					<option>이름</option>
-					<option>연락처</option>
-					<option>연령대</option>
+					<option>병원</option>
+					<option>진료과</option>
+					<option>병원이름</option>
+					<option>지역구</option>
 				</select> 
 				<input type="text" placeholder="검색어 입력" />
 				<button><img src="/img/search.webp"></button>
 			</div>
 		</form>
+		<div class="register-container">
+			<button id="hospital-register">등록</button>
+		</div>
 		<div class="table-container">
 			<table>
 				<thead>
 					<tr>
 						<th>NO</th>
-						<th>아이디</th>
-						<th>이름</th>
+						<th>병원이름</th>
+						<th>진료과목</th>
+						<th>병원주소</th>
 						<th>연락처</th>
-						<th>연령대</th>
+						<th>비고</th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="member" items="${memberList}">
+					<%-- <c:forEach var="hospital" items="${hospitalList}"> --%>
 						<tr>
-							<td>${member.mNum}</td>
-							<td>${member.mId}</td>
-							<td>${member.mName}</td>
-							<td>${member.mPhone}</td>
-							<td>${member.mAge}</td>
+							<td>${hospital.hNum}1</td>
+							<td>${hospital.hTitle}스마일병원</td>
+							<td>${hospital.hDepartment}이비인후과</td>
+							<td>${hospital.hAddress}서울시 종로구 새문안로 89 정우빌딩 8층</td>
+							<td>${hospital.hTel}02-734-3999</td>
+							<td>
+								<div class="note-container">
+									<button id="hospital-update">수정</button>
+									<button id="hospital-delete">삭제</button>
+								</div>
+							</td>
 						</tr>
-					</c:forEach>
+					<%-- </c:forEach> --%>
 				</tbody>
 			</table>
 		</div>

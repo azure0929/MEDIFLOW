@@ -15,7 +15,9 @@
 <body>
 
 <div class="sidebar">
-    <h1 class="logo">MEDIFLOW</h1>
+    <div class="logo">
+		<img src="/img/logo.webp" alt="logo" />
+	</div>
     <div class="menu">
         <div class="menu-item">
             <a href="#" class="${activeMenu eq 'member' ? 'active' : ''}">

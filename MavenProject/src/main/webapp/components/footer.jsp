@@ -12,7 +12,7 @@
 		<footer>
 			<div class="footer-inner inner">
 				<div class="logo">
-					<img src="../img/logo.webp" alt="logo" />
+					<img src="/img/logo.webp" alt="logo" />
 				</div>
 				<div class="company">
 					<div class="company-info">
@@ -29,19 +29,19 @@
 							<li><span>Copyright ⓒ mediflow. All Rights Reserved.</span></li>
 						</ul>
 						<ul class="sns">
-							<li><img src="../img/facebook.webp" alt="facebook" /></li>
-							<li><img src="../img/instagram.webp" alt="instagram" /></li>
-							<li><img src="../img/twitter.webp" alt="twitter" /></li>
+							<li><img src="/img/facebook.webp" alt="facebook" /></li>
+							<li><img src="/img/instagram.webp" alt="instagram" /></li>
+							<li><img src="/img/twitter.webp" alt="twitter" /></li>
 						</ul>
 					</div>
 					<div class="contact">
 						<ul>
 							<li class="call">
-								<img src="../img/call.webp" alt="call" />
+								<img src="/img/call.webp" alt="call" />
 								<span>02-1234-1234</span>
 							</li>
 							<li class="kakaotalk">
-								<img src="../img/kakaotalk.webp"
+								<img src="/img/kakaotalk.webp"
 								alt="kakaotalk" /> 
 								<span>메디플로우 추가</span>
 							</li>
