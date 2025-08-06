@@ -27,39 +27,40 @@
 		<div class="top-bar">
 			<div class="logout"><a href="#">로그아웃</a></div>
 		</div>
-		<form id="myForm" action="admin/hospitalUpdate" method="post" enctype="multipart/form-data" >
+		<form id="myForm" action="/admin/hospitalUpdate" method="post" enctype="multipart/form-data" >
 			<label class="text-label">이미지</label>
 			<div class="register-container">
 				<div class="image-upload">
-			        <img class="uploadImg" src="/img/스마일병원.webp"/>
+			        <img class="uploadImg" src="${hospital.hUrl}"/>
 				</div>
 				<div class="data-container">
 					<div class="textbox-container">
 						<div class="form-row">
+							<input type="hidden" name="hNum" value="${hospital.hNum}">
 							<label class="text-label">진료과목</label>
-							<input type="text" name="hDepartment" placeholder="진료과목을 입력해주세요." value="${hospital.hDepartment} test">
+							<input type="text" name="hDepartment" placeholder="진료과목을 입력해주세요." value="${hospital.hDepartment}">
 						</div>
 						<div class="form-row">
 							<label class="text-label">병원구역</label>
-							<input type="text" name="hDistrict" placeholder="병원구역을 입력해주세요. ex) 마포구" value="${hospital.hDistrict} test">
+							<input type="text" name="hDistrict" placeholder="병원구역을 입력해주세요. ex) 마포구" value="${hospital.hDistrict}">
 						</div>
 						<div class="form-row">
 							<label class="text-label">병원이름</label>
-							<input type="text" name="hTitle" placeholder="병원이름을 입력해주세요." value="${hospital.hTitle} test">
+							<input type="text" name="hTitle" placeholder="병원이름을 입력해주세요." value="${hospital.hTitle}">
 						</div>
 						<div class="form-row">
 							<label class="text-label">전화번호</label>
-							<input type="text" name="hTel" placeholder="전화번호를 입력해주세요. ex) 02-123-4567" value="${hospital.hTel} test">
+							<input type="text" name="hTel" placeholder="전화번호를 입력해주세요. ex) 02-123-4567" value="${hospital.hTel}">
 						</div>
 						<div class="form-row full-width">
 							<label class="text-label">병원주소</label>
-							<input type="text" name="hAddress" placeholder="병원주소를 입력해주세요." value="${hospital.hAddress} test">
+							<input type="text" name="hAddress" placeholder="병원주소를 입력해주세요." value="${hospital.hAddress}">
 						</div>
 					</div>
 					<div class="textarea-container">
 						<div class="form-row full-width">
 							<label class="text-label">병원소개<font size="2" color="red">※글자는 최대 1000자 까지 작성 가능합니다.</font></label>
-							<textarea name="hContent" placeholder="상세내용을 입력해주세요." cols="60" rows="10" maxlength="1000">${hospital.hContent} test</textarea>
+							<textarea name="hContent" placeholder="상세내용을 입력해주세요." cols="60" rows="10" maxlength="1000">${hospital.hContent}</textarea>
 						</div>
 					</div>
 				</div>

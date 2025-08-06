@@ -33,20 +33,14 @@
 }
 .image-upload {
 	display:flex;
-	flex-flow:row;
+	flex-flow:column;
 	width: 550px;
 	height: 550px;
 	background: #F0F0F0;
 	border-radius:12px;
 	align-items: center;
 	justify-content: center;
-}
-.image-form{
-	display: flex;
-	flex-flow:column;
-	align-items: center;
-	justify-content: center;
-	gap:10px;
+	gap: 10px;
 }
 .image-label{
 	font-size: 30px;

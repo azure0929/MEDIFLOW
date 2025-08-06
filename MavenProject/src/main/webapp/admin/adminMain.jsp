@@ -12,12 +12,6 @@
 <link rel="stylesheet" href="/css/adminMain.css" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-/* h1 {
-	color: var(--primary-color);
-} */
-
-</style>
 </head>
 <body>
 <div class="wrapper">
@@ -28,16 +22,16 @@
 		<div class="top-bar">
 			<div class="logout"><a href="#">로그아웃</a></div>
 		</div>
-		<form class="filter-search" action="admin/searchMember" method="get">
+		<form class="filter-search" action="/admin/searchMember" method="get">
 			<div class="filter-search">
-				<select>
-					<option>회원</option>
-					<option>이름</option>
-					<option>연락처</option>
-					<option>연령대</option>
+				<select id="searchKey">
+					<option value="">선택하세요</option>
+					<option value="mName">이름</option>
+					<option value="mPhone">연락처</option>
+					<option value="mAge">연령대</option>
 				</select> 
-				<input type="text" placeholder="검색어 입력" />
-				<button><img src="/img/search.webp"></button>
+				<input type="text" id="searchValue" placeholder="검색어 입력" />
+				<button type="submit"><img src="/img/search.webp"></button>
 			</div>
 		</form>
 		<div class="table-container">
@@ -72,4 +66,12 @@
 	</div>
 </div>
 </body>
+<script>
+$(function () {
+    $('#searchKey').on('change', function () {
+      const selectedKey = $(this).val();
+      $('#searchValue').attr('name', selectedKey);
+    });
+  });
+</script>
 </html>

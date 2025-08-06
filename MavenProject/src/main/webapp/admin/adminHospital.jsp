@@ -21,15 +21,15 @@
 		<div class="top-bar">
 			<div class="logout"><a href="#">로그아웃</a></div>
 		</div>
-		<form class="filter-search" action="admin/searchMember" method="get">
+		<form class="filter-search" action="/admin/searchHospital" method="get">
 			<div class="filter-search">
-				<select>
-					<option>병원</option>
-					<option>진료과</option>
-					<option>병원이름</option>
-					<option>지역구</option>
+				<select id="searchKey">
+					<option value="">선택하세요</option>
+					<option value="hDepartment">진료과</option>
+					<option value="hTitle">병원이름</option>
+					<option value="hAddress">주소</option>
 				</select> 
-				<input type="text" placeholder="검색어 입력" />
+				<input type="text" id="searchValue" placeholder="검색어 입력" />
 				<button><img src="/img/search.webp"></button>
 			</div>
 		</form>
@@ -49,13 +49,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<%-- <c:forEach var="hospital" items="${hospitalList}"> --%>
+					<c:forEach var="hospital" items="${hospitalList}">
 						<tr>
-							<td>${hospital.hNum}1</td>
-							<td>${hospital.hTitle}스마일병원</td>
-							<td>${hospital.hDepartment}이비인후과</td>
-							<td>${hospital.hAddress}서울시 종로구 새문안로 89 정우빌딩 8층</td>
-							<td>${hospital.hTel}02-734-3999</td>
+							<td>${hospital.hNum}</td>
+							<td>${hospital.hTitle}</td>
+							<td>${hospital.hDepartment}</td>
+							<td>${hospital.hAddress}</td>
+							<td>${hospital.hTel}</td>
 							<td>
 								<div class="note-container">
 									<button data-hNum="${hospital.hNum}" class="hospital-update">수정</button>
@@ -63,7 +63,7 @@
 								</div>
 							</td>
 						</tr>
-					<%-- </c:forEach> --%>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -99,17 +99,26 @@
 </div>
 </body>
 <script>
+$(function () {
+    $('#searchKey').on('change', function () {
+      const selectedKey = $(this).val();
+      $('#searchValue').attr('name', selectedKey);
+    });
+  });
+
+
+let hNum=null;
 $('.hospital-update').on('click',function(){
 	let hNum = $(this).data('hnum');
-	location.href = 'admin/hospitalUpdate?hNum='+hNum;
+	location.href = '/admin/hospitalUpdatePage?hNum='+hNum;
 });
 
 $('.hospital-delete').on('click',function(){
+	let hNum = $(this).data('hnum');
 	$('#myModal').show();
 	
 	$('#confirmYes').click(function(){
-		let hNum = $(this).data('hnum');
-		location.href = 'admin/hospitalDelete?hNum='+hNum;
+		location.href = '/admin/hospitalDelete?hNum='+hNum;
 		//controller 에서 return "redirect:/admin/adminHospital.jsp?deleted=true";
 	})
 

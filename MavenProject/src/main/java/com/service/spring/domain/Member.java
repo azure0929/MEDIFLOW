@@ -32,6 +32,10 @@ public class Member {
 		this.mAge = mAge;
 	}
 
+	public void setmNum(int mNum) {
+		this.mNum = mNum;
+	}
+
 	public int getmNum() {
 		return mNum;
 	}
