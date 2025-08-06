@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,10 +70,40 @@
 			}
 		});
 		
-		// 임시
-		$('#memberRegister').on('click', function() {
-			window.location.href = "/index.jsp";		
-		})
+		// 회원가입
+		$('#memberRegister').on('click', function(e) {
+			e.preventDefault();
+			
+			// 폼 데이터 수집
+			const member = {
+				mId: $('#userid').val(),
+				mName: $('#username').val(),
+				mPassword: $('#password').val(),
+				mPhone: $('#phone').val(),
+				mAge: $('#age').val(),
+			};
+			
+			// 유효성 검사
+			if (!member.mId || !member.mPassword || !member.mName || !member.mPhone || !member.mAge) {
+				alert("모든 필드를 입력해주세요.");
+				return;
+			}
+			
+			$.ajax({
+				type: "POST",
+				url: "/memberRegister",
+				data: JSON.stringify(member),
+				contentType: "application/json",
+				success: function(response) {
+					if (response === "Success") {
+						alert("회원가입이 완료되었습니다.");
+						window.location.href = "/index.jsp";
+					} else {
+						alert("회원가입에 실패했습니다.");
+					}
+				},
+			});
+		});
 	});
 </script>
 
@@ -85,12 +115,12 @@
 		<jsp:include page="/components/header.jsp" />
 		<main class="main">
 			<div class="container">
-				<form action="" method="post">
-					<input type="text" name="username" id="username" placeholder="이름을 입력해주세요." required autocomplete="off" />
-					<input type="text" name="age" maxlength="2" id="age" placeholder="나이" required autocomplete="off" />
-					<input type="text" name="userid" id="userid" placeholder="아이디를 입력해주세요." required autocomplete="off" />
-					<input type="password" name="password" id="password" maxlength="8" placeholder="비밀번호를 입력해주세요." required autocomplete="off" />
-					<input type="text" name="phone" id="phone" placeholder="전화번호를 입력해주세요." required autocomplete="off" />
+				<form action="/memberRegister" method="post">
+					<input type="text" name="mName" id="username" placeholder="이름을 입력해주세요." required autocomplete="off" />
+					<input type="text" name="mAge" maxlength="2" id="age" placeholder="나이" required autocomplete="off" />
+					<input type="text" name="mId" id="userid" placeholder="아이디를 입력해주세요." required autocomplete="off" />
+					<input type="password" name="mPassword" id="password" maxlength="8" placeholder="비밀번호를 입력해주세요." required autocomplete="off" />
+					<input type="text" name="mPhone" id="phone" placeholder="전화번호를 입력해주세요." required autocomplete="off" />
 					<div class="registerbtn">
 						<button type="submit" id="memberRegister">회원가입</button>
 					</div>

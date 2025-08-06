@@ -1,4 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.service.spring.domain.Member" %>
+
+<%
+    Member loggedInMember = (Member) session.getAttribute("loggedInMember");
+%>
 
 <header>
 	<div class="header-inner">
@@ -7,8 +12,17 @@
 		</div>
 		<nav>
 			<ul>
-				<li class="profile"><img src="/img/profile.webp" alt="profile" /></li>
-				<li><span>홍길동</span>님</li>
+				<%
+					if (loggedInMember != null) {
+				%>
+					<li><a href="/member/mypage.jsp"><span><%= loggedInMember.getmName() %></span>님</a></li>
+				<%
+					} else {
+				%>
+					<li class="profile"><img src="/img/profile.webp" alt="profile" /></li>
+				<%
+					}
+				%>
 			</ul>
 		</nav>
 	</div>
