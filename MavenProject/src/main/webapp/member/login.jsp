@@ -47,10 +47,8 @@
 		<main class="main">
 			<div class="container">
 				<form action="" method="post">
-					<input id="userid" type="text" name="userid"
-						placeholder="아이디를 입력해주세요." required /> <input id="password"
-						type="password" name="password" placeholder="비밀번호를 입력해주세요."
-						required />
+					<input id="userid" type="text" name="userid" placeholder="아이디를 입력해주세요." required autocomplete="off" /> 
+					<input id="password" type="password" name="password" placeholder="비밀번호를 입력해주세요." required autocomplete="off" />
 					<div class="loginbtn">
 						<button type="submit" id="login">로그인</button>
 					</div>

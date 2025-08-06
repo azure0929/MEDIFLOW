@@ -1,0 +1,262 @@
+@charset "UTF-8";
+
+.main {
+	height: 100vh;
+	background: linear-gradient(to bottom, #A0E7E5, #B9D7FF);
+}
+
+/* tabs */
+.tabs {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-top: 160px;
+}
+.tabs ul {
+	display: flex;
+	gap: 100px;
+	align-items: center;
+	justify-content: space-between;
+}
+.tabs ul li a {
+	display: inline-block;
+	text-align: center;
+	line-height: 2.6rem;
+	font-size: 20px;
+	width: 150px;
+	height: 42px;
+	border-radius: 30px;
+}
+.tabs ul li.active a {
+	color: var(--text-white);
+	background-color: var(--primary-color);	
+}
+
+/* modify */
+.modify {
+	margin-top: 160px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.modify p {
+	font-size: 60px;
+	line-height: 130%;
+	font-weight: 700;
+	text-align: center;
+}
+.modify form {
+	margin-top: 60px;
+}
+.modify form input {
+	width: 432px;
+	height: 60px;
+	background-color: var(--input-bg);
+	border-radius: 30px;
+	margin-bottom: 20px;
+}
+.modify form input[name="phone"] {
+	margin-bottom: 0;
+}
+.modify form input:focus {
+	outline: none;
+	font-size: 20px;
+	color: var(--primary-color);
+}
+.modify form .modifybtn {
+	margin-top: 40px;
+	display: flex;
+	justify-content: end;
+}
+.modify form button {
+	width: 106px;
+	height: 56px;
+	color: var(--text-white);
+	background-color: var(--primary-color);
+	border-radius: 16px;
+	font-size: 20px;
+}
+
+/* reserveinfo */
+.reserveinfo {
+	margin-top: 160px;
+	display: flex;
+	gap: 82px;
+	flex-direction: column;
+	align-items: center;
+}
+.reserveinfo p {
+	font-size: 60px;
+	font-weight: 700;
+}
+.reserveinfo p span {
+	color: var(--primary-color);
+}
+.reserveinfo .reservelists {
+	display: flex;
+	gap: 18px;
+	flex-direction: column;
+	width: fit-content;
+	height: 250px;
+	overflow-y: scroll;
+	padding-right: 10px;
+	border-radius: 8px;
+}
+.reserveinfo .reservelists::-webkit-scrollbar {
+	width: 6px;
+	background-color: #ffffff;
+	border-radius: 4px;
+}
+.reserveinfo .reservelists::-webkit-scrollbar-thumb {
+	width: 6px;
+	background-color: var(--primary-color);
+	border-radius: 4px;
+}
+.reserveinfo .reservelists .reservelist {
+	display: flex;
+	align-items: center;
+	border-radius: 8px;
+	background-color: #ffffff;
+	padding: 8px;
+}
+.reserveinfo .reservelists .reservelist .hospitalphoto {
+	width: 80px;
+	height: 80px;
+	border-radius: 8px;
+	margin-right: 36px;
+}
+.reserveinfo .reservelists .reservelist .hospitalphoto img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.reserveinfo .reservelists .reservelist .reservecontent {
+	display: flex;
+	align-items: center;
+}
+.reserveinfo .reservelists .reservelist .reservecontent .name {
+	width: 200px;
+}
+.reserveinfo .reservelists .reservelist .reservecontent .department {
+	width: 132px;
+	margin-right: 26px;
+}
+.reserveinfo .reservelists .reservelist .reservecontent .reservedate {
+	width: 192px;
+	margin-right: 26px;
+}
+.reserveinfo .reservelists .reservelist .reservecontent .reservetime {
+	margin-right: 66px;
+}
+.reserveinfo .reservelists .reservelist form .reservetime input {
+	width: 34px;
+}
+.reserveinfo .reservelists .reservelist form .reservedate input {
+	width: 112px;
+}
+.reserveinfo .reservelists .reservelist .reservecontent .hospitalinfo {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+.reserveinfo .reservelists .reservelist .reservecontent .hospitalinfo span {
+	color: var(--primary-color);
+}
+.reserveinfo .reservelists .reservelist .reservecontent .hospitalinfo input {
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--primary-color);
+	padding: 0;
+	background-color: transparent;
+}
+.reserveinfo .reservelists .reservelist .reservecontent .hospitalinfo input:focus {
+	outline: none;
+}
+.review-options .review-item {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.review-options .review-item.selected {
+  background-color: var(--primary-color);
+  color: var(--text-white);
+}
+
+.reservation-buttons {
+	width: 224px;
+	height: 46px;
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+	align-items: center;
+}
+.status-message {
+	border: 1px solid red;
+	width: 224px;
+	height: 46px;
+	text-align: center;
+	line-height: 2.6rem;
+	color: #8F8F8F;
+}
+.reservecontent button {
+	border-radius: 8px;
+	font-size: 16px;
+	padding: 0 16px;
+	height: 46px;
+	color: var(--text-white);
+	background-color: var(--primary-color);
+}
+.reservecontent button.reservecancle {
+	border: 1px solid var(--primary-color);
+	color: var(--primary-color);
+	background-color: #ffffff;
+}
+
+/* modal */
+.modal {
+	display: none; 
+	position: fixed; 
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	height: 100%; 
+	background: rgba(0, 0, 0, 0.5); 
+	z-index: 1000;
+}
+.modal .modal-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 500px;
+	height: 300px; 
+	text-align: center; 
+	border-radius: 20px;
+	background: #ffffff; 
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.modal .modal-content .modal-text {
+	font-size: 24px;
+	margin-bottom: 34px;
+}
+.modal .modal-content .modal-buttons {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	justify-content: center;
+}
+.modal .modal-content .modal-buttons button {
+	margin: 0;
+	width: 100px;
+	height: 48px;
+	color: var(--text-white);
+	font-size: 18px;
+	background-color: var(--primary-color);
+	border-radius: 8px;
+}

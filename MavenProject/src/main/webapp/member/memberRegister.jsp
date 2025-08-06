@@ -86,11 +86,11 @@
 		<main class="main">
 			<div class="container">
 				<form action="" method="post">
-					<input type="text" name="username" id="username" placeholder="이름을 입력해주세요." required />
-					<input type="text" name="age" maxlength="2" id="age" placeholder="나이" required />
-					<input type="text" name="userid" id="userid" placeholder="아이디를 입력해주세요." required />
-					<input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요." required />
-					<input type="text" name="phone" id="phone" placeholder="전화번호를 입력해주세요." required />
+					<input type="text" name="username" id="username" placeholder="이름을 입력해주세요." required autocomplete="off" />
+					<input type="text" name="age" maxlength="2" id="age" placeholder="나이" required autocomplete="off" />
+					<input type="text" name="userid" id="userid" placeholder="아이디를 입력해주세요." required autocomplete="off" />
+					<input type="password" name="password" id="password" maxlength="8" placeholder="비밀번호를 입력해주세요." required autocomplete="off" />
+					<input type="text" name="phone" id="phone" placeholder="전화번호를 입력해주세요." required autocomplete="off" />
 					<div class="registerbtn">
 						<button type="submit" id="memberRegister">회원가입</button>
 					</div>
