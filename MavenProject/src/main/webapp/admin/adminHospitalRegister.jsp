@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="activeMenu" value="member" scope="request"/>
+<c:set var="activeMenu" value="hospital" scope="request"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,12 +12,6 @@
 <link rel="stylesheet" href="/css/adminHospitalRegister.css" />
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-/* h1 {
-	color: var(--primary-color);
-} */
-
-</style>
 </head>
 <body>
 <div class="wrapper">
@@ -27,16 +21,16 @@
 		<div class="top-bar">
 			<div class="logout"><a href="#">로그아웃</a></div>
 		</div>
-		<form action="#" method="post" enctype="multipart/form-data" >
+		<form action="/admin/hospitalRegister" method="post" enctype="multipart/form-data" >
 			<label class="text-label">이미지 등록<font size="2" color="red">※썸네일 사진으로 등록됩니다.</font></label>
 			<div class="register-container">
-				<div class="image-upload">
-					<label  class="image-form" for="file-input">
-						<p class="image-label">사진을 등록해 주세요.</p>
-				        <img class="uploadImg" src="/img/fileUpload.webp"/>
-				    <input id="file-input" name="uploadFile" type="file" style="display: none;"/>
-    				</label>
-				</div>
+				<label for="uploadFile" class="image-form" >
+					<div class="image-upload">
+							<p class="image-label">사진을 등록해 주세요.</p>
+					        <img class="uploadImg" src="/img/fileUpload.webp" alt="사진을 등록해 주세요." />
+					    <input id="uploadFile" name="uploadFile" type="file" style="display: none;"/>
+					</div>
+   				</label>
 				<div class="data-container">
 					<div class="textbox-container">
 						<div class="form-row">
@@ -75,4 +69,28 @@
 	</div>
 </div>
 </body>
+<script>
+$(function () {
+    $('#uploadFile').on('change', function (e) {
+      const file = e.target.files[0];
+      const $label = $('.image-label');
+      const $preview = $('.uploadImg');
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          $preview.attr('src', e.target.result);
+          $preview.css({
+        	  width: '100%',
+        	  height: '100%'
+        	});
+          $label.css('display','none');
+        };
+
+        reader.readAsDataURL(file);
+      }
+    });
+ });
+</script>
 </html>
