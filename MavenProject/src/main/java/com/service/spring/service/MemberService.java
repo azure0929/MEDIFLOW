@@ -1,6 +1,7 @@
 package com.service.spring.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,12 @@ public class MemberService {
 		memberDAO.deleteMember(mId);
 	}
 	
-	public List<Member> searchAllMember()throws Exception {
-		return memberDAO.searchAllMember();
+	public int totalCountMember()throws Exception {
+		return memberDAO.totalCountMember();
+	}
+	
+	public List<Member> searchAllMember(Map map)throws Exception {
+		return memberDAO.searchAllMember(map);
 	}
 	
 	public Member searchMemberByNum(int mId)throws Exception{

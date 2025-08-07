@@ -66,11 +66,17 @@ const ageChart = function(){
 					    label: '연령대별 이용객 데이터 수',
 					    data: values,
 					    backgroundColor: [
-					      '#FF6B8A',
-					      '#25CB8B',
-					      '#F2C94C',
-					      '#C5CAE9',
-					      '#568BFF'
+							'#FF6B8A',
+							'#25CB8B',
+							'#F2C94C',
+							'#C5CAE9',
+							'#568BFF', 
+							'#C5CAE9', 
+							'#FFB86C', 
+							'#6A67CE', 
+							'#00BFA6', 
+							'#FFD166', 
+							'#EF476F'
 					    ],
 					   	hoverOffset: 25
 					  }]
@@ -175,7 +181,7 @@ const addressChart = function(){
 		    // 각 진료과별 데이터셋 만들기
 		    const colorPalette = 
 		    	['#FF6B8A', '#25CB8B', '#F2C94C', '#568BFF', '#C5CAE9', 
-		    	'#FFB86C', '#6A67CE', '#00BFA6', '#FFD166', '#EF476F']  
+		    	'#FFB86C', '#6A67CE', '#00BFA6', '#FFD166', '#EF476F'];
 		    const datasets = departments.map((dep, idx) => {
 		      return {
 		        label: dep,
@@ -288,7 +294,9 @@ const departmentChart = function(){
 		    const ages = Array.from(ageSet); // ["30대", "20대", ...]
 
 		    // 각 나이대별 데이터셋 만들기
-		    const colorPalette = ['#FF6B8A', '#25CB8B', '#F2C94C', '#568BFF', '#C5CAE9'];
+		    const colorPalette = 
+		    	['#FF6B8A', '#25CB8B', '#F2C94C', '#568BFF', '#C5CAE9', 
+		    	'#FFB86C', '#6A67CE', '#00BFA6', '#FFD166', '#EF476F'];
 		    const datasets = ages.map((dep, idx) => {
 		      return {
 		        label: dep,

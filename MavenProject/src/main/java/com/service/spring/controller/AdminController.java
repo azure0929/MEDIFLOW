@@ -1,6 +1,7 @@
 package com.service.spring.controller;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.spring.domain.Hospital;
 import com.service.spring.domain.Member;
 import com.service.spring.service.BookingService;
@@ -36,9 +36,18 @@ public class AdminController {
 	
 	//회원 관리 부분
 	@GetMapping("/adminMain")
-	public String searchAllMember(Model model) {
+	public String searchAllMember(@RequestParam(defaultValue = "1")int pageNum,Model model) {
 		try {
-		List<Member> list=memberService.searchAllMember();
+			Map<String,Integer> map = new HashMap<>();
+			int pageSize = 15;
+			int offset = (pageNum - 1) * pageSize;
+			map.put("offSet",offset);
+			map.put("Limit",pageSize);
+			int totalCount = memberService.totalCountMember();
+			int pageCount = totalCount/pageSize +1;
+			List<Member> list=memberService.searchAllMember(map);
+			model.addAttribute("currentPage", pageNum);
+			model.addAttribute("pageCount",pageCount);
 			model.addAttribute("memberList",list);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -63,9 +72,18 @@ public class AdminController {
 	
 	//병원 관리 부분
 	@GetMapping("/searchAllHospital")
-	public String searchAllHospital(Model model) {
+	public String searchAllHospital(@RequestParam(defaultValue = "1")int pageNum, Model model) {
 		try {
-			List<Hospital> list = hospitalService.searchAllHospital();
+			Map<String,Integer> map = new HashMap<>();
+			int pageSize = 8;
+			int offset = (pageNum - 1) * pageSize;
+			map.put("offSet",offset);
+			map.put("Limit",pageSize);
+			int totalCount = hospitalService.totalCountHospital();
+			int pageCount = totalCount/pageSize +1;
+			List<Hospital> list = hospitalService.searchAllHospital(map);
+			model.addAttribute("currentPage", pageNum);
+			model.addAttribute("pageCount",pageCount);
 			model.addAttribute("hospitalList",list);
 			
 			return "admin/adminHospital";
@@ -190,8 +208,8 @@ public class AdminController {
 	@ResponseBody
 	public Map<String, Map<String, Integer>> getaddressChartData() {
 		try {
-			Map<String, Map<String, Integer>> map=bookingService.countBookingByDistrictDept();
-			System.out.println(map);
+//			Map<String, Map<String, Integer>> map=bookingService.countBookingByDistrictDept();
+//			System.out.println(map);
 			 return bookingService.countBookingByDistrictDept();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -203,8 +221,8 @@ public class AdminController {
 	@ResponseBody
 	public Map<String, Map<String, Integer>> getdepartmentChartData() {
 		try {
-			Map<String, Map<String, Integer>> map=bookingService.countBookingByDeptAge();
-			System.out.println(map);
+//			Map<String, Map<String, Integer>> map=bookingService.countBookingByDeptAge();
+//			System.out.println(map);
 			 return bookingService.countBookingByDeptAge();
 		}catch(Exception e) {
 			e.printStackTrace();
