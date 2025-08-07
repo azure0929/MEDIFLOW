@@ -1,0 +1,309 @@
+@charset "UTF-8";
+
+.inner {
+	padding-top: 80px;
+}
+
+.main-content {
+	width: 810px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+ 	gap: 28px;
+}
+
+.hospital-img-wrap {
+	width: 810px;
+	height: 480px;
+	overflow: hidden;
+	border-radius: 8px;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.hospital-img-wrap img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* --- 헤더 및 기본 정보 --- */
+
+.hospital-title {
+	font-size: 32px;
+	color: var(--text-color);
+}
+
+/* 공통 Flexbox 스타일을 위한 클래스 통일 */
+.hospital-title-wrap,
+.hospital-state-wrap,
+.hospital-info-wrap,
+.notice-wrap,
+.hospital-buttons,
+.info-section-title,
+.info-location-wrap,
+.section-title-wrap {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.hospital-title-wrap, .hospital-state-wrap, .hospital-info-wrap {
+    margin-bottom: 10px;
+}
+
+
+.hospital-time, .hospital-info {
+	color: #393939;
+}
+
+.hospital-info {
+	background: #f0f0f0;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 12px;
+}
+
+.notice-wrap {
+	justify-content: space-between;
+}
+
+.notice-box {
+	width: 100%;
+	height: 126px;
+	background-color: #E7F6FF;
+	border-radius: 8px;
+	padding: 8px; /* pre 텍스트 너무 딱 붙는 것 방지 */
+	white-space: pre-wrap;
+}
+
+.notice-text {
+	text-align: center;
+	margin: 0 auto;
+	font-size: 15px;
+	line-height: 1.4;
+	white-space: pre-line;
+}
+
+.hospital-buttons {
+	justify-content: space-between;
+	flex-direction: row;
+}
+
+.btn-call, .btn-share {
+	width: 392px;
+	height: 56px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	border: 1px solid var(--primary-color);
+	color: var(--primary-color);
+	background-color: var(--text-white);
+}
+
+.btn-share:hover, .btn-call:hover {
+	background-color: var(--primary-color);
+	color: var(--text-white);
+}
+
+.hospital-tabs {
+	border-bottom: 1px solid #ADADAD;
+}
+
+.tab-list {
+	display: flex;
+	gap: 24px;
+}
+
+.tab-item {
+	font-size: 14px;
+	color: var(--text-color);
+	padding: 14px;
+	position: relative;
+	cursor: pointer;
+}
+
+.tab-item::after {
+	content: "";
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	width: 100%;
+	height: 3px;
+	background-color: transparent;
+	transition: background-color 0.3s, transform 0.3s;
+	transform: scaleX(0);
+	transform-origin: left;
+}
+
+.tab-item.active {
+	color: #1a1a1a;
+	font-weight: 600;
+}
+
+.tab-item.active::after {
+	background-color: var(--primary-color); 
+	transform: scaleX(1);
+}
+
+.section-divider {
+    border: none;
+    border-top: 1px solid #ADADAD;
+    margin: 0; /* 이 코드를 추가하여 hr의 기본 상하 마진을 제거합니다. */
+}
+
+.info-section-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.info-section-title {
+	display: flex;
+	flex-direction: row;
+	gap: 14px;
+}
+
+.section-title {
+	font-size: 24px;
+	font-weight: 400;
+	color: var(--text-color);
+}
+
+.time-info-grid {
+	margin-top: 24px;
+	display: grid;
+	grid-template-columns: 300px 300px;
+	row-gap: 14px;
+}
+
+.time-info-list {
+	display: flex;
+	gap: 10px;
+}
+
+.time-info-day {
+	font-size: 15px;
+	font-weight: 500;
+	color: #393939;
+}
+
+.time-info-hour {
+	color: var(--text-color);
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.text-blue {
+	color: var(--primary-color);
+}
+
+.text-red {
+	color: var(--error-color);
+}
+
+.info-location-wrap {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+}
+
+.copy {
+	padding: 4px 8px;
+	color: var(--text-color);
+	font-size: 12px;
+	cursor: pointer;
+	border-radius: 8px;
+	background-color: var(--secondary-color);
+	/* margin-top: 4px; */
+}
+
+.info-map {
+	width: 810px;
+	height: 410px;
+	background-color: var(--secondary-color);
+	border-radius: 8px;
+}
+
+.info-list-item {
+	font-size: 16px;
+	/* color: var(--text-color); */
+	color: #393939;
+	line-height: 1.4;
+}
+
+.section-title-wrap {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	justify-content: space-between;
+}
+
+/* 병원 리뷰 */
+.review-bar-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.review-label, .review-count, .review-all-count {
+	font-size: 18px;
+	color: #2C3744;
+	font-weight: 600;
+}
+
+.review-progress-bar {
+	position: relative;
+	display: flex;
+	align-items : center;
+	justify-content: space-between;
+	flex-grow: 1;
+	height: 56px;
+	background-color: #F9F7F5;
+	border-radius: 14px;
+	overflow: hidden;
+}
+
+.review-content {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding-left: 14px;
+	flex-grow: 1;
+	z-index: 1;
+}
+
+.review-progress-fill {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	height: 100%;
+	z-index: 0;
+	background-color: var(--secondary-color);
+	border-radius: 14px;
+}
+
+.review-count {
+	padding: 16px;
+	text-align: center;
+}
+
+.booking-btn {
+	width: 100%;
+	padding: 16px 0;
+	background-color: var(--primary-color);
+	color: var(--text-white);
+	font-size: 18px;
+	font-weight: bold;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	margin-top: 24px;
+}
+
+.review-bar-wrap img {
+	width: 40px;
+	height: 40px;
+}

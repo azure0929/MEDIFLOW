@@ -191,7 +191,7 @@
 
 .copy {
 	padding: 4px 8px;
-	color: #595959;
+	color: var(--text-color);
 	font-size: 12px;
 	cursor: pointer;
 	border-radius: 8px;
@@ -279,7 +279,7 @@
 					<!-- 추후 서버 연동 시 아래 구조를 반복 처리 -->
 					<li class="hospital-card">
 						<div class="card-wrap">
-							<a href="#"></a>
+							<a href="hospital.detail.jsp"></a>
 							<div class="card-image">
 								<img src="/img/main01.png" alt="병원 이미지">
 							</div>
@@ -306,7 +306,7 @@
 								</div>
 								<div class="card-actions">
 									<button class="call-btn">전화하기</button>
-									<button class="booking-btn">예약하기</button>
+									<button class="booking-btn" onclick="location.href='hospitalDetail.jsp'">예약하기</button>
 								</div>
 							</div>
 						</div>
@@ -415,6 +415,16 @@
 					</li>															
 				</ul>
 			</section>
+			
+			<div class="booking-modal">
+				<div class="modal-components">
+					<div class="modal-title hospital-title">예약하기(해당병원이름)</div>
+					<div class="step1 date-choice">
+						<div class="step-title">예약 날짜 선택</div>
+					</div>
+				</div>
+			</div>
+			
 		</main>
 		<jsp:include page="/components/footer.jsp" />
 	</div>

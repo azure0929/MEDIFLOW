@@ -7,51 +7,34 @@
 <meta charset="UTF-8">
 <title>Hospital Detail Page</title>
 <link rel="stylesheet" href="/css/common.css" />
+<link rel="stylesheet" href="/css/hospitalDetail.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-<style type="text/css">
-.container {
-	max-width: 1440px;
-	margin: 0 auto;
-	padding-top: 80px;
-}
-
-.main-content {
-	width: 810px;
-	margin: 0 auto;
-}
-
-.hospital-image-wrap {
-	width: 810px;
-	height: 480px;
-	overflow: hidden;
-	border-radius: 8px;
-	margin-bottom: 24px;
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
-	border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.hospital-image-wrap img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-.hospital-header {
-	
-}
-
-</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+<script type="text/javascript">
+flatpickr("#calendar", {
+	  locale: "ko",
+	  inline: true,           // 👈 바로 달력이 보이게 함!
+	  minDate: "today",
+	  dateFormat: "Y-m-d",
+	  onChange: function(selectedDates, dateStr, instance) {
+	    console.log("선택한 날짜:", dateStr);
+	  }
+	});
+</script>
 </head>
 <body>
-    <div class="container">
-        <jsp:include page="/components/header.jsp" />
-
+	<jsp:include page="/components/header.jsp" />
+	<div class="inner">
         <main class="main-content">
         	<!-- 병원 대표 이미지 -->
-            <div class="hospital-image-wrap">
-                <img src="/img/hospital_main.jpg" alt="병원 대표 이미지" />
-            </div>
-            
+        	<section class="hopital-main-img">
+	            <div class="hospital-img-wrap">
+	                <img src="/img/hospital_main.jpg" alt="병원 대표 이미지" />
+	            </div>
+        	</section>
+            <hr class="section-divider">
             <div class="hospital-header">
                 <div class="hospital-title-wrap">
                     <h1 class="hospital-title">화평한병원</h1>
@@ -67,50 +50,46 @@
 					<li class="hospital-info">전문의</li>
 				</ul>
 			</div>
-            <hr class="section-divider" />
-            
+            <hr class="section-divider">
             <section class="notice-wrap">
             	<div class="notice-box">
-            		<pre>
+            		<p class="notice-text">
             			* 메디플로우에서 예약 후, 병원에서 호명시 자리에 없으시면 예약은 바로 취소됩니다.
-            			  예약 후 진료 상담 시 반드시 '메디플로우'에서 예약했다 말씀해주세요.
-            		</pre>
+            			예약 후 진료 상담 시 반드시 '메디플로우'에서 예약했다 말씀해주세요.
+            		</p>
             	</div>
+			</section>
 				<div class="hospital-buttons">
 					<button class="btn-call">전화문의</button>
 					<button class="btn-share">공유하기</button>
 				</div>
-			</section>
-			 <hr class="section-divider" />
-			 
+			<hr class="section-divider">
 			<div class="hospital-tabs">
-				<ul>
-					<li>병원 정보</li>
-					<li>진료 과목</li>
-					<li>병원 리뷰</li>
+				<ul class="tab-list">
+					<li class="tab-item active">병원 정보</li>
+					<li class="tab-item">진료 과목</li>
+					<li class="tab-item">병원 리뷰</li>
 				</ul>
 			</div>
-			 <hr class="section-divider" />
-			 
+			
 			<section class="info-section-wrap">
 				<div class="info-section-title">
 	                <h2 class="section-title">병원 운영 시간</h2>
 					<img src="/img/MedicalStatement_ing.png" alt="병원 상태">
 				</div>
-                <ul class="time-info">
+                <ul class="time-info-grid">
  					<li class="time-info-list"><span class="time-info-day">월요일</span> <span class="time-info-hour">09:00 ~ 18:00</span></li>
  					<li class="time-info-list"><span class="time-info-day">화요일</span> <span class="time-info-hour">09:00 ~ 18:00</span></li>
  					<li class="time-info-list"><span class="time-info-day">수요일</span> <span class="time-info-hour">09:00 ~ 18:00</span></li>
  					<li class="time-info-list"><span class="time-info-day">목요일</span> <span class="time-info-hour">09:00 ~ 18:00</span></li>
  					<li class="time-info-list"><span class="time-info-day">금요일</span> <span class="time-info-hour">09:00 ~ 18:00</span></li>
- 					<li class="time-info-list"><span class="time-info-day">토요일</span> <span class="time-info-hour">09:00 ~ 13:00</span></li>
- 					<li class="time-info-list"><span class="time-info-day">일요일</span> <span class="time-info-hour">휴무</span></li>
- 					<li class="time-info-list"><span class="time-rest-day">휴무일</span> <span class="time-info-hour">휴무</span></li>
- 					<li class="time-info-list"><span class="time-info-day">휴게시간</span> <span class="time-info-hour">13:00 ~ 14:00</span></li>
+ 					<li class="time-info-list"><span class="time-info-day text-blue">토요일</span> <span class="time-info-hour">09:00 ~ 13:00</span></li>
+ 					<li class="time-info-list"><span class="time-info-day text-red">일요일</span> <span class="time-info-hour">휴무</span></li>
+ 					<li class="time-info-list"><span class="time-info-day text-red">공휴일</span> <span class="time-info-hour">휴무</span></li>
+ 					<li class="time-info-list"><span class="time-info-day break-time">* 휴게시간</span> <span class="time-info-hour">13:00 ~ 14:30</span></li>
                 </ul>
             </section>
-             <hr class="section-divider" />
-             
+            <hr class="section-divider">
             <section class="info-section-wrap">
             	<h2 class="section-title">병원 위치</h2>
 				<div class="info-location-wrap">
@@ -120,53 +99,76 @@
 				</div>
 				<div class="info-map">[지도 API 영역]</div>
             </section>
-            <hr class="section-divider" />
-            
+            <hr class="section-divider">
             <section class="info-section-wrap">
                 <h2 class="section-title">병원 소개</h2>
                 <p class="info-list-item">
-                    환자의 마음을 먼저 생각하는 병원, 화평한병원입니다.<br/>
-                    쾌적한 시설과 친절한 서비스로 최선을 다하겠습니다.
+					환자의 건강을 최우선으로 생각하는 병원입니다. <br>
+                	친절함과 정확한 진료로, 환자 치료에 전념합니다. <br>
+                	지하철역 2번 출구에서 100m 대로변 따라 직진 후 1층 약국 건물 5층입니다. 
                 </p>
             </section>
-
-            <hr class="section-divider" />
-            
+            <hr class="section-divider">
             <section class="info-section-wrap">
             	<div class="section-title-wrap">
 	                <h2 class="section-title">병원 리뷰</h2>
-					<h3>총 230개</h3>
+					<p class= "review-all-count">총 230개</p>
             	</div>
                 <div class="review-bar-wrap">
-                    <span>친절한 의사선생님</span>
-                    <div class="review-progress-bar"><div class="review-progress-fill" style="width: 80%;"></div></div>
-                    <span class="review-count">100개</span>
-                </div>
-                <div class="review-bar-wrap">
-                    <span>전문적인 치료</span>
-                    <div class="review-progress-bar"><div class="review-progress-fill" style="width: 40%;"></div></div>
-                    <span class="review-count">60개</span>
-                </div>
-                <div class="review-bar-wrap">
-                    <span>상냥한 간호사선생님 / 직원</span>
-                    <div class="review-progress-bar"><div class="review-progress-fill" style="width: 10%;"></div></div>
-                    <span class="review-count">40개</span>
-                </div>
-                <div class="review-bar-wrap">
-                    <span>깨끗한 시설</span>
-                    <div class="review-progress-bar"><div class="review-progress-fill" style="width: 5%;"></div></div>
-                    <span class="review-count">20개</span>
-                </div>
-                <div class="review-bar-wrap">
-                    <span>편한 교통.주차</span>
-                    <div class="review-progress-bar"><div class="review-progress-fill" style="width: 1%;"></div></div>
-                    <span class="review-count">10개</span>
+					<div class="review-progress-bar">
+						<div class="review-content">
+							<img src="/img/doctor.png" /> 
+							<span class="review-label">친절한 의사선생님</span>
+						</div>
+						<div class="review-progress-fill" style="width: 80%;"></div>
+						<div class="review-count">100개</div>
+					</div>
+					<div class="review-progress-bar">
+						<div class="review-content">
+							<img src="/img/doctor.png" /> 
+							<span class="review-label">전문적인 치료</span>
+						</div>
+						<div class="review-progress-fill" style="width: 60%;"></div>
+						<div class="review-count">60개</div>
+					</div>
+					<div class="review-progress-bar">
+						<div class="review-content">
+							<img src="/img/doctor.png" /> 
+							<span class="review-label">상냥한 간호사 / 직원</span>
+						</div>
+						<div class="review-progress-fill" style="width: 40%;"></div>
+						<div class="review-count">40개</div>
+					</div>					
+					<div class="review-progress-bar">
+						<div class="review-content">
+							<img src="/img/doctor.png" /> 
+							<span class="review-label">깨끗한 시설</span>
+						</div>
+						<div class="review-progress-fill" style="width: 20%;"></div>
+						<div class="review-count">20개</div>
+					</div>					
+					<div class="review-progress-bar">
+						<div class="review-content">
+							<img src="/img/doctor.png" /> 
+							<span class="review-label">편한 교통.주차</span>
+						</div>
+						<div class="review-progress-fill" style="width: 10%;"></div>
+						<div class="review-count">10개</div>
+					</div>					
                 </div>
             </section>
-           <button class="review-booking-btn">예약하기</button>
+            <hr class="section-divider">
+           <button class="booking-btn" onclick="openModal()">예약하기</button>
         </main>
-        
-        <jsp:include page="/components/footer.jsp" />
+        <div class="booking-modal">
+        	<div class="modal-title">예약하기(병원이름)</div>
+        	<div class="modal-contents">
+        		<div class="date-choice">
+        			<div id="calendar"></div>
+        		</div>
+        	</div>
+        </div>
     </div>
+        <jsp:include page="/components/footer.jsp" />
 </body>
 </html>
