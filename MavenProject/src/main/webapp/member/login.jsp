@@ -38,7 +38,7 @@
 				},
 				success: function(response) {
 					if(response === "Success_Admin") {
-						window.location.href = "/admin/adminMain.jsp";
+						window.location.href = "/admin/adminMain";
 					} else if (response === "Success") {
               window.location.href = "/index.jsp";
           } else {

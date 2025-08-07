@@ -1,6 +1,7 @@
 package com.service.spring.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,12 @@ public class MemberDAO {
 		session.delete(NS+"deleteMember",mId);
 	}
 	
-	public List<Member> searchAllMember()throws Exception {
-		return session.selectList(NS+"searchAllMember");
+	public int totalCountMember()throws Exception{
+		return session.selectOne(NS+"totalCountMember");
+	}
+	
+	public List<Member> searchAllMember(Map map)throws Exception {
+		return session.selectList(NS+"searchAllMember",map);
 	}
 	
 	public Member searchMemberByNum(int mId)throws Exception{
