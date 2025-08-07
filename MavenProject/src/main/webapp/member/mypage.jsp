@@ -55,7 +55,8 @@
     $('.reserveinfo').hide();
 	
     // 탭 클릭 처리
-    $('.tabs .tab').on('click', function() {
+    $('.tabs .tab').on('click', function(e) {
+    	e.preventDefault();
       $('.tabs .tab').removeClass('active');
       $(this).addClass('active');
 
@@ -71,7 +72,7 @@
         });
       }
     });
-
+    
     // 회원탈퇴 모달 - 회원탈퇴 탭 클릭
     $('.tabs li').eq(2).on('click', function() {
       $('#withdrawModal').fadeIn(100);
@@ -82,31 +83,17 @@
     });
     // 회원탈퇴 모달 - 회원 탈퇴 확인 버튼 클릭 -> AJAX 요청 추가
     $('.confirmWithdraw').on('click', function() {
-      $.ajax({
-        type: "POST",
-        url: "/deleteMember",
-        success: function(response) {
-          if (response === "Success") {
-            $('.modal-text').text('탈퇴 되었습니다.');
-            $('.modal-buttons').html('<button type="button" class="closeWithdraw">닫기</button>');
-          } else {
-            alert('회원 탈퇴에 실패했습니다.');
-          }
-        },
-        error: function() {
-          alert('회원 탈퇴 중 오류가 발생했습니다.');
-        }
-      });
+    	$('.modal-text').text('탈퇴 되었습니다.');
+      $('.modal-buttons').html('<button type="button" class="closeWithdraw">닫기</button>');
     });
     // 회원탈퇴 모달 - 닫기 클릭 -> index.jsp 이동
     $(document).on('click', '.closeWithdraw', function() {
-      window.location.href = '/index.jsp';
+    	window.location.href = "/deleteMember"; 
     });
   
     
     // 회원정보수정 모달 - 버튼 클릭
-    $('.memberupdate').on('click', function(e) {
-      e.preventDefault();
+    $('.memberupdate').on('click', function() {
       // 입력된 비밀번호와 전화번호 가져오기
       const password = $('#password').val();
       const phone = $('#phone').val();
@@ -117,29 +104,13 @@
           return;
       }
 
-      $.ajax({
-        type: "POST",
-        url: "/updateMember",
-        data: {
-          mPassword: password, 
-          mPhone: phone  
-        },
-        success: function(response) {
-          if (response === "Success") {
-            $('#memberUpdateModal').fadeIn(100);
-          } else {
-            alert('회원정보 수정에 실패했습니다.');
-          }
-        },
-        error: function() {
-          alert('회원정보 수정 중 오류가 발생했습니다.');
-        }
-      });
+      $('#memberUpdateForm').submit();
+     	alert(phone);
     });
     // 회원정보수정 모달 - 닫기 버튼
     $(document).on('click', '.closeMemberUpdate', function() {
       $('#memberUpdateModal').fadeOut(100, () => {
-        location.reload();
+        window.location.href = "member/bookings"
       });
     });
   
@@ -156,16 +127,7 @@
     // 로그아웃 모달 - 로그아웃 모달 닫기 버튼
     $(document).on('click', '.closeLogout', function() {
       $('#logoutModal').fadeOut(100);
-      $.ajax({
-        type: "POST",
-        url: "/logout",
-        success: function(response) {
-          window.location.href = '/index.jsp';
-        },
-        error: function() {
-          alert('로그아웃 중 오류가 발생했습니다.');
-        }
-      });
+      window.location.href = '/logout';
     })
     // 로그아웃 모달 - 로그아웃 모달 취소 버튼
     $(document).on('click', '.cancelLogout', function() {
@@ -245,10 +207,10 @@
 				<p>
 					비밀번호와 연락처를<br /> 수정해주세요.
 				</p>
-				<form action="/updateMember" method="post">
+				<form action="/updateMember" method="post" id="memberUpdateForm">
 					<input type="password" name="mPassword" id="password" maxlength="8"
-						placeholder="비밀번호를 입력해주세요." autocomplete="off" />
-					<input type="text" name="mPhone" id="phone" placeholder="전화번호를 입력해주세요."
+						placeholder="비밀번호를 입력해주세요." autocomplete="off" /> <input
+						type="text" name="mPhone" id="phone" placeholder="전화번호를 입력해주세요."
 						autocomplete="off" />
 					<div class="modifybtn">
 						<button class="memberupdate" type="submit">수정</button>
@@ -260,36 +222,45 @@
 					<span><c:out value="${loggedInMember.mName}" /></span>님의 예약 내역입니다.
 				</p>
 				<ul class="reservelists">
-					<li class="reservelist">
-						<div class="hospitalphoto">
-							<img src="/img/hospital01.webp" alt="병원사진" />
-						</div>
-						<form class="reservecontent" action="" method="post">
-							<div class="name hospitalinfo">
-								<label>병원:</label> 
-								<span>서울대학교 병원</span>
-							</div>
-							<div class="department hospitalinfo">
-								<label>진료과:</label> 
-								<span>정형외과</span>
-							</div>
-							<div class="reservedate hospitalinfo">
-								<label>예약일자:</label> 
-								<input type="text" name="reservedate" value="2025-07-08" />
-							</div>
-							<div class="reservetime hospitalinfo">
-								<label>예약시간:</label>
-								<input type="text" name="reservetime" value="오후" />
-							</div>
-							<div class="reservation-buttons">
-								<button type="button" class="reviewbutton">리뷰 작성</button>
-								<button type="button" class="reservecancle">예약 취소</button>
-							</div>
-							<div class="status-message" style="display: none;">
-								<span>진료 완료</span>
-							</div>
-						</form>
-					</li>
+					<c:choose>
+						<c:when test="${not empty bookingList}">
+							<c:forEach var="booking" items="${bookingList}">
+								<li class="reservelist" data-bnum="${booking.bNum}">
+									<div class="hospitalphoto">
+										<img src="${booking.hospital.hUrl}" alt="${booking.hospital.hTitle}" />
+									</div>
+									<form class="reservecontent" action="" method="get">
+										<div class="name hospitalinfo">
+											<label>병원:</label>
+											<span>${booking.hospital.hTitle}</span>
+										</div>
+										<div class="department hospitalinfo">
+											<label>진료과:</label>
+											<span>${booking.hospital.hDepartment}</span>
+										</div>
+										<div class="reservedate hospitalinfo">
+											<label>예약일자:</label>
+											<span>${booking.bDate}</span>
+										</div>
+										<div class="reservetime hospitalinfo">
+											<label>예약시간:</label>
+											<span>${booking.bTime}</span>
+										</div>
+										<div class="reservation-buttons">
+											<button type="button" class="reviewbutton">리뷰 작성</button>
+											<button type="button" class="reservecancle">예약 취소</button>
+										</div>
+										<div class="status-message" style="display: none;">
+											<span>진료 완료</span>
+										</div>
+									</form>
+								</li>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<p class="no-booking">예약 내역이 없습니다.</p>
+						</c:otherwise>
+					</c:choose>
 				</ul>
 			</section>
 		</main>
@@ -303,7 +274,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div id="memberUpdateModal" class="modal">
 			<div class="modal-content">
 				<p class="modal-text">정보가 수정 되었습니다.</p>
@@ -312,7 +283,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 
 		<div id="reviewModal" class="modal reviewmodal">
 			<div class="reviewmodal-content">
@@ -330,7 +301,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div id="reserveCancleModal" class="modal">
 			<div class="modal-content">
 				<p class="modal-text">예약을 취소 하시겠습니까?</p>
@@ -340,7 +311,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div id="logoutModal" class="modal">
 			<div class="modal-content">
 				<p class="modal-text">로그아웃 하시겠습니까?</p>

@@ -71,9 +71,7 @@
 		});
 		
 		// 회원가입
-		$('#memberRegister').on('click', function(e) {
-			e.preventDefault();
-			
+		$('#memberRegister').on('click', function() {
 			// 폼 데이터 수집
 			const member = {
 				mId: $('#userid').val(),
@@ -89,20 +87,7 @@
 				return;
 			}
 			
-			$.ajax({
-				type: "POST",
-				url: "/memberRegister",
-				data: JSON.stringify(member),
-				contentType: "application/json",
-				success: function(response) {
-					if (response === "Success") {
-						alert("회원가입이 완료되었습니다.");
-						window.location.href = "/index.jsp";
-					} else {
-						alert("회원가입에 실패했습니다.");
-					}
-				},
-			});
+			$('#memberRegisterForm').submit();
 		});
 	});
 </script>
@@ -115,7 +100,7 @@
 		<jsp:include page="/components/header.jsp" />
 		<main class="main">
 			<div class="container">
-				<form action="/memberRegister" method="post">
+				<form action="/memberRegister" method="post" id="memberRegisterForm">
 					<input type="text" name="mName" id="username" placeholder="이름을 입력해주세요." required autocomplete="off" />
 					<input type="text" name="mAge" maxlength="2" id="age" placeholder="나이" required autocomplete="off" />
 					<input type="text" name="mId" id="userid" placeholder="아이디를 입력해주세요." required autocomplete="off" />

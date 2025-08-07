@@ -162,6 +162,7 @@
 .reserveinfo .reservelists .reservelist .reservecontent .hospitalinfo span {
 	color: var(--primary-color);
 }
+/*
 .reserveinfo .reservelists .reservelist .reservecontent .hospitalinfo input {
 	font-size: 16px;
 	font-weight: 500;
@@ -172,6 +173,7 @@
 .reserveinfo .reservelists .reservelist .reservecontent .hospitalinfo input:focus {
 	outline: none;
 }
+*/
 
 /* 리뷰 모달 */
 .reviewmodal-content {
