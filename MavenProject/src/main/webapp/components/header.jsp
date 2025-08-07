@@ -15,7 +15,7 @@
 				<%
 					if (loggedInMember != null) {
 				%>
-					<li><a href="/member/mypage.jsp"><span><%= loggedInMember.getmName() %></span>님</a></li>
+					<li><a href="/member/bookings"><span><%= loggedInMember.getmName() %></span>님</a></li>
 				<%
 					} else {
 				%>
