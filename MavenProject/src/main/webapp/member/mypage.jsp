@@ -12,174 +12,202 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(() => {
-		// 폰넘버 유효성 검사
-		const $phone = $('#phone');
-	  // 초기값 설정
-	  $phone.val('010-');
-	  // 포커스 시 커서 위치 조정
-	  $phone.on('focus', function () {
-	    const val = $(this).val();
-	    if (!val.startsWith('010-')) {
-	      $(this).val('010-');
-	    }
-	    // 커서 위치를 맨 끝으로 이동
-	    setTimeout(() => {
-	      this.setSelectionRange(this.value.length, this.value.length);
-	    }, 0);
-	  });
-	  // 입력 시 하이픈 자동 삽입
-	  $phone.on('input', function () {
-	    let val = $(this).val();
-	    // 숫자만 추출
-	    let numeric = val.replace(/[^0-9]/g, '');
-	    // '010'이 없으면 무조건 앞에 추가
-	    if (!numeric.startsWith('010')) {
-	      numeric = '010' + numeric;
-	    }
-	    // 010 제외한 나머지만 추출
-	    let rest = numeric.substring(3, 11); // 최대 8자리
-	    // 하이픈 포함한 최종 포맷
-	    let formatted = '010';
-	    if (rest.length > 0 && rest.length <= 4) {
-	      formatted += '-' + rest;
-	    } else if (rest.length > 4) {
-	      formatted += '-' + rest.substring(0, 4) + '-' + rest.substring(4);
-	    }
-	    $(this).val(formatted);
-	  });	
-		
-		
-	  // 탭 별 내용 보이기/숨기기
-		$('.modify').show();
-		$('.reserveinfo').hide();
-		
-		// 탭 클릭 처리
-	  $('.tabs .tab').on('click', function() {
-	    $('.tabs .tab').removeClass('active');
-	    $(this).addClass('active');
+		// 폰넘버 유효성 검사 - RangeError 해결
+    const $phone = $('#phone');
+    const phoneInputHandler = function () {
+        let val = $phone.val();
+        let numeric = val.replace(/[^0-9]/g, '');
 
-	    const index = $(this).index();
+        if (!numeric.startsWith('010')) {
+            numeric = '010' + numeric.substring(3);
+        }
 
-	    if (index === 0) {
-	      $('.reserveinfo').fadeOut(200, () => {
-	        $('.modify').fadeIn(300);
-	      });
-	    } else if (index === 1) {
-	      $('.modify').fadeOut(200, () => {
-	        $('.reserveinfo').fadeIn(300);
-	      });
-	    }
-	  });
+        let formatted = '010';
+        let rest = numeric.substring(3);
 
-	  // 회원탈퇴 탭 클릭
-	  $('.tabs li').eq(2).on('click', function() {
-	    $('#withdrawModal').fadeIn(100);
-	  });
-	  // 탈퇴 취소
-	  $('.cancelWithdraw').on('click', function() {
-	    $('#withdrawModal').fadeOut(100);
-	  });
-	  
-	  // 회원 탈퇴 확인 버튼 클릭 -> AJAX 요청 추가
-	  $('.confirmWithdraw').on('click', function() {
-	    $.ajax({
-	      type: "POST",
-	      url: "/deleteMember",
-	      success: function(response) {
-	        if (response === "Success") {
-	          $('.modal-text').text('탈퇴 되었습니다.');
-	          $('.modal-buttons').html('<button type="button" class="closeWithdraw">닫기</button>');
-	        } else {
-	          alert('회원 탈퇴에 실패했습니다.');
-	        }
-	      },
-	      error: function() {
-	        alert('회원 탈퇴 중 오류가 발생했습니다.');
-	      }
-	    });
-	  });
+        if (rest.length > 0 && rest.length <= 4) {
+            formatted += '-' + rest;
+        } else if (rest.length > 4) {
+            formatted += '-' + rest.substring(0, 4) + '-' + rest.substring(4);
+        }
 
-	  // 닫기 클릭 -> index.jsp 이동
-	  $(document).on('click', '.closeWithdraw', function() {
-	    window.location.href = '/index.jsp';
-	  });
-	  
-	  // 로그아웃 탭 클릭
-	  $('.tabs li').eq(3).on('click', function() {
-		  $('#logoutModal').fadeIn(100);
-	  });
-	  
-	  // 로그아웃 확인 버튼 클릭
-	  $(document).on('click', '.confirmLogout', function() {
-		  $('.modal-text').text('탈퇴 되었습니다.');
-	    $('.modal-buttons').html('<button type="button" class="closeLogout">닫기</button>');
-	  });
-	  
-	  // 로그아웃 모달 닫기 버튼
-	  $(document).on('click', '.closeLogout', function() {
-		  $('#logoutModal').fadeOut(100);
-		  $.ajax({
-	      type: "POST",
-	      url: "/logout",
-	      success: function(response) {
-	    	  window.location.href = '/index.jsp';
-	      },
-	      error: function() {
-	        alert('로그아웃 중 오류가 발생했습니다.');
-	      }
-	    });
-	  })
-	  // 로그아웃 모달 취소 버튼
-	  $(document).on('click', '.cancelLogout', function() {
-		  $('#logoutModal').fadeOut(100);
-	  })
-	  
-	  
-		// 예약 취소 버튼 클릭
-		$('.reservecancle').on('click', function(e) {
+        $phone.off('input', phoneInputHandler);
+        $phone.val(formatted);
+        $phone.on('input', phoneInputHandler);
+    };
+
+    $phone.on('input', phoneInputHandler);
+
+    // 초기값 설정 및 포커스 처리 로직
+    $phone.val('010-');
+    $phone.on('focus', function () {
+        const val = $(this).val();
+        if (!val.startsWith('010-')) {
+            $(this).val('010-');
+        }
+        setTimeout(() => {
+            this.setSelectionRange(this.value.length, this.value.length);
+        }, 0);
+    });		
+	
+    // 탭 별 내용 보이기/숨기기
+    $('.modify').show();
+    $('.reserveinfo').hide();
+	
+    // 탭 클릭 처리
+    $('.tabs .tab').on('click', function() {
+      $('.tabs .tab').removeClass('active');
+      $(this).addClass('active');
+
+      const index = $(this).index();
+
+      if (index === 0) {
+        $('.reserveinfo').fadeOut(200, () => {
+          $('.modify').fadeIn(300);
+        });
+      } else if (index === 1) {
+        $('.modify').fadeOut(200, () => {
+          $('.reserveinfo').fadeIn(300);
+        });
+      }
+    });
+
+    // 회원탈퇴 모달 - 회원탈퇴 탭 클릭
+    $('.tabs li').eq(2).on('click', function() {
+      $('#withdrawModal').fadeIn(100);
+    });
+    // 회원탈퇴 모달 - 탈퇴 취소
+    $('.cancelWithdraw').on('click', function() {
+      $('#withdrawModal').fadeOut(100);
+    });
+    // 회원탈퇴 모달 - 회원 탈퇴 확인 버튼 클릭 -> AJAX 요청 추가
+    $('.confirmWithdraw').on('click', function() {
+      $.ajax({
+        type: "POST",
+        url: "/deleteMember",
+        success: function(response) {
+          if (response === "Success") {
+            $('.modal-text').text('탈퇴 되었습니다.');
+            $('.modal-buttons').html('<button type="button" class="closeWithdraw">닫기</button>');
+          } else {
+            alert('회원 탈퇴에 실패했습니다.');
+          }
+        },
+        error: function() {
+          alert('회원 탈퇴 중 오류가 발생했습니다.');
+        }
+      });
+    });
+    // 회원탈퇴 모달 - 닫기 클릭 -> index.jsp 이동
+    $(document).on('click', '.closeWithdraw', function() {
+      window.location.href = '/index.jsp';
+    });
+  
+    
+    // 회원정보수정 모달 - 버튼 클릭
+    $('.memberupdate').on('click', function(e) {
+      e.preventDefault();
+      // 입력된 비밀번호와 전화번호 가져오기
+      const password = $('#password').val();
+      const phone = $('#phone').val();
+
+      // 비밀번호 또는 전화번호가 입력되었는지 확인
+      if (password === "" && phone === "") {
+          alert('수정할 정보를 입력해주세요.');
+          return;
+      }
+
+      $.ajax({
+        type: "POST",
+        url: "/updateMember",
+        data: {
+          mPassword: password, 
+          mPhone: phone  
+        },
+        success: function(response) {
+          if (response === "Success") {
+            $('#memberUpdateModal').fadeIn(100);
+          } else {
+            alert('회원정보 수정에 실패했습니다.');
+          }
+        },
+        error: function() {
+          alert('회원정보 수정 중 오류가 발생했습니다.');
+        }
+      });
+    });
+    // 회원정보수정 모달 - 닫기 버튼
+    $(document).on('click', '.closeMemberUpdate', function() {
+      $('#memberUpdateModal').fadeOut(100, () => {
+        location.reload();
+      });
+    });
+  
+    
+    // 로그아웃 모달 - 로그아웃 탭 클릭
+    $('.tabs li').eq(3).on('click', function() {
+      $('#logoutModal').fadeIn(100);
+    });
+    // 로그아웃 모달 - 로그아웃 확인 버튼 클릭
+    $(document).on('click', '.confirmLogout', function() {
+      $('.modal-text').text('로그아웃 되었습니다.');
+      $('.modal-buttons').html('<button type="button" class="closeLogout">닫기</button>');
+    });
+    // 로그아웃 모달 - 로그아웃 모달 닫기 버튼
+    $(document).on('click', '.closeLogout', function() {
+      $('#logoutModal').fadeOut(100);
+      $.ajax({
+        type: "POST",
+        url: "/logout",
+        success: function(response) {
+          window.location.href = '/index.jsp';
+        },
+        error: function() {
+          alert('로그아웃 중 오류가 발생했습니다.');
+        }
+      });
+    })
+    // 로그아웃 모달 - 로그아웃 모달 취소 버튼
+    $(document).on('click', '.cancelLogout', function() {
+      $('#logoutModal').fadeOut(100);
+    })
+    
+    
+    // 예약 취소 모달 - 예약 취소 버튼 클릭
+    $('.reservecancle').on('click', function(e) {
       e.preventDefault(); 
       $('#reserveCancleModal').fadeIn(100);
     });
-		// 예약 취소 모달 확인 버튼
-		$(document).on('click', '.confirmreserveCancle', function() {
-			$('.modal-text').text('예약이 취소 되었습니다.');
-			$('.modal-buttons').html('<button type="button" class="closereservemodal">닫기</button>');
-			$('.reservelist').remove();
-		})
-		// 예약 취소 모달 취소 버튼
-		$(document).on('click', '.canclereserveCancle', function() {
-			$('#reserveCancleModal').fadeOut(100);
-		})
-		// 예약 취소 모달 닫기 버튼
-		$(document).on('click', '.closereservemodal', function() {
-			$('#reserveCancleModal').fadeOut(100);
-		})
-		
-	  
-		// 닫기 버튼 클릭 시 버튼 구성 변경
-    $(document).on('click', '.closeModify', function() {
-      $('#modifyModal').fadeOut(100, () => {
-        $('.reservation-buttons').fadeOut(200)
-        $('.review-buttons').css('display', 'block');
-      });
-    });
-
-    // '리뷰 작성' 버튼 클릭 시 리뷰 모달 열기
+    // 예약 취소 모달 - 예약 취소 모달 확인 버튼
+    $(document).on('click', '.confirmreserveCancle', function() {
+      $('.modal-text').text('예약이 취소 되었습니다.');
+      $('.modal-buttons').html('<button type="button" class="closereservemodal">닫기</button>');
+      $('.reservelist').remove();
+    })
+    // 예약 취소 모달 - 예약 취소 모달 취소 버튼
+    $(document).on('click', '.canclereserveCancle', function() {
+      $('#reserveCancleModal').fadeOut(100);
+    })
+    // 예약 취소 모달 - 예약 취소 모달 닫기 버튼
+    $(document).on('click', '.closereservemodal', function() {
+      $('#reserveCancleModal').fadeOut(100);
+    })
+	
+    
+    // 리뷰 모달 - '리뷰 작성' 버튼 클릭 시 리뷰 모달 열기
     $('.reviewbutton').on('click', function() {
       $('#reviewModal').fadeIn(100);
     });
-
-    // 리뷰 항목 선택 시 스타일 변경
+    // 리뷰 모달 - 리뷰 항목 선택 시 스타일 변경
     $('.review-item').on('click', function() {
       // 모든 항목의 선택 해제
-      $('.review-item').removeClass('selected');
+      $('.review-item').removeClass('active');
       // 클릭된 항목만 선택
-      $(this).addClass('selected');
+      $(this).addClass('active');
     });
-
-    // '제출' 버튼 클릭 시
+    // 리뷰 모달 - '제출' 버튼 클릭 시
     $('.submitReview').on('click', function() {
-      const selectedReview = $('.review-item.selected').text();
+      const selectedReview = $('.review-item.active').text();
       if (!selectedReview) {
           alert('리뷰를 선택해주세요.');
           return;
@@ -191,6 +219,10 @@
       $('.status-message').css('display', 'block');
       $('.reservation-buttons').css('display', 'none');
     });
+    // 리뷰 모달 - '닫기' 버튼 클릭 시 
+    $('.closeReview').on('click', function() {
+    	$('#reviewModal').fadeOut(100);
+    })
 	})
 </script>
 
@@ -213,13 +245,13 @@
 				<p>
 					비밀번호와 연락처를<br /> 수정해주세요.
 				</p>
-				<form action="" method="post">
-					<input type="password" name="password" id="password" maxlength="8"
-						placeholder="비밀번호를 입력해주세요." required autocomplete="off" />
-					<input type="text" name="phone" id="phone" placeholder="전화번호를 입력해주세요."
+				<form action="/updateMember" method="post">
+					<input type="password" name="mPassword" id="password" maxlength="8"
+						placeholder="비밀번호를 입력해주세요." autocomplete="off" />
+					<input type="text" name="mPhone" id="phone" placeholder="전화번호를 입력해주세요."
 						autocomplete="off" />
 					<div class="modifybtn">
-						<button type="submit">수정</button>
+						<button class="memberupdate" type="submit">수정</button>
 					</div>
 				</form>
 			</section>
@@ -271,12 +303,21 @@
 				</div>
 			</div>
 		</div>
+		
+		<div id="memberUpdateModal" class="modal">
+			<div class="modal-content">
+				<p class="modal-text">정보가 수정 되었습니다.</p>
+				<div class="modal-buttons">
+					<button type="button" class="closeMemberUpdate">닫기</button>
+				</div>
+			</div>
+		</div>
+		
 
-		<div id="reviewModal" class="modal">
-			<div
-				style="width: 300px; margin: 150px auto; background: #fff; padding: 20px; text-align: center; border-radius: 8px;">
-				<p class="modal-title">리뷰를 선택해주세요.</p>
-				<ul class="review-options" style="list-style: none; padding: 0;">
+		<div id="reviewModal" class="modal reviewmodal">
+			<div class="reviewmodal-content">
+				<p class="reviewmodal-title">리뷰를 선택해주세요.</p>
+				<ul class="review-options">
 					<li class="review-item">친절한 의사 선생님</li>
 					<li class="review-item">전문적인 치료</li>
 					<li class="review-item">상냥한 간호사 / 직원</li>
@@ -285,6 +326,7 @@
 				</ul>
 				<div class="modal-buttons-review">
 					<button type="submit" class="submitReview">제출</button>
+					<button type="button" class="closeReview">닫기</button>
 				</div>
 			</div>
 		</div>
