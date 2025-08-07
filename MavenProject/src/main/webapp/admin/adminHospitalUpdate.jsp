@@ -25,7 +25,7 @@
     <jsp:include page="/components/sidebar.jsp" />
 	<div class="main">
 		<div class="top-bar">
-			<div class="logout"><a href="#">로그아웃</a></div>
+			<div class="logout"><a href="/logout">로그아웃</a></div>
 		</div>
 		<form id="myForm" action="/admin/hospitalUpdate" method="post" enctype="multipart/form-data" >
 			<label class="text-label">이미지</label>

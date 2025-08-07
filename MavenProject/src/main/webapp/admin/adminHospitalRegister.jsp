@@ -19,7 +19,7 @@
     <jsp:include page="/components/sidebar.jsp" />
 	<div class="main">
 		<div class="top-bar">
-			<div class="logout"><a href="#">로그아웃</a></div>
+			<div class="logout"><a href="/logout">로그아웃</a></div>
 		</div>
 		<form action="/admin/hospitalRegister" method="post" enctype="multipart/form-data" >
 			<label class="text-label">이미지 등록<font size="2" color="red">※썸네일 사진으로 등록됩니다.</font></label>
