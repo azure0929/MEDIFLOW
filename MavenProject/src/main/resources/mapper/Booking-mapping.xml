@@ -16,6 +16,7 @@
 	        <result property="hDistrict" column="h_district" />
 	        <result property="hAddress" column="h_address" />
 	        <result property="hTel" column="h_tel" />
+	        <result property="hUrl" column="h_url" />
 	    </association>
 	
 	    <association property="member" javaType="Member">
@@ -41,7 +42,7 @@
 	
 	<!-- 회원별 예약조회 -->
 	<select id="searchBookingByMember" parameterType="int" resultMap="bookingRM">
-		SELECT B.B_NUM, H.H_NUM, H.H_TITLE, H.H_DISTRICT, B.B_DATE, B.B_TIME, M.M_NUM
+		SELECT B.B_NUM, H.H_NUM, H.H_DEPARTMENT, H.H_DISTRICT, B.B_DATE, B.B_TIME, M.M_NUM, H.H_URL, H.H_TITLE
 		FROM BOOKING B
 		JOIN MEMBER M ON B.M_NUM = M.M_NUM
 		JOIN HOSPITAL H ON B.H_NUM = H.H_NUM

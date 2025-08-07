@@ -11,8 +11,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(() => {
-		$('#login').on('click', function(e) {
-			e.preventDefault();
+		$('#login').on('click', function() {
 			
 			$(".error-message").remove();
 			
@@ -29,27 +28,7 @@
 				return;
 			}
 			
-			$.ajax({
-				type: "POST",
-				url: "/login",
-				data: {
-					mId: mId,
-					mPassword: mPassword
-				},
-				success: function(response) {
-					if(response === "Success_Admin") {
-						window.location.href = "/admin/adminMain.jsp";
-					} else if (response === "Success") {
-              window.location.href = "/index.jsp";
-          } else {
-						alert("아이디 또는 비밀번호가 올바르지 않습니다.");
-					}
-				},
-				error: function(xhr, status, error) {
-					alert("로그인에 실패했습니다.");
-					console.error("Login failed: ", error);
-				}
-			});
+			$('#loginForm').submit();
 		})
 	})
 </script>
@@ -62,7 +41,7 @@
 		<jsp:include page="/components/header.jsp" />
 		<main class="main">
 			<div class="container">
-				<form action="/login" method="post">
+				<form action="/login" method="post" id="loginForm">
 					<input id="userid" type="text" name="mId" placeholder="아이디를 입력해주세요." required autocomplete="off" />
     			<input id="password" type="password" name="mPassword" placeholder="비밀번호를 입력해주세요." required autocomplete="off" />
 					<div class="loginbtn">

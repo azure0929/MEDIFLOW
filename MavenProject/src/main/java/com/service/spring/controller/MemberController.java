@@ -1,104 +1,104 @@
 package com.service.spring.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.service.spring.domain.Booking;
 import com.service.spring.domain.Member;
+import com.service.spring.service.BookingService;
 import com.service.spring.service.MemberService;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@RestController
+@Controller
 public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private BookingService bookingService;
 
 	// 로그인
 	@PostMapping("/login")
-	public ResponseEntity<String> login(Member member, HttpSession session, HttpServletResponse response) {
+	public String login(Member member, HttpSession session) {
 		try {
 			Member loggedInMember = memberService.login(member);
+			System.out.println("로그인 성공: " + loggedInMember); 
 			if (loggedInMember != null) {
 				session.setAttribute("loggedInMember", loggedInMember);
-
-				// 로그인 성공 시 세션 ID를 쿠키에 저장
-				Cookie cookie = new Cookie("JSESSIONID", session.getId());
-				cookie.setPath("/");
-				cookie.setMaxAge(3600); // 쿠키 유효기간 (초 단위, 1시간)
-				response.addCookie(cookie);
-
 				if ("admin".equals(loggedInMember.getmId())) {
-					return new ResponseEntity<>("Success_Admin", HttpStatus.OK);
+					return "redirect:/admin/adminMain.jsp";
 				} else {
-					return new ResponseEntity<>("Success", HttpStatus.OK);
+					return "redirect:/index.jsp"; 
 				}
 			} else {
-				return new ResponseEntity<>("Failed", HttpStatus.UNAUTHORIZED);
+				return null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+			// 예외 발생 시 에러 페이지 또는 로그인 페이지로 리다이렉트
+			return "redirect:/login.jsp?error=internal_error";
 		}
 	}
 
 	// 회원가입
 	@PostMapping("/memberRegister")
-	public ResponseEntity<String> insertMember(@RequestBody Member member) {
+	public String insertMember(Member member) {
 		try {
 			memberService.insertMember(member);
-			return new ResponseEntity<>("Success", HttpStatus.OK);
+			return "redirect:/";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>("Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+			return "redirect:/register.jsp?error=register_failed";
 		}
 	}
 
 	// 회원 탈퇴
-	@PostMapping("/deleteMember")
-	public ResponseEntity<String> deleteMember(HttpSession session) {
+	@GetMapping("/deleteMember")
+	public String deleteMember(HttpSession session) {
 		Member member = (Member) session.getAttribute("loggedInMember");
 		if (member == null) {
-			return new ResponseEntity<>("NotLoggedIn", HttpStatus.UNAUTHORIZED);
+			return "redirect:/login.jsp";
 		}
 
 		try {
 			memberService.deleteMember(member.getmNum());
 			session.invalidate();
-			return new ResponseEntity<>("Success", HttpStatus.OK);
+			return "redirect:/";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>("Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+			return "redirect:/member/mypage?error=delete_failed";
 		}
 	}
 
 	// 로그아웃
-	@PostMapping("/logout")
-	public ResponseEntity<String> logout(HttpSession session) {
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
 		session.invalidate();
-		return new ResponseEntity<>("Success", HttpStatus.OK);
+		return "redirect:/";
 	}
 
 	// 회원정보수정
     @PostMapping("/updateMember")
-    public ResponseEntity<String> updateMember(Member member, HttpSession session) {
+    public String updateMember(Member member, HttpSession session) {
         Member loggedInMember = (Member) session.getAttribute("loggedInMember");
         if (loggedInMember == null) {
-            return new ResponseEntity<>("Failed", HttpStatus.UNAUTHORIZED);
+            return "redirect:/login.jsp";
         }
 
         try {
-            // member 객체에 JSP에서 넘어온 password와 phone 값이 자동으로 바인딩됨
             String mPassword = member.getmPassword();
             String mPhone = member.getmPhone();
             
-            // 기존 회원 정보에 새로운 값 설정
             if (mPassword != null && !mPassword.isEmpty()) {
                 loggedInMember.setmPassword(mPassword);
             }
@@ -108,11 +108,33 @@ public class MemberController {
 
             memberService.updateMember(loggedInMember);
             session.setAttribute("loggedInMember", loggedInMember);
-            return new ResponseEntity<>("Success", HttpStatus.OK);
             
+            return "redirect:/member/bookings"; // mypage로 리다이렉트
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return "redirect:/member/bookings?error=update_failed";
+        }
+    }
+    
+    // 예약 내역을 JSON으로 반환하는 새로운 메서드
+    @GetMapping("/member/bookings")
+    public String getBookingsByMember(Model model, HttpSession session) {
+        Member loggedInMember = (Member) session.getAttribute("loggedInMember");
+        if (loggedInMember == null) {
+        	return "redirect:/login.jsp";
+        }
+        
+        try {
+            int mNum = loggedInMember.getmNum();
+            List<Booking> bookings = bookingService.searchBookingByMember(mNum);
+            bookings.forEach(e->System.out.println(e));
+            
+            model.addAttribute("bookingList", bookings);
+            
+            return "member/mypage";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/member/mypage?error=booking_failed";
         }
     }
 }
