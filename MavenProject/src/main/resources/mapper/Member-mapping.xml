@@ -32,9 +32,16 @@
 		DELETE FROM MEMBER WHERE M_NUM=#{VALUE}
 	</delete>
 	
+	<!-- 전체회원 수 -->
+	
+	<select id="totalCountMember" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+	</select>
+	
 	<!--회원 전체조회-->
-	<select id="searchAllMember" resultType="member" >
+	<select id="searchAllMember" parameterType="map" resultType="member" >
 		<include refid="selectMember" />
+		LIMIT #{offSet}, #{Limit}
 	</select>
 	
 	<!-- 회원 단일조회 -->

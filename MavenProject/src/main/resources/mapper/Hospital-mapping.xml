@@ -29,9 +29,15 @@
 		DELETE FROM HOSPITAL WHERE H_NUM=#{VALUE}
 	</delete>
 	
+	<!--전체 병원수  -->
+	<select id="totalCountHospital" resultType="int">
+		SELECT COUNT(*) FROM HOSPITAL
+	</select>
+	
 	<!--병원 전체조회-->
-	<select id="searchAllHospital" resultType="hospital" >
+	<select id="searchAllHospital" parameterType="map" resultType="hospital" >
 		<include refid="selectHospital" />
+		LIMIT #{offSet}, #{Limit}
 	</select>
 	
 	<!-- 병원 단일조회 -->

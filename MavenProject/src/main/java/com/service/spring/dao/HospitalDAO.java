@@ -1,6 +1,7 @@
 package com.service.spring.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,12 @@ public class HospitalDAO {
 		session.delete(NS+"deleteHospital",hNum);
 	}
 	
-	public List<Hospital> searchAllHospital()throws Exception {
-		return session.selectList(NS+"searchAllHospital");
+	public int totalCountHospital()throws Exception {
+		return session.selectOne(NS+"totalCountHospital");
+	}
+	
+	public List<Hospital> searchAllHospital(Map map)throws Exception {
+		return session.selectList(NS+"searchAllHospital",map);
 	}
 	
 	public Hospital searchHospitalByNum(int hNum)throws Exception {

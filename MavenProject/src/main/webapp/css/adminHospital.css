@@ -112,8 +112,9 @@ th {
 	color: black;
 }
 
-.pagination .active {
+.pagination .page-link.active {
 	font-weight: bold;
+	color: var(--primary-color);
 }
 
 /* 모달 부분 */

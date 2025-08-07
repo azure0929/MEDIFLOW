@@ -172,19 +172,68 @@
 .reserveinfo .reservelists .reservelist .reservecontent .hospitalinfo input:focus {
 	outline: none;
 }
-.review-options .review-item {
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
+
+/* 리뷰 모달 */
+.reviewmodal-content {
+	width: 618px;
+	height: 570px;
+	padding: 52px;
+	border-radius: 20px;
+	background-color: #ffffff;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
-.review-options .review-item.selected {
+.reviewmodal-content .reviewmodal-title {
+	font-size: 24px;
+	text-align: center;
+	margin-bottom: 38px;
+}
+.review-options {
+	border: 1px solid red;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.review-options .review-item {
+	width: 100%;
+	height: 50px;
+	font-size: 20px;
+	text-align: center;
+	line-height: 2.8rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+}
+.review-options .review-item.active {
   background-color: var(--primary-color);
   color: var(--text-white);
 }
+.modal-buttons-review {
+	margin-top: 50px;
+	display: flex;
+	gap: 16px;
+	justify-content: end;
+}
+.modal-buttons-review button {
+	width: 58px;
+	height: 50px;
+	border-radius: 8px;
+	font-size: 20px;
+}
+.modal-buttons-review .submitReview {
+	color: var(--text-white);
+	background-color: var(--primary-color);
+}
+.modal-buttons-review .closeReview {
+	color: var(--primary-color);
+	background-color: transparent;
+	border: 1px solid var(--primary-color);
+}
 
+/* 예약관련 버튼 */
 .reservation-buttons {
 	width: 224px;
 	height: 46px;
@@ -215,7 +264,7 @@
 	background-color: #ffffff;
 }
 
-/* modal */
+/* modal 공통 */
 .modal {
 	display: none; 
 	position: fixed; 

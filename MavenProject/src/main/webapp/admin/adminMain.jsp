@@ -20,7 +20,7 @@
 
 	<div class="main">
 		<div class="top-bar">
-			<div class="logout"><a href="#">로그아웃</a></div>
+			<div class="logout"><a href="/logout">로그아웃</a></div>
 		</div>
 		<form class="filter-search" action="/admin/searchMember" method="get">
 			<div class="filter-search">
@@ -60,8 +60,11 @@
 		</div>
 
 		<div class="pagination">
-			<a href="#"><img src="/img/leftArrow.webp"></a> <a class="active" href="#">1</a> <a href="#">2</a>
-			<a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#"><img src="/img/rightArrow.webp"></a>
+			<c:forEach var="i" begin="1" end="${pageCount}">
+			 <a href="/admin/adminMain?pageNum=${i}" class="page-link ${i == currentPage ? 'active' : ''}">
+		       ${i}
+		    </a>
+			</c:forEach>
 		</div>
 	</div>
 </div>
@@ -72,6 +75,6 @@ $(function () {
       const selectedKey = $(this).val();
       $('#searchValue').attr('name', selectedKey);
     });
-  });
+ });
 </script>
 </html>

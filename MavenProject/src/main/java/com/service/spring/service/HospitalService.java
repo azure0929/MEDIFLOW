@@ -1,6 +1,7 @@
 package com.service.spring.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,12 @@ public class HospitalService {
 		hospitalDAO.deleteHospital(hNum);
 	}
 	
-	public List<Hospital> searchAllHospital()throws Exception {
-		return hospitalDAO.searchAllHospital();
+	public int totalCountHospital()throws Exception{
+		return hospitalDAO.totalCountHospital();
+	}
+	
+	public List<Hospital> searchAllHospital(Map map)throws Exception {
+		return hospitalDAO.searchAllHospital(map);
 	}
 	
 	public Hospital searchHospitalByNum(int hNum)throws Exception {
