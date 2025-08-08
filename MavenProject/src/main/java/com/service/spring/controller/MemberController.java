@@ -63,7 +63,7 @@ public class MemberController {
 	public String deleteMember(HttpSession session) {
 		Member member = (Member) session.getAttribute("loggedInMember");
 		if (member == null) {
-			return "redirect:/login.jsp";
+			return "redirect:/index.jsp";
 		}
 
 		try {
@@ -72,7 +72,7 @@ public class MemberController {
 			return "redirect:/index.jsp";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/member/mypage?error=delete_failed";
+			return "redirect:/error.jsp";
 		}
 	}
 
@@ -88,7 +88,7 @@ public class MemberController {
     public String updateMember(Member member, HttpSession session) {
         Member loggedInMember = (Member) session.getAttribute("loggedInMember");
         if (loggedInMember == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/index.jsp";
         }
 
         try {

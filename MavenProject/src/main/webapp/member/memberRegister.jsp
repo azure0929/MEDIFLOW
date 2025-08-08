@@ -48,46 +48,66 @@
 	  });		  
 		
 		// 나이 입력 필드 유효성 검사
-		$('#age').on('input', function() {
-			let value = $(this).val().replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-			
-			if (value === '' || isNaN(value)) {
-				// 입력값이 비어있거나 숫자가 아니면 0으로
-				$(this).val('');
-				return;
-			}
-			
-			// 입력값을 숫자로
-			let age = parseInt(value, 10);
-			
-			// 나이가 0보다 작거나 99보다 크면 범위를 벗어난 값으로
-			if (age < 0) {
-				$(this).val('0');
-			} else if (age > 99) {
-				$(this).val('99');
-			} else {
-				$(this).val(age); // 유효한 값은 그대로
-			}
-		});
+		$('#age').on('input', function () {
+	    let value = $(this).val().replace(/[^0-9]/g, '');
+	    if (value === '') {
+	      $(this).val('');
+	      return;
+	    }
+	
+	    const age = parseInt(value, 10);
+	    if (isNaN(age) || age < 1 || age > 99) {
+	      alert('1부터 99까지 숫자만 입력할 수 있습니다.');
+	      $(this).val('');
+	    } else {
+	      $(this).val(age); // 숫자 그대로 유지
+	    }
+	  });
 		
 		// 회원가입
 		$('#memberRegister').on('click', function() {
-			// 폼 데이터 수집
-			const member = {
-				mId: $('#userid').val(),
-				mName: $('#username').val(),
-				mPassword: $('#password').val(),
-				mPhone: $('#phone').val(),
-				mAge: $('#age').val(),
-			};
-			
-			// 유효성 검사
-			if (!member.mId || !member.mPassword || !member.mName || !member.mPhone || !member.mAge) {
-				alert("모든 필드를 입력해주세요.");
-				return;
-			}
-			
-			$('#memberRegisterForm').submit();
+			const rawAge = parseInt($('#age').val(), 10);
+	    let mAge;
+
+	    if (isNaN(rawAge)) {
+	      alert('나이를 입력해주세요.');
+	      return;
+	    }
+
+	    if (rawAge >= 1 && rawAge <= 9) {
+	      mAge = String(rawAge); // 1~9는 그대로
+	    } else if (rawAge >= 10 && rawAge <= 99) {
+	      const decade = Math.floor(rawAge / 10) * 10;
+	      mAge = decade + '대'; // 10~99는 NN대
+	    } else {
+	      alert('나이는 1~99 사이로 입력해주세요.');
+	      return;
+	    }
+
+	    const member = {
+	      mId: $('#userid').val(),
+	      mName: $('#username').val(),
+	      mPassword: $('#password').val(),
+	      mPhone: $('#phone').val(),
+	      mAge: mAge
+	    };
+
+	    if (!member.mId || !member.mPassword || !member.mName || !member.mPhone || !member.mAge) {
+	      alert("모든 필드를 입력해주세요.");
+	      return;
+	    }
+
+	    // mAge 값을 숨겨서 보냄
+	    $('<input>').attr({
+	      type: 'hidden',
+	      name: 'mAge',
+	      value: mAge
+	    }).appendTo('#memberRegisterForm');
+
+	    // 기존 age input 제거 (중복 방지)
+	    $('#age').remove();
+
+	    $('#memberRegisterForm').submit();
 		});
 	});
 </script>
@@ -102,7 +122,7 @@
 			<div class="container">
 				<form action="/memberRegister" method="post" id="memberRegisterForm">
 					<input type="text" name="mName" id="username" placeholder="이름을 입력해주세요." required autocomplete="off" />
-					<input type="text" name="mAge" maxlength="2" id="age" placeholder="나이" required autocomplete="off" />
+					<input type="text" name="mAge" maxlength="2" id="age" placeholder="1~99" required autocomplete="off" />
 					<input type="text" name="mId" id="userid" placeholder="아이디를 입력해주세요." required autocomplete="off" />
 					<input type="password" name="mPassword" id="password" maxlength="8" placeholder="비밀번호를 입력해주세요." required autocomplete="off" />
 					<input type="text" name="mPhone" id="phone" placeholder="전화번호를 입력해주세요." required autocomplete="off" />
