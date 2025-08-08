@@ -79,7 +79,7 @@
 						</h4>
 					</div>
 					<div class="pain-buttons">
-						<button class="pain-btn">목</button>
+						<button class="pain-btn" value="">목</button>
 						<button class="pain-btn">허</button>
 						<button class="pain-btn">머</button>
 						<button class="pain-btn">어깨</button>
