@@ -50,15 +50,15 @@
 	<!-- 부서별, 이름별, 주소별 -->
 	<select id="searchHospital" parameterType="hospital" resultType="hospital">
 		<include refid="selectHospital" />
-		<trim prefix="WHERE" prefixOverrides="OR">
+		<trim prefix="WHERE" prefixOverrides="AND">
 			<if test="hDepartment != null">
 			 	H_DEPARTMENT LIKE CONCAT('%',#{hDepartment},'%')
 			</if>
 			<if test="hTitle != null">
-			 OR H_TITLE LIKE CONCAT('%',#{hTitle},'%')
+			 AND H_TITLE LIKE CONCAT('%',#{hTitle},'%')
 			</if>
 			<if test="hAddress != null">
-			 OR H_ADDRESS LIKE CONCAT('%',#{hAddress},'%')
+			 AND H_ADDRESS LIKE CONCAT('%',#{hAddress},'%')
 			</if>
 		</trim>
 	</select>
