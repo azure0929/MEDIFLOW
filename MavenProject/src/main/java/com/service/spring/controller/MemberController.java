@@ -3,14 +3,10 @@ package com.service.spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.service.spring.domain.Booking;
 import com.service.spring.domain.Member;
@@ -55,10 +51,10 @@ public class MemberController {
 	public String insertMember(Member member) {
 		try {
 			memberService.insertMember(member);
-			return "redirect:/";
+			return "redirect:/index.jsp";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/register.jsp?error=register_failed";
+			return "error.jsp";
 		}
 	}
 
@@ -67,16 +63,16 @@ public class MemberController {
 	public String deleteMember(HttpSession session) {
 		Member member = (Member) session.getAttribute("loggedInMember");
 		if (member == null) {
-			return "redirect:/login.jsp";
+			return "redirect:/index.jsp";
 		}
 
 		try {
 			memberService.deleteMember(member.getmNum());
 			session.invalidate();
-			return "redirect:/";
+			return "redirect:/index.jsp";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/member/mypage?error=delete_failed";
+			return "redirect:/error.jsp";
 		}
 	}
 
@@ -84,7 +80,7 @@ public class MemberController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/";
+		return "redirect:/index.jsp";
 	}
 
 	// 회원정보수정
@@ -92,7 +88,7 @@ public class MemberController {
     public String updateMember(Member member, HttpSession session) {
         Member loggedInMember = (Member) session.getAttribute("loggedInMember");
         if (loggedInMember == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/index.jsp";
         }
 
         try {
