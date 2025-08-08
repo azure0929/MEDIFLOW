@@ -12,12 +12,14 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(() => {
+		let selectedDistrict = null;
 		$('#selectpain-wrap').hide();
 		
 		$('.location-btn').on('click', function(e) {
 			e.preventDefault();
 			$('.location-btn').removeClass('active');
 			$(this).addClass('active');
+			 selectedDistrict = $(this).val();
 			
 			const index = $(this).index();
 	    if (index === 0 || index === 1 || index === 2) {
@@ -30,8 +32,13 @@
 		$('.pain-btn').on('click', function() {
 			$('.pain-btn').removeClass('active');
 			$(this).addClass('active');
+			let selectedPain = $(this).val();
+			// hidden 채우고 제출
+		    $('#district').val(selectedDistrict);
+		    $('#pain').val(selectedPain);
+		    $('#searchForm').trigger('submit');
 		})
-	})
+	})// ready
 </script>
 
 </head>
@@ -52,9 +59,9 @@
 						</h4>
 					</div>
 					<div class="location-buttons">
-						<button class="location-btn">마포구</button>
-						<button class="location-btn">구로구</button>
-						<button class="location-btn">성북구</button>
+						<button class="location-btn" value="마포구">마포구</button>
+						<button class="location-btn" value="강남구">강남구</button>
+						<button class="location-btn" value="종로구">종로구</button>
 					</div>
 				</div>
 				<%
@@ -79,15 +86,19 @@
 						</h4>
 					</div>
 					<div class="pain-buttons">
-						<button class="pain-btn" value="">목</button>
-						<button class="pain-btn">허</button>
-						<button class="pain-btn">머</button>
-						<button class="pain-btn">어깨</button>
-						<button class="pain-btn">치아</button>
-						<button class="pain-btn">무릎</button>
-						<button class="pain-btn">손목</button>
-						<button class="pain-btn">배</button>
+						<button class="pain-btn" value="이비인후과">기관지</button>
+						<button class="pain-btn" value="정형외과">허리</button>
+						<button class="pain-btn" value="정형외과">어깨</button>
+						<button class="pain-btn" value="정형외과">다리</button>
+						<button class="pain-btn" value="정형외과">손목</button>
+						<button class="pain-btn" value="안과">눈</button>
+						<button class="pain-btn" value="치과">치아</button>
+						<button class="pain-btn" value="피부과">피부</button>
 					</div>
+					<form id="searchForm" action="/main/search" method="get">
+					  <input type="hidden" name="hAddress" id="district">
+					  <input type="hidden" name="hDepartment" id="pain">
+					</form>
 				</div>
 			</div>
 		</main>
