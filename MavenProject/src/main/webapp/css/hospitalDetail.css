@@ -9,7 +9,7 @@
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
- 	gap: 28px;
+	gap: 28px;
 }
 
 .hospital-img-wrap {
@@ -28,21 +28,15 @@
 }
 
 /* --- 헤더 및 기본 정보 --- */
-
 .hospital-title {
 	font-size: 32px;
 	color: var(--text-color);
 }
 
 /* 공통 Flexbox 스타일을 위한 클래스 통일 */
-.hospital-title-wrap,
-.hospital-state-wrap,
-.hospital-info-wrap,
-.notice-wrap,
-.hospital-buttons,
-.info-section-title,
-.info-location-wrap,
-.section-title-wrap {
+.hospital-title-wrap, .hospital-state-wrap, .hospital-info-wrap,
+	.notice-wrap, .hospital-buttons, .info-section-title,
+	.info-location-wrap, .section-title-wrap {
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -50,9 +44,8 @@
 }
 
 .hospital-title-wrap, .hospital-state-wrap, .hospital-info-wrap {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
-
 
 .hospital-time, .hospital-info {
 	color: #393939;
@@ -144,14 +137,14 @@
 }
 
 .tab-item.active::after {
-	background-color: var(--primary-color); 
+	background-color: var(--primary-color);
 	transform: scaleX(1);
 }
 
 .section-divider {
-    border: none;
-    border-top: 1px solid #ADADAD;
-    margin: 0; /* 이 코드를 추가하여 hr의 기본 상하 마진을 제거합니다. */
+	border: none;
+	border-top: 1px solid #ADADAD;
+	margin: 0; /* 이 코드를 추가하여 hr의 기본 상하 마진을 제거합니다. */
 }
 
 .info-section-wrap {
@@ -257,7 +250,7 @@
 .review-progress-bar {
 	position: relative;
 	display: flex;
-	align-items : center;
+	align-items: center;
 	justify-content: space-between;
 	flex-grow: 1;
 	height: 56px;
@@ -306,4 +299,169 @@
 .review-bar-wrap img {
 	width: 40px;
 	height: 40px;
+}
+
+/* 병원 상세 페이지 - 예약 모달 */
+.booking-modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+}
+
+.booking-modal .modal-wrap {
+	width: 600px;
+	height: 660px;
+	position: absolute;
+	left: 50%;
+	bottom: -660px;
+	transform: translateX(-50%);
+	background-color: #ffffff;
+	border-radius: 20px 20px 0 0;
+	transition: .6s;
+	padding: 40px;
+	box-sizing: border-box;
+}
+
+.booking-modal .modal-wrap .modal-title {
+	font-size: 24px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.booking-modal .modal-contents {
+	height: calc(100% - 100px); /* 제목과 버튼 영역 제외 */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.booking-modal .modal-contents .date-choice {
+	text-align: center;
+}
+
+.booking-modal .modal-contents .date-choice .choice-title {
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.booking-modal .modal-contents .date-choice .date-error {
+	color: #ff0000;
+	font-size: 14px;
+	margin-top: 10px;
+	font-weight: 500;
+	text-align: end;
+}
+
+/* Flatpickr 커스텀 스타일 */
+.date-choice {
+	width: 360px;
+}
+/* Flatpickr 커스텀 스타일 */
+.flatpickr-calendar {
+	width: 360px; /* 고정 너비 설정 */
+	height: 406px; /* 고정 높이 설정 */
+	box-shadow: none;
+	border: 1px solid #ddd;
+}
+
+.flatpickr-calendar.inline {
+	width: 360px;
+}
+/* 내부 컨테이너가 부모의 크기를 채우도록 설정 */
+.flatpickr-calendar .flatpickr-innerContainer {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+/* 달력 월 이동 영역 */
+.flatpickr-calendar .flatpickr-months {
+	width: 100%;
+	flex-shrink: 0;
+}
+/* 달력 요일 영역 */
+.flatpickr-calendar .flatpickr-weekdays {
+	width: 100%;
+	flex-shrink: 0;
+}
+
+.flatpickr-calendar .flatpickr-days {
+	width: 360px;
+}
+/* 달력 날짜 영역 */
+.flatpickr-calendar .dayContainer {
+	width: 360px;
+	height: 350px;
+	display: flex;
+	flex-wrap: wrap;
+	flex-grow: 1;
+	align-content: space-around; /* 각 행의 간격을 균등하게 배분 */
+}
+
+/* 요일과 날짜 너비 조정 */
+.flatpickr-weekday, .flatpickr-day {
+	width: calc(100%/ 7); /* 부모의 너비를 7등분 */
+	flex-grow: 1;
+}
+
+.flatpickr-months .flatpickr-month {
+	color: var(--text-white);
+	background-color: var(--primary-color);
+	border-bottom: 1px solid #ddd;
+	background-color: var(--primary-color);
+}
+
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange,
+	.flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange,
+	.flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus,
+	.flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus,
+	.flatpickr-day.selected:hover, .flatpickr-day.startRange:hover,
+	.flatpickr-day.endRange:hover, .flatpickr-day.inRange {
+	color: var(--text-white);
+	border-color: var(--primary-color);
+	background-color: var(--primary-color);
+}
+
+.flatpickr-day:hover {
+	background-color: #f0f8ff; /* 호버 시 배경색 변경 */
+}
+
+.flatpickr-day.today {
+	color: var(--primary-color);
+	border-color: var(--primary-color);
+}
+
+/* 모달 하단 버튼 */
+.modal-buttons {
+	display: flex;
+	gap: 16px;
+	justify-content: center;
+	margin: 34px 0;
+}
+.modal-buttons .modal-btn {
+	height: 56px;
+	border-radius: 8px;
+}
+.modal-buttons .prev-btn {
+	width: 122px;
+	color: var(--primary-color);
+	border: 1px solid var(--primary-color);
+	background-color: #ffffff;
+}
+.modal-buttons .next-btn {
+	width: 224px;
+	background-color: #507CFF;
+	color: #fff;
+}
+
+/* 진료 시간 선택 버튼 */
+.selected-date {
+	font-size: 16px;
 }
