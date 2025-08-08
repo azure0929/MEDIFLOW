@@ -52,7 +52,7 @@
 						<li class="hospital-card">
 							<div class="card-wrap">
 								<div class="card-image">
-									<img src="/img/main01.png" alt="병원 이미지">
+									<img src="${hospital.hUrl}" alt="병원 이미지">
 								</div>
 								<div class="card-info">
 									<div class="card-detail">

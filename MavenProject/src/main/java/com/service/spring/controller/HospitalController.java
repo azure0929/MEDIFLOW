@@ -18,7 +18,6 @@ public class HospitalController {
 	
 	@GetMapping("/main/search")
 	public String doSearchHospital(Hospital hospital, Model model) {
-		System.out.println("들어오냐?");
 		try {
 			List<Hospital> hospitals = hospitalService.searchHospital(hospital);
 			model.addAttribute("hospitalList" ,hospitals);
