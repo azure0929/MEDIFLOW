@@ -462,6 +462,30 @@
 }
 
 /* 진료 시간 선택 버튼 */
+.time-choice {
+	text-align: center;
+}
+.time-choice .choice-title {
+	font-size: 24px;
+	font-weight: 600;
+	margin-bottom: 14px;
+}
+.time-choice .choice-title.time {
+	margin-top: 56px;
+}
 .selected-date {
 	font-size: 16px;
+	font-weight: 400;
+}
+.time-choice .time-buttons {
+	display: flex;
+	gap: 16px;
+}
+.time-choice .time-buttons .time-btn {
+	width: 122px;
+	height: 56px;
+	font-size: 16px;
+	border-radius: 8px;
+	color: var(--text-white);
+	background-color: var(--primary-color);
 }

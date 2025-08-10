@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hospital Search Result Main Page</title>
+<title>MEDIFLOW</title>
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/hospitalMain.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
@@ -40,14 +40,12 @@
 			
 			<section class="map-section">
 				<div class="map-api">
-					<!-- 실제 구현 시 카카오맵 또는 구글맵 embed -->
 					<p style="text-align: center">[지도 영역]</p>
 				</div>
 			</section>
 
 			<section class="hospital-list-section">
 				<ul class="list-container">
-					<!-- 추후 서버 연동 시 아래 구조를 반복 처리 -->
 					<c:forEach var="hospital" items="${hospitalList}">
 						<li class="hospital-card">
 							<div class="card-wrap">
@@ -66,7 +64,6 @@
 										</div>
 										<div class="bottom-info">
 											<p class="hospital-location" id="location-${hospital.hNum}">${hospital.hAddress}</p>
-											<!-- 커스텀 복사하기 버튼 -->
 											<sl-copy-button id="copyBtn" from="location-${hospital.hNum}" copy-label="클릭하여 복사하기" success-label="복사하였습니다." error-label="이런, 복사에 실패하였습니다!"> 
 											</sl-copy-button>
 										</div>
@@ -78,7 +75,7 @@
 									</div>
 									<div class="card-actions">
 										<button class="call-btn">전화하기</button>
-										<button class="booking-btn" onclick="location.href='hospitalDetail.jsp'">예약하기</button>
+										<button class="booking-btn" onclick="location.href='/hospital/detail?hNum=${hospital.hNum}'">예약하기</button>
 									</div>
 								</div>
 							</div>

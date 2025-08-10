@@ -95,7 +95,7 @@
 						<button class="pain-btn" value="치과">치아</button>
 						<button class="pain-btn" value="피부과">피부</button>
 					</div>
-					<form id="searchForm" action="/main/search" method="get">
+					<form id="searchForm" action="/hospital/search" method="get">
 					  <input type="hidden" name="hAddress" id="district">
 					  <input type="hidden" name="hDepartment" id="pain">
 					</form>
