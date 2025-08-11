@@ -246,3 +246,15 @@
 	color: white;
 	border: none;
 }
+
+.kakao-iw {
+  display: inline-block;
+  box-sizing: border-box;
+  max-width: 260px;        /* 필요에 맞게 240~300px 정도 */
+  padding: 5px 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  white-space: pre-wrap;    /* 개행 유지 + 줄바꿈 허용 */
+  word-break: keep-all;     /* 한글은 단어 단위로 줄바꿈 */
+  overflow-wrap: anywhere;  /* 너무 길면 강제 줄바꿈(영문/URL) */
+}
