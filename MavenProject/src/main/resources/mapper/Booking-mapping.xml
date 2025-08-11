@@ -28,21 +28,25 @@
 	    </association>
 	</resultMap>
 	
-	<!-- 리뷰 등록 -->
+	<!-- 예약 등록 -->
 	<!-- B_DATE는 CURDATE(), B_STATUS는 DEFALUT 0 (FALSE) -->
 	<insert id="insertBooking" parameterType="booking" useGeneratedKeys="true"  keyProperty="bNum">
 		INSERT INTO BOOKING(M_NUM,H_NUM,B_DATE,B_TIME)
 		VALUES(#{member.mNum},#{hospital.hNum},CURDATE(),#{bTime})
 	</insert>
 	
-	<!-- 리뷰 삭제 -->
+	<!-- 예약 삭제 -->
 	<delete id="deleteBooking" parameterType="int">
 		DELETE FROM BOOKING WHERE B_NUM=#{VALUE}
 	</delete>
 	
+	<!-- 예약 수정  -->
+	<update id="updateBookingStatus" parameterType="map">
+		UPDATE BOOKING SET B_STATUS = #{Status} WHERE B_NUM = #{bNum}
+	</update>
 	<!-- 회원별 예약조회 -->
 	<select id="searchBookingByMember" parameterType="int" resultMap="bookingRM">
-		SELECT B.B_NUM, H.H_NUM, H.H_DEPARTMENT, H.H_DISTRICT, B.B_DATE, B.B_TIME, M.M_NUM, H.H_URL, H.H_TITLE
+		SELECT B.B_NUM, H.H_NUM, H.H_DEPARTMENT, H.H_DISTRICT, B.B_DATE, B.B_TIME, M.M_NUM, H.H_URL, H.H_TITLE, B.B_Status
 		FROM BOOKING B
 		JOIN MEMBER M ON B.M_NUM = M.M_NUM
 		JOIN HOSPITAL H ON B.H_NUM = H.H_NUM

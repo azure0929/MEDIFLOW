@@ -36,6 +36,10 @@ public class Booking {
 		this.bTime = bTime;
 	}
 
+	public void setbNum(int bNum) {
+		this.bNum = bNum;
+	}
+
 	public int getbNum() {
 		return bNum;
 	}
