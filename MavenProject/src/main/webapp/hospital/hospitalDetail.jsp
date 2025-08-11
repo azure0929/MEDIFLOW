@@ -22,14 +22,20 @@
 <script>
 	let selectedDate = null;
 	let flatpickrInstance = null;
+	// JSP에서 전달받은 병원 이름과 진료 과목을 JavaScript 변수로 저장합니다.
+	const hospitalTitle = "${hospital.hTitle}";
+	const hospitalDepartment = "${hospital.hDepartment}";
 
 	function openModal() {
 		if (flatpickrInstance) {
 			flatpickrInstance.destroy();
 		}
 		selectedDate = null;
-		localStorage.removeItem('selectedDate'); // 이전 값 제거 (필요 시 삭제)
+		localStorage.removeItem('selectedDate');
 		$('#date-error').hide();
+		
+		$('.modal-title').text(`예약하기 (${hospital.hTitle})`); 
+
 		$('.booking-modal').fadeIn(100);
 		$('.modal-wrap').css('bottom', '0');
 		initFlatpickr();
@@ -43,7 +49,7 @@
 			dateFormat: "Y-m-d",
 			onChange: function(selectedDates, dateStr, instance) {
 				selectedDate = dateStr;
-				localStorage.setItem('selectedDate', dateStr); // 저장
+				localStorage.setItem('selectedDate', dateStr);
 				$('#date-error').hide();
 			}
 		});
@@ -65,67 +71,62 @@
 			<button class="modal-btn prev-btn selectdayprev" id="prev-btn">이전</button>
 			<button class="modal-btn next-btn selectdaynext" id="next-btn">다음</button>
 		`);
-
 		if (flatpickrInstance) {
 			flatpickrInstance.destroy();
 		}
 		initFlatpickr();
-
 		$(document).off('click', '.selectdayprev').on('click', '.selectdayprev', function() {
 			$('.modal-wrap').css('bottom', '-660px');
 			$('.booking-modal').fadeOut(100);
 		});
-
 		$(document).off('click', '.selectdaynext').on('click', '.selectdaynext', function() {
-			if (localStorage.getItem('selectedDate')) {
-				showTimeChoice();
-			} else {
-				$('#date-error').show();
-			}
-		});
+      if (flatpickrInstance.selectedDates.length > 0) {
+        const dateStr = flatpickrInstance.formatDate(flatpickrInstance.selectedDates[0], "Y-m-d");
+        localStorage.setItem('selectedDate', dateStr);
+        showTimeChoice();
+      } else {
+        $('#date-error').show();
+      }
+    });
 	}
 
 	function showTimeChoice() {
-		const modalContents = $('.modal-contents');
-		const modalButtons = $('.modal-buttons');
+	  const modalContents = $('.modal-contents');
+	  const modalButtons = $('.modal-buttons');
+	  const storedDate = localStorage.getItem('selectedDate');
 
-		const storedDate = localStorage.getItem('selectedDate');
-		selectedDate = storedDate;
+	  if (storedDate) {
+	    modalContents.html(`
+	      <div class="time-choice">
+	        <h3 class="choice-title">예약 날짜</h3>
+	        <p class="selected-date"></p>  
+	        <h3 class="choice-title time">진료 시간</h3>
+	        <div class="time-buttons">
+	          <button class="time-btn">오전</button>
+	          <button class="time-btn">오후</button>
+	        </div>
+	        <p id="date-error" class="date-error" style="display: none;">시간은 반드시 선택해야 합니다. ❗</p>
+	      </div>
+	    `);
 
-		if (storedDate) {
-			modalContents.html(`
-				<div class="time-choice">
-					<h3 class="choice-title">예약 날짜</h3>
-					<p class="selected-date">${storedDate}</p>
-					<h3 class="choice-title">진료 시간</h3>
-					<div class="time-buttons">
-						<button class="time-btn">오전</button>
-						<button class="time-btn">오후</button>
-					</div>
-					<p id="date-error" class="date-error" style="display: none;">시간은 반드시 선택해야 합니다. ❗</p>
-				</div>
-			`);
-
-			modalButtons.html(`
-				<button class="modal-btn prev-btn timeselectprev" id="prev-btn">이전</button>
-				<button class="modal-btn next-btn timeselectnext" id="next-btn">다음</button>
-			`);
-
-			$(document).off('click', '.timeselectprev').on('click', '.timeselectprev', function() {
-				showDayChoice();
-			});
-		} else {
-			$('#date-error').show();
-		}
+	    $('.selected-date').text(storedDate);
+	    modalButtons.html(`
+	      <button class="modal-btn prev-btn timeselectprev" id="prev-btn">이전</button>
+	      <button class="modal-btn next-btn timeselectnext" id="next-btn">다음</button>
+	    `);
+	    $(document).off('click', '.timeselectprev').on('click', '.timeselectprev', function() {
+	      showDayChoice();
+	    });
+	  } else {
+	    $('#date-error').show();
+	  }
 	}
 
 	$(() => {
 		initFlatpickr();
-
 		$('.booking-btn').on('click', function() {
 			openModal();
 		});
-
 		$(document).on('click', '.selectdaynext', function() {
 			if (localStorage.getItem('selectedDate')) {
 				showTimeChoice();
@@ -133,16 +134,13 @@
 				$('#date-error').show();
 			}
 		});
-
 		$(document).on('click', '.timeselectprev', function() {
 			showDayChoice();
 		});
-
 		$(document).on('click', '.selectdayprev', function() {
 			$('.modal-wrap').css('bottom', '-660px');
 			$('.booking-modal').fadeOut(100);
 		});
-
 		$(document).on('click', '.time-btn', function() {
 			$('.time-btn').removeClass('active');
 			$(this).addClass('active');
@@ -154,7 +152,6 @@
 	<jsp:include page="/components/header.jsp" />
 	<div class="inner">
 		<main class="main-content">
-			<!-- 병원 대표 이미지 -->
 			<section class="hopital-main-img">
 				<div class="hospital-img-wrap">
 					<img src="/img/hospital_main.jpg" alt="병원 대표 이미지" />
@@ -163,8 +160,8 @@
 			<hr class="section-divider">
 			<div class="hospital-header">
 				<div class="hospital-title-wrap">
-					<h1 class="hospital-title">화평한병원</h1>
-					<p class="hospital-specialty">내과</p>
+					<h1 class="hospital-title">${hospital.hTitle}</h1>
+					<p class="hospital-specialty">${hospital.hDepartment}</p>
 				</div>
 				<div class="hospital-state-wrap">
 					<img src="/img/MedicalStatement_ing.png" alt="병원 상태">
@@ -299,7 +296,7 @@
 		
 		<div class="booking-modal" id="booking-modal">
 			<div class="modal-wrap">
-				<div class="modal-title">예약하기(병원이름)</div>
+				<div class="modal-title"></div>
 				<div class="modal-contents">
 					<div class="date-choice">
 						<h3 class="choice-title">요일 선택</h3>
