@@ -25,7 +25,11 @@ public class BookingDAO {
 	public void deleteBooking(int bNum) throws Exception {
 		session.delete(NS + "deleteBooking", bNum);
 	}
-
+	
+	public void updateBookingStatus(Map map) throws Exception {
+		session.update(NS + "updateBookingStatus",map);
+	}
+	
 	public List<Booking> searchBookingByMember(int mNum) throws Exception {
 		return session.selectList(NS + "searchBookingByMember", mNum);
 	}

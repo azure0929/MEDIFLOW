@@ -1,6 +1,8 @@
 package com.service.spring.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.service.spring.domain.Booking;
 import com.service.spring.domain.Member;
+import com.service.spring.domain.Review;
 import com.service.spring.service.BookingService;
 import com.service.spring.service.MemberService;
+import com.service.spring.service.ReviewService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -22,7 +26,9 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private BookingService bookingService;
-
+	@Autowired 
+	private ReviewService reviewService;
+	
 	// 로그인
 	@PostMapping("/login")
 	public String login(Member member, HttpSession session) {
@@ -32,7 +38,7 @@ public class MemberController {
 			if (loggedInMember != null) {
 				session.setAttribute("loggedInMember", loggedInMember);
 				if ("admin".equals(loggedInMember.getmId())) {
-					return "redirect:/admin/adminMain.jsp";
+					return "redirect:/admin/adminMain";
 				} else {
 					return "redirect:/index.jsp"; 
 				}
@@ -132,5 +138,35 @@ public class MemberController {
             e.printStackTrace();
             return "redirect:/member/mypage?error=booking_failed";
         }
+    }
+    
+    //예약내역 삭제하는 메서드
+    @GetMapping("/mypage/deleteBooking")
+    public String deleteBooking(int bNum) {
+    	try {
+    		bookingService.deleteBooking(bNum);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return "redirect:/member/bookings";
+    }
+    
+    //리뷰를 등록하는 메서드 (리뷰등록시 예약상태2로 변경)
+    @PostMapping("/mypage/reviewRegister")
+    public String insertReview(Review review) {
+    	System.out.println(review);
+    	System.out.println(review.getBooking().getbNum());
+    	Map<String,Integer> map = new HashMap<>();
+    	map.put("Status",2);
+		map.put("bNum",review.getBooking().getbNum());
+    	try {
+    		reviewService.insertReview(review);
+    		bookingService.updateBookingStatus(map);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return "redirect:/member/bookings";
     }
 }
