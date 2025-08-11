@@ -313,7 +313,8 @@
 		
 		// 단일 병원 상세 페이지 - 예약하기 버튼 클릭 시
 		$('.booking-btn').on('click', function() {
-			openModal();
+			// openModal();
+			resultresverve();
 		});
 		
 		// 예약일자 선택 모달 - 다음 버튼 클릭 시
