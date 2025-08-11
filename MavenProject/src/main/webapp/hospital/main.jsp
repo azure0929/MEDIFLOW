@@ -12,7 +12,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css" />
 <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
-
 </head>
 <body>
 	<div class="inner">
@@ -20,18 +19,18 @@
 
 		<main class="main-content">
 
-			<form action="/search" method="get" class="search-form">
+			<form action="/hospital/search/result" method="get" class="search-form">
 				<div class="custom-select-wrap">
 					<select name="searchType" id="search-type" class="custom-select">
-						<option value="all" selected>전체 검색</option>
-						<option value="hospitalName">병원이름</option>
-						<option value="location">지역</option>
-						<option value="specialty">진료과목</option>
+						<option value="all" disabled selected>선택하세요</option>
+						<option value="hospitalName" >병원이름</option>
+						<option value="location" >지역</option>
+						<option value="specialty" >진료과목</option>
 					</select>
 					<span class="icon-arrow"><img alt="icon-arrow" src="/img/arrow-down.svg"></span>
 				</div>
 			    <div class="search-input-wrap">
-			        <input type="text" name="keyword" id="search-keyword" class="search-input" placeholder="병원이름, 지역, 진료과 검색해보세요">
+			        <input type="text"  name="keyword" id="search-keyword" class="search-input" placeholder="병원이름, 지역, 진료과 검색해보세요">
 			        <button type="submit" class="search-button">
 			            <span class="material-symbols-outlined">search</span>
 			        </button>

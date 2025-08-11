@@ -132,13 +132,13 @@
 	/*
 	display: flex;
 	justify-content: space-between;
-	gap: 24px;
 	width: 100%;
 	height: 100%;*/
 	/* gap: 28px; */
 	display: flex;
 	width: 100%;
 	height: 100%;
+	gap: 24px;
 }
 
 .card-image {
@@ -162,7 +162,6 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	margin-left: 24px;
 	flex-grow: 1; /* 남는 공간을 모두 차지하도록 */
 }
 

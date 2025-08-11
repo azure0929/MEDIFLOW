@@ -15,6 +15,10 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+<!-- Copy Button 전용 외부 css, script -->	
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
@@ -154,7 +158,7 @@
 		<main class="main-content">
 			<section class="hopital-main-img">
 				<div class="hospital-img-wrap">
-					<img src="/img/hospital_main.jpg" alt="병원 대표 이미지" />
+					<img src="${hospital.hUrl}" alt="병원 대표 이미지" />
 				</div>
 			</section>
 			<hr class="section-divider">
@@ -227,19 +231,18 @@
 			<section class="info-section-wrap">
 				<h2 class="section-title">병원 위치</h2>
 				<div class="info-location-wrap">
-					<p class="hospital-location">📍 서울특별시 강남구 테헤란로 110 5층 501호
-						(역삼동, 켐브리지빌딩)</p>
-					<button class="copy">복사</button>
+					<p class="hospital-location" id="location-${hospital.hNum}">${hospital.hAddress}</p>
+					<sl-copy-button id="copyBtn" from="location-${hospital.hNum}" copy-label="클릭하여 복사하기" success-label="복사하였습니다." error-label="이런, 복사에 실패하였습니다!"> 
+					</sl-copy-button>
 				</div>
 				<div class="info-map">[지도 API 영역]</div>
 			</section>
 			<hr class="section-divider">
 			<section class="info-section-wrap">
 				<h2 class="section-title">병원 소개</h2>
-				<p class="info-list-item">
-					환자의 건강을 최우선으로 생각하는 병원입니다. <br> 친절함과 정확한 진료로, 환자 치료에 전념합니다. <br>
-					지하철역 2번 출구에서 100m 대로변 따라 직진 후 1층 약국 건물 5층입니다.
-				</p>
+				<div class="info-contents-wrap">
+					<pre class="info-list-item">${hospital.hContent}</pre>
+				</div>
 			</section>
 			<hr class="section-divider">
 			<section class="info-section-wrap">
