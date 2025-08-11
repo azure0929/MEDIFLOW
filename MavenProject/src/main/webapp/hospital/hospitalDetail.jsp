@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.service.spring.domain.Member" %>
+<%@ page import="com.service.spring.domain.Member"%>
 <%
     Member loggedInMember = (Member) session.getAttribute("loggedInMember");
 		String memberName = (loggedInMember != null) ? loggedInMember.getmName() : "비회원";
@@ -20,8 +20,10 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css" />
-<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css" />
+<script type="module"
+	src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -313,8 +315,7 @@
 		
 		// 단일 병원 상세 페이지 - 예약하기 버튼 클릭 시
 		$('.booking-btn').on('click', function() {
-			// openModal();
-			resultresverve();
+			openModal();
 		});
 		
 		// 예약일자 선택 모달 - 다음 버튼 클릭 시
@@ -437,15 +438,16 @@
 				<h2 class="section-title">병원 위치</h2>
 				<div class="info-location-wrap">
 					<p class="hospital-location" id="location-${hospital.hNum}">${hospital.hAddress}</p>
-					<sl-copy-button id="copyBtn" from="location-${hospital.hNum}" copy-label="클릭하여 복사하기" success-label="복사하였습니다." error-label="이런, 복사에 실패하였습니다!"> 
-					</sl-copy-button>
+					<sl-copy-button id="copyBtn" from="location-${hospital.hNum}"
+						copy-label="클릭하여 복사하기" success-label="복사하였습니다."
+						error-label="이런, 복사에 실패하였습니다!"> </sl-copy-button>
 				</div>
 				<div id="map" class="info-map">[지도 API 영역]</div>
 			</section>
 			<hr class="section-divider">
 			<section class="info-section-wrap">
 				<h2 class="section-title">병원 소개</h2>
-					<pre class="info-list-item">${hospital.hContent}</pre>
+				<pre class="info-list-item">${hospital.hContent}</pre>
 			</section>
 			<hr class="section-divider">
 			<section class="info-section-wrap">
@@ -453,28 +455,29 @@
 					<h2 class="section-title">병원 리뷰</h2>
 					<p class="review-all-count">총 ${totalReviewCount}개</p>
 				</div>
-				
+
 				<div class="review-bar-wrap">
 					<c:choose>
-					     <%-- 리뷰가 있을 때 --%>
+						<%-- 리뷰가 있을 때 --%>
 						<c:when test="${totalReviewCount == 0}">
-				      		<div class="review-empty">아직 등록된 리뷰가 없습니다.</div>
+							<div class="review-empty">아직 등록된 리뷰가 없습니다.</div>
 						</c:when>
 						<c:otherwise>
-							<c:set var="safeTotal" value="${totalReviewCount > 0 ? totalReviewCount : 1}" />
+							<c:set var="safeTotal"
+								value="${totalReviewCount > 0 ? totalReviewCount : 1}" />
 							<c:forEach var="contents" items="${reviewCounts}">
 								<c:set var="count" value="${contents.value}" />
-								<c:set var="percentage" value="${(count * 100.0) / safeTotal}" />	
+								<c:set var="percentage" value="${(count * 100.0) / safeTotal}" />
 								<div class="review-progress-bar">
 									<div class="review-content">
-										<img src="/img/doctor.png" /> 
-										<span class="review-label">${contents.key}</span>
+										<img src="/img/doctor.png" /> <span class="review-label">${contents.key}</span>
 									</div>
-									
-									<div class="review-progress-fill" style="width: ${percentage}%;"></div>
+
+									<div class="review-progress-fill"
+										style="width: ${percentage}%;"></div>
 									<div class="review-count">${count}개</div>
 								</div>
-							</c:forEach>					
+							</c:forEach>
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -482,7 +485,7 @@
 			<hr class="section-divider">
 			<button class="booking-btn" onclick="openModal()">예약하기</button>
 		</main>
-		
+
 		<div class="booking-modal" id="booking-modal">
 			<div class="modal-wrap">
 				<div class="modal-title"></div>
@@ -490,7 +493,8 @@
 					<div class="date-choice">
 						<h3 class="choice-title">요일 선택</h3>
 						<div id="calendar"></div>
-						<p id="date-error" class="date-error" style="display: none;">날짜는 반드시 선택해야 합니다. ❗</p>
+						<p id="date-error" class="date-error" style="display: none;">날짜는
+							반드시 선택해야 합니다. ❗</p>
 					</div>
 				</div>
 				<div class="modal-buttons">
@@ -499,76 +503,77 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 	<jsp:include page="/components/footer.jsp" />
-<script>
-function collectAddresses() {
-	  const nodes = document.querySelectorAll('.hospital-location');
-	  const addresses = [...nodes]
-	    .map(el => el.dataset.address?.trim() || el.textContent.replace(/^📍\s*/, '').trim())
-	    .filter(a => a && a.length > 0);
-
-	  // (옵션) 중복 제거
-	  return [...new Set(addresses)];
-	}
-function loadKakaoMap() {
-  const script = document.createElement('script');
-  script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=05a7077a5f466aaa4ba854dc2c6e035a&autoload=false&libraries=services";
-  script.onload = function () {
-    console.log("✅ Kakao SDK 로딩 완료");
-    kakao.maps.load(initMap); // 이제 kakao가 정의되어 있음
-  };
-  script.onerror = function () {
-    console.error("❌ Kakao Maps SDK 로딩 실패");
-  };
-  document.head.appendChild(script);
-}
-
-function initMap() {
-	  console.log("🗺 initMap 실행");
-
-	  const geocoder = new kakao.maps.services.Geocoder();
-	  const map = new kakao.maps.Map(document.getElementById('map'), {
-	    center: new kakao.maps.LatLng(37.5665, 126.9780), // 임시 센터(시청)
-	    level: 5
-	  });
+	
+	<script>
+		function collectAddresses() {
+			  const nodes = document.querySelectorAll('.hospital-location');
+			  const addresses = [...nodes]
+			    .map(el => el.dataset.address?.trim() || el.textContent.replace(/^📍\s*/, '').trim())
+			    .filter(a => a && a.length > 0);
 		
-	  const addresses = collectAddresses();
-	  const bounds = new kakao.maps.LatLngBounds();
-	  const infoWindows = [];
-
-	  addresses.forEach((address) => {
-	    geocoder.addressSearch(address, function(result, status) {
-	      if (status !== kakao.maps.services.Status.OK) return;
-
-	      const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	      bounds.extend(coords);
-
-	      const marker = new kakao.maps.Marker({
-	        map: map,
-	        position: coords
-	      });
-
-	      const infowindow = new kakao.maps.InfoWindow({
-	        content: `<div style="width:auto;padding:5px;font-size:13px;">${hospital.hTitle}</div>`
-	      });
-	      infoWindows.push(infowindow);
-
-	      // 마커 클릭 시 해당 인포윈도우만 열리게
-	      kakao.maps.event.addListener(marker, 'click', function() {
-	        infoWindows.forEach(iw => iw.close());
-	        infowindow.open(map, marker);
-	      });
-
-	      // 모든 마커가 보이도록 영역 맞춤
-	      map.setBounds(bounds);
-	    });
-	  });
-	}
-
-// 🔄 이 시점에서 kakao가 아직 정의 안 됐으므로 SDK 동적 로딩
-window.onload = loadKakaoMap;
+			  // (옵션) 중복 제거
+			  return [...new Set(addresses)];
+			}
+		function loadKakaoMap() {
+		  const script = document.createElement('script');
+		  script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=05a7077a5f466aaa4ba854dc2c6e035a&autoload=false&libraries=services";
+		  script.onload = function () {
+		    console.log("✅ Kakao SDK 로딩 완료");
+		    kakao.maps.load(initMap); // 이제 kakao가 정의되어 있음
+		  };
+		  script.onerror = function () {
+		    console.error("❌ Kakao Maps SDK 로딩 실패");
+		  };
+		  document.head.appendChild(script);
+		}
+		
+		function initMap() {
+			  console.log("🗺 initMap 실행");
+		
+			  const geocoder = new kakao.maps.services.Geocoder();
+			  const map = new kakao.maps.Map(document.getElementById('map'), {
+			    center: new kakao.maps.LatLng(37.5665, 126.9780), // 임시 센터(시청)
+			    level: 5
+			  });
+				
+			  const addresses = collectAddresses();
+			  const bounds = new kakao.maps.LatLngBounds();
+			  const infoWindows = [];
+		
+			  addresses.forEach((address) => {
+			    geocoder.addressSearch(address, function(result, status) {
+			      if (status !== kakao.maps.services.Status.OK) return;
+		
+			      const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			      bounds.extend(coords);
+		
+			      const marker = new kakao.maps.Marker({
+			        map: map,
+			        position: coords
+			      });
+		
+			      const infowindow = new kakao.maps.InfoWindow({
+			        content: `<div style="width:auto;padding:5px;font-size:13px;">${hospital.hTitle}</div>`
+			      });
+			      infoWindows.push(infowindow);
+		
+			      // 마커 클릭 시 해당 인포윈도우만 열리게
+			      kakao.maps.event.addListener(marker, 'click', function() {
+			        infoWindows.forEach(iw => iw.close());
+			        infowindow.open(map, marker);
+			      });
+		
+			      // 모든 마커가 보이도록 영역 맞춤
+			      map.setBounds(bounds);
+			    });
+			  });
+			}
+		
+		// 🔄 이 시점에서 kakao가 아직 정의 안 됐으므로 SDK 동적 로딩
+		window.onload = loadKakaoMap;
 </script>
 </body>
 </html>
