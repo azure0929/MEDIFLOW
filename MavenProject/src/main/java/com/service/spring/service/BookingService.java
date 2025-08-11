@@ -24,7 +24,11 @@ public class BookingService {
 	public void deleteBooking(int bNum) throws Exception {
 		bookingDAOp.deleteBooking(bNum);
 	}
-
+	
+	public void updateBookingStatus(Map map) throws Exception {
+		bookingDAOp.updateBookingStatus(map);
+	}
+	
 	public List<Booking> searchBookingByMember(int mNum) throws Exception {
 		return bookingDAOp.searchBookingByMember(mNum);
 	}
