@@ -328,12 +328,14 @@
 	background-color: #ffffff;
 	border-radius: 20px 20px 0 0;
 	transition: .6s;
-	padding: 40px;
+	padding: 0 40px;
 	box-sizing: border-box;
 }
 
 .booking-modal .modal-wrap .modal-title {
 	font-size: 24px;
+	height: 56px;
+	line-height: 3rem;
 	text-align: center;
 	margin-bottom: 20px;
 }
@@ -448,7 +450,7 @@
 	display: flex;
 	gap: 16px;
 	justify-content: center;
-	margin: 34px 0;
+	margin: 54px auto 32px;
 }
 .modal-buttons .modal-btn {
 	height: 56px;
@@ -469,6 +471,7 @@
 /* 진료 시간 선택 버튼 */
 .time-choice {
 	text-align: center;
+	margin: 138px 0 104px 0;
 }
 .time-choice .choice-title {
 	font-size: 24px;
@@ -498,6 +501,7 @@
 /* 예약 확인 */
 .confirmation-wrap {
 	width: 300px;
+	margin-top: 86px;
 }
 .confirmation-lists {
 	width: 100%;
@@ -559,6 +563,7 @@
 	font-size: 26px;
 	padding: 0 50px;
 	line-height: 130%;
+	margin-top: 40px;
 }
 .result-message-wrap .result-message-title p span.user-value {
 	color: var(--primary-color);
@@ -612,6 +617,7 @@
 	margin-top: 54px;
 	display: flex;
 	gap: 14px;
+	align-items: center;
 	padding: 20px 30px;
 	background-color: #E3F5FF;
 	border-radius: 20px;
@@ -624,6 +630,7 @@
 .reservestatebtns {
 	display: flex;
 	justify-content: center;
+	margin-bottom: 32px;
 }
 .reservestatebtns .reservestatebtn-success {
 	margin-top: 44px;
