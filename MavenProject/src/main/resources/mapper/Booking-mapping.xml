@@ -44,6 +44,14 @@
 	<update id="updateBookingStatus" parameterType="map">
 		UPDATE BOOKING SET B_STATUS = #{Status} WHERE B_NUM = #{bNum}
 	</update>
+	
+	<!-- 스케줄러 활용한 예약수정 자동 -->
+    <update id="autoUpdateBookingStatus">
+        UPDATE BOOKING
+        SET B_STATUS = 1
+        WHERE B_DATE &lt; CURDATE() AND B_STATUS = 0;
+    </update>
+	
 	<!-- 회원별 예약조회 -->
 	<select id="searchBookingByMember" parameterType="int" resultMap="bookingRM">
 		SELECT B.B_NUM, H.H_NUM, H.H_DEPARTMENT, H.H_DISTRICT, B.B_DATE, B.B_TIME, M.M_NUM, H.H_URL, H.H_TITLE, B.B_Status
