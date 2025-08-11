@@ -123,7 +123,7 @@ public class MemberController {
     public String getBookingsByMember(Model model, HttpSession session) {
         Member loggedInMember = (Member) session.getAttribute("loggedInMember");
         if (loggedInMember == null) {
-        	return "redirect:/login.jsp";
+        	return "redirect:/member/login.jsp";
         }
         
         try {
