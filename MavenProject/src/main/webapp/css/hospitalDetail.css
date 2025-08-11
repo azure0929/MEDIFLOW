@@ -231,6 +231,10 @@
 	/* color: var(--text-color); */
 	color: #393939;
 	line-height: 1.4;
+	white-space: pre-wrap;        /* 개행 유지 + 줄바꿈 허용 */
+	overflow-wrap: anywhere;      /* 긴 단어/URL 강제 줄바꿈 (현대 브라우저) */
+	word-break: break-word;       /* 구형 브라우저 호환 */
+	max-width: 100%;
 }
 
 .section-title-wrap {
