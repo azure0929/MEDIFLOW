@@ -148,12 +148,6 @@
 .reserveinfo .reservelists .reservelist .reservecontent .reservetime {
 	margin-right: 66px;
 }
-.reserveinfo .reservelists .reservelist form .reservetime input {
-	width: 34px;
-}
-.reserveinfo .reservelists .reservelist form .reservedate input {
-	width: 112px;
-}
 .reserveinfo .reservelists .reservelist .reservecontent .hospitalinfo {
 	display: flex;
 	align-items: center;
