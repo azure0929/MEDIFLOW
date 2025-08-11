@@ -34,11 +34,11 @@
 			$(this).addClass('active');
 			let selectedPain = $(this).val();
 			// hidden 채우고 제출
-		    $('#district').val(selectedDistrict);
-		    $('#pain').val(selectedPain);
-		    $('#searchForm').trigger('submit');
-		})
-	})// ready
+	    $('#district').val(selectedDistrict);
+	    $('#pain').val(selectedPain);
+	    $('#searchForm').trigger('submit');
+		});
+	})
 </script>
 
 </head>
