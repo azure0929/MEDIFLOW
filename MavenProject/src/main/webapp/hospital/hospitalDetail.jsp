@@ -20,7 +20,6 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-<!-- Copy Button 전용 외부 css, script -->	
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css" />
 <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
 
@@ -39,6 +38,7 @@
 	const loggedInMemberName = "<%= memberName %>";
 	const loggedInMemberNum = "<%= loggedInMember != null ? loggedInMember.getmNum() : 0 %>";
 
+	// 예약하기 버튼 클릭 시 처음 나타나는 모달
 	function openModal() {
 		if (flatpickrInstance) {
 			flatpickrInstance.destroy();
@@ -54,6 +54,7 @@
 		initFlatpickr();
 	}
 
+	// Flatpickr 설정 함수
 	function initFlatpickr() {
 		flatpickrInstance = flatpickr("#calendar", {
 			locale: "ko",
@@ -68,6 +69,7 @@
 		});
 	}
 
+	// 예약일자 선택 모달
 	function showDayChoice() {
 		const modalContents = $('.modal-contents');
 		const modalButtons = $('.modal-buttons');
@@ -103,6 +105,7 @@
     });
 	}
 
+	// 진료 시간 선택 모달
 	function showTimeChoice() {
 	  const modalContents = $('.modal-contents');
 	  const modalButtons = $('.modal-buttons');
@@ -123,12 +126,14 @@
 	    `);
 
 	    $('.selected-date').text(storedDate);
+	    
 	    modalButtons.html(`
 	      <button class="modal-btn prev-btn timeselectprev" id="prev-btn">이전</button>
 	      <button class="modal-btn next-btn timeselectnext" id="next-btn">다음</button>
 	    `);
 	    
 	    $('#time-error').hide();
+	    
 	    $('.time-btn').on('click', function() {
 	      $('.time-btn').removeClass('active');
 	      $(this).addClass('active');
@@ -136,10 +141,12 @@
 	      localStorage.setItem('selectedTime', selectedTime);
 	    });
 	    
+	    // 이전 버튼 클릭 시
 	    $(document).on('click', '.timeselectprev').on('click', '.timeselectprev', function() {
 	    	showDayChoice();
 	    });
 	    
+	    // 다음 버튼 클릭 시
 	    $(document).on('click', '.timeselectnext').on('click', '.timeselectnext', function() {
 	    	if (selectedTime) {
 					showConfirmation();
@@ -152,6 +159,7 @@
 	  }
 	}
 	
+	// 예약 확인 모달
 	function showConfirmation() {
 	  const modalContents = $('.modal-contents');
 	  const modalButtons = $('.modal-buttons');
@@ -195,13 +203,8 @@
       <button class="reservestatebtn reservestatebtn-cancle">취소</button>
 	  `);
 	
-	  $('.reservestatebtn-cancle').on('click', function() {
-      $('.modal-wrap').css('bottom', '-660px');
-      $('.booking-modal').fadeOut(100);
-	  });
-	
+	  // 예약 확인 버튼 클릭 시
 	  $('.reservestatebtn-confirm').on('click', function() {
-		  // 예약 확인 콘텐츠 로직
 		  const hDate = localStorage.getItem('selectedDate');
 		  const hTime = localStorage.getItem('selectedTime');
 		  
@@ -216,24 +219,27 @@
 			  },
 			  success: function(response) {
 				  if(response === 'success') {
-					  resultresverve(); // 예약 성공 시 알림 대신 이 함수 호출
+					  resultresverve();
 				  } else {
-					  alert('예약 실패!');
+					  alert('예약 실패했습니다!');
 				  }
 			  },
-			  error: function() {
-				  alert('통신 오류. 다시 시도해 주세요.');
-			  }
 		  });
+	  });
+	  
+		// 예약 취소 버튼 클릭 시
+	  $('.reservestatebtn-cancle').on('click', function() {
+      $('.modal-wrap').css('bottom', '-660px');
+      $('.booking-modal').fadeOut(100);
 	  });
 	}
 	
+	// 예약 성공 결과 모달
 	function resultresverve() {
 		const modalWrap = $('.modal-wrap');
 		const hDate = localStorage.getItem('selectedDate');
 		const hTime = localStorage.getItem('selectedTime');
 
-		// 모달 내용 변경: 예약 성공 메시지
 		modalWrap.html(`
 			<div class="result-message-wrap">
 				<div class="result-message-title">
@@ -295,6 +301,7 @@
 	  $('.day-value').text(hDate);
 	  $('.time-value').text(hTime);
 	  
+	  // 확인 버튼 클릭 시
 	  $('.reservestatebtn-success').on('click', function() {
 		  $('.booking-modal').fadeOut(100);
 		  $('.modal-wrap').css('bottom', '-660px');
@@ -303,9 +310,14 @@
 
 	$(() => {
 		initFlatpickr();
+		
+		// 단일 병원 상세 페이지 - 예약하기 버튼 클릭 시
 		$('.booking-btn').on('click', function() {
-			openModal();
+			// openModal();
+			resultresverve();
 		});
+		
+		// 예약일자 선택 모달 - 다음 버튼 클릭 시
 		$(document).on('click', '.selectdaynext', function() {
 			if (localStorage.getItem('selectedDate')) {
 				showTimeChoice();
@@ -313,13 +325,14 @@
 				$('#date-error').show();
 			}
 		});
-		$(document).on('click', '.timeselectprev', function() {
-			showDayChoice();
-		});
+		
+		// 예약일자 선택 모달 - 이전 버튼 클릭 시
 		$(document).on('click', '.selectdayprev', function() {
 			$('.modal-wrap').css('bottom', '-660px');
 			$('.booking-modal').fadeOut(100);
 		});
+		
+		// 진료 시간 선택 모달 - 진료 시간 버튼 클릭 시
 		$(document).on('click', '.time-btn', function() {
 			$('.time-btn').removeClass('active');
 			$(this).addClass('active');
@@ -328,12 +341,18 @@
 			$('#time-error').hide();
 		});
 		
+		// 진료 시간 선택 모달 - 다음 버튼 클릭 시
 		$(document).on('click', '.timeselectnext', function() {
 			if (localStorage.getItem('selectedTime')) {
 				showConfirmation();
 			} else {
 				$('#time-error').show();
 			}
+		});
+		
+		// 진료 시간 선택 모달 - 이전 버튼 클릭 시
+		$(document).on('click', '.timeselectprev', function() {
+			showDayChoice();
 		});
 	});
 </script>
