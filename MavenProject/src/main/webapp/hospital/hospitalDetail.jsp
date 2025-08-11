@@ -458,7 +458,7 @@
 
 				<div class="review-bar-wrap">
 					<c:choose>
-						<%-- 리뷰가 있을 때 --%>
+					     <%-- 리뷰가 없을 때 --%>
 						<c:when test="${totalReviewCount == 0}">
 							<div class="review-empty">아직 등록된 리뷰가 없습니다.</div>
 						</c:when>

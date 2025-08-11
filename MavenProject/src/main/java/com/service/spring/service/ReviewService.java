@@ -36,33 +36,12 @@ public class ReviewService {
 	public Map<String, Integer> countReviewByContent(int hNum)throws Exception {
 		
 		List<Map<String, Object>> list = reviewDAO.countReviewByContent(hNum);
-		Map<String, Integer> result = new LinkedHashMap<>();
-		
-		// 기본 0으로 Set
-		for(String label : CATEGORY_ORDER) result.put(label, 0);
-		 
-		for(Map<String, Object> row : list) {
-			String content = (String) row.get("R_CONTENT");
-			Number count =(Number) row.get("count"); 
-			
-			if(content != null && result.containsKey(content)) {
-				result.put(content, count.intValue());
-			}
-		}
+		 Map<String, Integer> result = new LinkedHashMap<>();
+		    for (Map<String, Object> row : list) {
+		        String content = (String) row.get("R_CONTENT");
+		        Integer count =((Number) row.get("count")).intValue(); 
+		        result.put(content, count);
+		    }
 		return result;
-	}
-	
-    // 총 리뷰 수 (합산)
-    public int getTotalReviewCountByHospital(int hNum) throws Exception {
-        Map<String, Integer> m = countReviewByContent(hNum);
-        int sum = 0;
-        for (int v : m.values()) sum += v;
-        return sum;
-    }
-
-    public List<String> getCategoryOrder() {
-        return CATEGORY_ORDER;
-    }
-	
-	
+	}	
 }
