@@ -16,6 +16,15 @@ public class ReviewService {
 	@Autowired
 	ReviewDAO reviewDAO;
 	
+    // DB R_CONTENT 값과 정확히 일치해야 함(공백/슬래시/띄어쓰기 주의)
+    private static final List<String> CATEGORY_ORDER = List.of(
+        "친절한 의사 선생님",
+        "전문적인 치료",
+        "상냥한 간호사 / 직원",
+        "깨끗한 시설",
+        "편한 교통 주차"
+    );
+	
 	public void insertReview(Review review)throws Exception {
 		reviewDAO.insertReview(review);
 	}
@@ -27,13 +36,33 @@ public class ReviewService {
 	public Map<String, Integer> countReviewByContent(int hNum)throws Exception {
 		
 		List<Map<String, Object>> list = reviewDAO.countReviewByContent(hNum);
-		 Map<String, Integer> result = new LinkedHashMap<>();
-		    for (Map<String, Object> row : list) {
-		        String content = (String) row.get("R_CONTENT");
-		        Integer count =((Number) row.get("count")).intValue(); 
-		        result.put(content, count);
-		    }
+		Map<String, Integer> result = new LinkedHashMap<>();
+		
+		// 기본 0으로 Set
+		for(String label : CATEGORY_ORDER) result.put(label, 0);
+		 
+		for(Map<String, Object> row : list) {
+			String content = (String) row.get("R_CONTENT");
+			Number count =(Number) row.get("count"); 
+			
+			if(content != null && result.containsKey(content)) {
+				result.put(content, count.intValue());
+			}
+		}
 		return result;
-				
 	}
+	
+    // 총 리뷰 수 (합산)
+    public int getTotalReviewCountByHospital(int hNum) throws Exception {
+        Map<String, Integer> m = countReviewByContent(hNum);
+        int sum = 0;
+        for (int v : m.values()) sum += v;
+        return sum;
+    }
+
+    public List<String> getCategoryOrder() {
+        return CATEGORY_ORDER;
+    }
+	
+	
 }
