@@ -28,7 +28,7 @@
     <jsp:include page="/components/sidebar.jsp" />
 	<div class="main">
 		<div class="top-bar">
-			<div class="logout"><a href="#">로그아웃</a></div>
+			<div class="logout"><a href="/logout">로그아웃</a></div>
 		</div>
 		<div class="dash-menu-bar">
 			<button id="ageChart" class="dash-menu-active" onclick="ageChart()">회원연령별 예약통계</button>

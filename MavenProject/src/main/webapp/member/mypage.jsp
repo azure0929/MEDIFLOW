@@ -11,7 +11,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-	$(() => {
+$(() => {
 		// 폰넘버 유효성 검사 - RangeError 해결
     const $phone = $('#phone');
     const phoneInputHandler = function () {
@@ -134,11 +134,12 @@
       $('#logoutModal').fadeOut(100);
     })
     
-    
+    let bNum=null; //버튼 클릭시 예약번호 가져오는 변수
     // 예약 취소 모달 - 예약 취소 버튼 클릭
     $('.reservecancle').on('click', function(e) {
       e.preventDefault(); 
       $('#reserveCancleModal').fadeIn(100);
+      bNum=$(this).data('bnum');
     });
     // 예약 취소 모달 - 예약 취소 모달 확인 버튼
     $(document).on('click', '.confirmreserveCancle', function() {
@@ -153,11 +154,17 @@
     // 예약 취소 모달 - 예약 취소 모달 닫기 버튼
     $(document).on('click', '.closereservemodal', function() {
       $('#reserveCancleModal').fadeOut(100);
+      window.location.href = "/mypage/deleteBooking?bNum="+bNum;
     })
 	
-    
+    let mNum=null; //버튼 클릭시 회원번호 가져오는 변수
+    let hNum=null; //버튼 클릭시 병원번호 가져오는 변수
     // 리뷰 모달 - '리뷰 작성' 버튼 클릭 시 리뷰 모달 열기
     $('.reviewbutton').on('click', function() {
+      bNum=$(this).data('bnum');
+      mNum=$(this).data('mnum');
+      hNum=$(this).data('hnum');
+      //alert("예약번호 : "+bNum+"회원번호 :"+mNum+"병원번호 : "+hNum);
       $('#reviewModal').fadeIn(100);
     });
     // 리뷰 모달 - 리뷰 항목 선택 시 스타일 변경
@@ -168,24 +175,36 @@
       $(this).addClass('active');
     });
     // 리뷰 모달 - '제출' 버튼 클릭 시
-    $('.submitReview').on('click', function() {
-      const selectedReview = $('.review-item.active').text();
-      if (!selectedReview) {
-          alert('리뷰를 선택해주세요.');
-          return;
-      }
-      alert('리뷰가 성공적으로 제출되었습니다.');
+   	$('#reviewForm').on('submit', function(e){
+   	 const selectedReview = $('.review-item.active').text().trim();
+   		if(!mNum || !hNum){
+   		    e.preventDefault();
+   		    alert('회원/병원 정보가 없습니다. 다시 시도해주세요.');
+   		    return;
+   		}
+   	  if (!selectedReview) {
+   	    e.preventDefault();
+   	    alert('리뷰를 선택해주세요.');
+   	    return;
+   	  }
+   	  $('#bNumField').val(bNum);
+      $('#mNumField').val(mNum);
+      $('#hNumField').val(hNum);
+      $('#rContentField').val(selectedReview);
+   	  alert('리뷰가 성공적으로 제출되었습니다.');
       
       $('#reviewModal').fadeOut(100);
       
       $('.status-message').css('display', 'block');
       $('.reservation-buttons').css('display', 'none');
-    });
+   	});
+  
     // 리뷰 모달 - '닫기' 버튼 클릭 시 
     $('.closeReview').on('click', function() {
+    	$('.review-item').removeClass('active');
     	$('#reviewModal').fadeOut(100);
-    })
-	})
+    });
+})
 </script>
 
 <title>MEDIFLOW</title>
@@ -247,11 +266,17 @@
 											<span>${booking.bTime}</span>
 										</div>
 										<div class="reservation-buttons">
-											<button type="button" class="reviewbutton">리뷰 작성</button>
-											<button type="button" class="reservecancle">예약 취소</button>
-										</div>
-										<div class="status-message" style="display: none;">
-											<span>진료 완료</span>
+											<c:if test="${booking.bStatus == 1}">
+											<button type="button" data-bNum="${booking.bNum}" data-hNum="${booking.hospital.hNum}" data-mNum="${booking.member.mNum}" class="reviewbutton">리뷰 작성</button>
+											</c:if>
+											<c:if test="${booking.bStatus == 0}">
+											<button type="button" data-bNum="${booking.bNum}" class="reservecancle">예약 취소</button>
+											</c:if>
+											<c:if test="${booking.bStatus == 2}">
+											<div class="status-message">
+												<span>진료 완료</span>
+											</div>
+											</c:if>
 										</div>
 									</form>
 								</li>
@@ -288,6 +313,13 @@
 		<div id="reviewModal" class="modal reviewmodal">
 			<div class="reviewmodal-content">
 				<p class="reviewmodal-title">리뷰를 선택해주세요.</p>
+				<form id="reviewForm" action="/mypage/reviewRegister" method="post">
+				
+					<input type="hidden" name="booking.bNum" id="bNumField">
+					<input type="hidden" name="member.mNum" id="mNumField">
+				    <input type="hidden" name="hospital.hNum" id="hNumField">
+				    <input type="hidden" name="rContent" id="rContentField">
+				
 				<ul class="review-options">
 					<li class="review-item">친절한 의사 선생님</li>
 					<li class="review-item">전문적인 치료</li>
@@ -299,6 +331,7 @@
 					<button type="submit" class="submitReview">제출</button>
 					<button type="button" class="closeReview">닫기</button>
 				</div>
+				</form>
 			</div>
 		</div>
 
