@@ -30,6 +30,10 @@ public class BookingDAO {
 		session.update(NS + "updateBookingStatus",map);
 	}
 	
+	public int autoUpdateBookingStatus()throws Exception{
+		return session.update(NS + "autoUpdateBookingStatus");
+	}
+	
 	public List<Booking> searchBookingByMember(int mNum) throws Exception {
 		return session.selectList(NS + "searchBookingByMember", mNum);
 	}

@@ -164,7 +164,7 @@ $(() => {
       bNum=$(this).data('bnum');
       mNum=$(this).data('mnum');
       hNum=$(this).data('hnum');
-      alert("예약번호 : "+bNum+"회원번호 :"+mNum+"병원번호 : "+hNum);
+      //alert("예약번호 : "+bNum+"회원번호 :"+mNum+"병원번호 : "+hNum);
       $('#reviewModal').fadeIn(100);
     });
     // 리뷰 모달 - 리뷰 항목 선택 시 스타일 변경
@@ -272,12 +272,12 @@ $(() => {
 											<c:if test="${booking.bStatus == 0}">
 											<button type="button" data-bNum="${booking.bNum}" class="reservecancle">예약 취소</button>
 											</c:if>
+											<c:if test="${booking.bStatus == 2}">
+											<div class="status-message">
+												<span>진료 완료</span>
+											</div>
+											</c:if>
 										</div>
-										<c:if test="${booking.bStatus == 2}">
-										<div class="status-message">
-											<span>진료 완료</span>
-										</div>
-										</c:if>
 									</form>
 								</li>
 							</c:forEach>

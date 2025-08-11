@@ -6,17 +6,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.service.spring.dao.BookingDAO;
 import com.service.spring.domain.Booking;
 
+import jakarta.annotation.PostConstruct;
+
 @Service
 public class BookingService {
-
+	
 	@Autowired
 	private BookingDAO bookingDAOp;
-
+	
 	public void insertBooking(Booking booking) throws Exception {
 		bookingDAOp.insertBooking(booking);
 	}
@@ -27,6 +30,22 @@ public class BookingService {
 	
 	public void updateBookingStatus(Map map) throws Exception {
 		bookingDAOp.updateBookingStatus(map);
+	}
+	
+	@PostConstruct //서버 실행시 바로 작동
+	public void runOnStartup() {
+	    autoUpdateBookingStatus(); // 스케줄러 메서드 호출
+	}
+	//실제 서비스에서는 이용완료 근거 필요하지만, 본 프로젝트는 단순화를 위해 시간 경과만으로 처리”라는 점을 문서에 명시
+	//매 분마다 스케줄러로 자동 실행
+	@Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul")
+	public void autoUpdateBookingStatus() {
+		try {
+			int updated = bookingDAOp.autoUpdateBookingStatus();
+			System.out.println("자동 상태변경 : " + updated+" 건");
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public List<Booking> searchBookingByMember(int mNum) throws Exception {
