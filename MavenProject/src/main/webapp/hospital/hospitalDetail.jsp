@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.service.spring.domain.Member" %>
+<%
+    Member loggedInMember = (Member) session.getAttribute("loggedInMember");
+		String memberName = (loggedInMember != null) ? loggedInMember.getmName() : "비회원";
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,9 +31,13 @@
 <script>
 	let selectedDate = null;
 	let flatpickrInstance = null;
-	// JSP에서 전달받은 병원 이름과 진료 과목을 JavaScript 변수로 저장합니다.
+	let selectedTime = null;
+
 	const hospitalTitle = "${hospital.hTitle}";
 	const hospitalDepartment = "${hospital.hDepartment}";
+	const hospitalNum = "${hospital.hNum}";
+	const loggedInMemberName = "<%= memberName %>";
+	const loggedInMemberNum = "<%= loggedInMember != null ? loggedInMember.getmNum() : 0 %>";
 
 	function openModal() {
 		if (flatpickrInstance) {
@@ -106,10 +115,10 @@
 	        <p class="selected-date"></p>  
 	        <h3 class="choice-title time">진료 시간</h3>
 	        <div class="time-buttons">
-	          <button class="time-btn">오전</button>
-	          <button class="time-btn">오후</button>
+	          <button class="time-btn" data-time="오전">오전</button>
+	          <button class="time-btn" data-time="오후">오후</button>
 	        </div>
-	        <p id="date-error" class="date-error" style="display: none;">시간은 반드시 선택해야 합니다. ❗</p>
+	        <p id="time-error" class="time-error">시간은 반드시 선택해야 합니다. ❗</p>
 	      </div>
 	    `);
 
@@ -118,12 +127,178 @@
 	      <button class="modal-btn prev-btn timeselectprev" id="prev-btn">이전</button>
 	      <button class="modal-btn next-btn timeselectnext" id="next-btn">다음</button>
 	    `);
-	    $(document).off('click', '.timeselectprev').on('click', '.timeselectprev', function() {
-	      showDayChoice();
+	    
+	    $('#time-error').hide();
+	    $('.time-btn').on('click', function() {
+	      $('.time-btn').removeClass('active');
+	      $(this).addClass('active');
+	      selectedTime = $(this).data('time');
+	      localStorage.setItem('selectedTime', selectedTime);
+	    });
+	    
+	    $(document).on('click', '.timeselectprev').on('click', '.timeselectprev', function() {
+	    	showDayChoice();
+	    });
+	    
+	    $(document).on('click', '.timeselectnext').on('click', '.timeselectnext', function() {
+	    	if (selectedTime) {
+					showConfirmation();
+				} else {
+					$('#time-error').show();
+				}
 	    });
 	  } else {
-	    $('#date-error').show();
+		  $('#time-error').show();
 	  }
+	}
+	
+	function showConfirmation() {
+	  const modalContents = $('.modal-contents');
+	  const modalButtons = $('.modal-buttons');
+	  const hDate = localStorage.getItem('selectedDate');
+	  const hTime = localStorage.getItem('selectedTime');
+	
+	  modalContents.html(`
+      <div class="confirmation-wrap">
+	      <ul class="confirmation-lists">
+          <div class="confirmation-list">
+		        <li class="confirmation-item">
+		          <p class="confirmation-label">예약자</p>
+		          <span class="user-value"></span>
+		        </li>
+		        <li class="confirmation-item">
+		          <p class="confirmation-label">진료 과목</p>
+		          <span class="department-value"></span>
+		        </li>
+          </div>
+          <div class="confirmation-list">
+	          <li class="confirmation-item">
+		          <p class="confirmation-label">예약 날짜</p>
+		          <span class="day-value"></span>
+		        </li>
+		        <li class="confirmation-item">
+		          <p class="confirmation-label">진료 시간</p>
+		          <span class="time-value"></span>
+		        </li>
+          </div>
+	      </ul>
+	      <p class="reserveconfirm-message">예약 하시겠습니까?</p>
+      </div>
+	  `);
+	
+	  $('.user-value').text(loggedInMemberName);
+	  $('.department-value').text(hospitalDepartment);
+	  $('.day-value').text(hDate);
+	  $('.time-value').text(hTime);
+	  modalButtons.html(`
+      <button class="reservestatebtn reservestatebtn-confirm">확인</button>
+      <button class="reservestatebtn reservestatebtn-cancle">취소</button>
+	  `);
+	
+	  $('.reservestatebtn-cancle').on('click', function() {
+      $('.modal-wrap').css('bottom', '-660px');
+      $('.booking-modal').fadeOut(100);
+	  });
+	
+	  $('.reservestatebtn-confirm').on('click', function() {
+		  // 예약 확인 콘텐츠 로직
+		  const hDate = localStorage.getItem('selectedDate');
+		  const hTime = localStorage.getItem('selectedTime');
+		  
+		  $.ajax({
+			  url: "/booking/insert",
+			  type: "POST",
+			  data: {
+				  mNum: loggedInMemberNum,
+				  hNum: hospitalNum,
+				  bDate: hDate,
+				  bTime: hTime
+			  },
+			  success: function(response) {
+				  if(response === 'success') {
+					  resultresverve(); // 예약 성공 시 알림 대신 이 함수 호출
+				  } else {
+					  alert('예약 실패!');
+				  }
+			  },
+			  error: function() {
+				  alert('통신 오류. 다시 시도해 주세요.');
+			  }
+		  });
+	  });
+	}
+	
+	function resultresverve() {
+		const modalWrap = $('.modal-wrap');
+		const hDate = localStorage.getItem('selectedDate');
+		const hTime = localStorage.getItem('selectedTime');
+
+		// 모달 내용 변경: 예약 성공 메시지
+		modalWrap.html(`
+			<div class="result-message-wrap">
+				<div class="result-message-title">
+					<p>
+						<span class="user-value"></span>님, <br />
+						<span class="hospitalTitle-value"></span> 예약이 완료되었습니다.<br />
+						빠른 시일 내에 연락드리겠습니다.
+					</p>
+				</div>
+				<div class="result-message-contents">
+					<div class="photo">
+						<img src="/img/userillust.webp" alt="photo" />
+					</div>
+					<div class="user-reserveinfo">
+						<ul class="reserveinfo-lists">
+		          <div class="reserveinfo-list">
+				        <li class="reserveinfo-item">
+				          <p class="reserveinfo-label">예약자</p>
+				          <span class="user-value"></span>
+				        </li>
+				        <li class="reserveinfo-item">
+				          <p class="reserveinfo-label">진료 과목</p>
+				          <span class="department-value"></span>
+				        </li>
+		          </div>
+		          <div class="reserveinfo-list">
+			          <li class="reserveinfo-item">
+				          <p class="reserveinfo-label">예약 날짜</p>
+				          <span class="day-value"></span>
+				        </li>
+				        <li class="reserveinfo-item">
+				          <p class="reserveinfo-label">진료 시간</p>
+				          <span class="time-value"></span>
+				        </li>
+		          </div>
+			      </ul>
+					</div>
+				</div>
+				<div class="reserveinfo-notice">
+	      	<div class="notice-photo">
+	      		<img src="/img/reserveinfonotice.webp" alt="noticeimg" />
+	      	</div>
+	      	<div class="noticeinfo">
+	      		<p>
+	      			병원 정책에 따라 환자 호명 시 자리에 없으면 접수가<br />
+	      			자동 취소됩니다.
+	      		</p>
+	      	</div>
+	      </div>
+	      <div class="reservestatebtns">
+	      	<button class="reservestatebtn-success">확인</button>
+	      </div>
+			</div>
+		`);
+
+		$('.user-value').text(loggedInMemberName);
+	  $('.hospitalTitle-value').text(hospitalTitle);
+	  $('.department-value').text(hospitalDepartment);
+	  $('.day-value').text(hDate);
+	  $('.time-value').text(hTime);
+	  
+	  $('.reservestatebtn-success').on('click', function() {
+		  $('.booking-modal').fadeOut(100);
+		  $('.modal-wrap').css('bottom', '-660px');
+	  })
 	}
 
 	$(() => {
@@ -148,6 +323,17 @@
 		$(document).on('click', '.time-btn', function() {
 			$('.time-btn').removeClass('active');
 			$(this).addClass('active');
+			selectedTime = $(this).data('time');
+			localStorage.setItem('selectedTime', selectedTime);
+			$('#time-error').hide();
+		});
+		
+		$(document).on('click', '.timeselectnext', function() {
+			if (localStorage.getItem('selectedTime')) {
+				showConfirmation();
+			} else {
+				$('#time-error').show();
+			}
 		});
 	});
 </script>

@@ -49,4 +49,7 @@ public class BookingDAO {
 	public List<Map<String, Object>> countBookingByDistrictDept() throws Exception {
 		return session.selectList(NS + "countBookingByDistrictDept");
 	}
+
+	public void updateBookingStatus(Map map) {
+	}
 }

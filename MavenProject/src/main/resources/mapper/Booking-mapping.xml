@@ -32,7 +32,7 @@
 	<!-- B_DATE는 CURDATE(), B_STATUS는 DEFALUT 0 (FALSE) -->
 	<insert id="insertBooking" parameterType="booking" useGeneratedKeys="true"  keyProperty="bNum">
 		INSERT INTO BOOKING(M_NUM,H_NUM,B_DATE,B_TIME)
-		VALUES(#{member.mNum},#{hospital.hNum},CURDATE(),#{bTime})
+		VALUES(#{member.mNum},#{hospital.hNum},#{bDate},#{bTime})
 	</insert>
 	
 	<!-- 예약 삭제 -->
