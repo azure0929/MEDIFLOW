@@ -1,6 +1,7 @@
 package com.service.spring.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,12 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.service.spring.domain.Hospital;
 import com.service.spring.service.HospitalService;
+import com.service.spring.service.ReviewService;
 
 @Controller
 public class HospitalController {
 	
 	@Autowired
 	private HospitalService hospitalService;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	// index.jsp에서 사용자가 선택한 옵션에 따라 처음으로 보여줄 검색 결과
 	@GetMapping("/hospital/search")
@@ -80,10 +85,19 @@ public class HospitalController {
 	}
 	
 	@GetMapping("/hospital/detail")
-    public String doGetHospitalDetail(@RequestParam("hNum") int hNum, Model model) {
+    public String doGetHospitalDetail(@RequestParam("hNum") int hNum, Model model){
         try {
             // 병원 번호를 이용해 단일 병원 정보 조회
             Hospital hospital = hospitalService.searchHospitalByNum(hNum);
+            model.addAttribute("hospital", hospital);
+            
+            // 리뷰 별 개수 가져오기
+            Map<String, Integer> reviewCounts = reviewService.countReviewByContent(hNum);
+            model.addAttribute("reviewCounts", reviewCounts);
+            
+            // 전체 리뷰 개수 계산
+            int totalReviewCount = reviewCounts.values().stream().mapToInt(Integer::intValue).sum();
+            model.addAttribute("totalReviewCount", totalReviewCount);
 
             if (hospital != null) {
                 model.addAttribute("hospital", hospital);

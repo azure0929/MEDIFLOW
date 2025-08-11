@@ -23,7 +23,7 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
 
-<script>
+<script>	
 	let selectedDate = null;
 	let flatpickrInstance = null;
 	// JSP에서 전달받은 병원 이름과 진료 과목을 JavaScript 변수로 저장합니다.
@@ -248,49 +248,32 @@
 			<section class="info-section-wrap">
 				<div class="section-title-wrap">
 					<h2 class="section-title">병원 리뷰</h2>
-					<p class="review-all-count">총 230개</p>
+					<p class="review-all-count">총 ${totalReviewCount}개</p>
 				</div>
+				
 				<div class="review-bar-wrap">
-					<div class="review-progress-bar">
-						<div class="review-content">
-							<img src="/img/doctor.png" /> <span class="review-label">친절한
-								의사선생님</span>
-						</div>
-						<div class="review-progress-fill" style="width: 80%;"></div>
-						<div class="review-count">100개</div>
-					</div>
-					<div class="review-progress-bar">
-						<div class="review-content">
-							<img src="/img/doctor.png" /> <span class="review-label">전문적인
-								치료</span>
-						</div>
-						<div class="review-progress-fill" style="width: 60%;"></div>
-						<div class="review-count">60개</div>
-					</div>
-					<div class="review-progress-bar">
-						<div class="review-content">
-							<img src="/img/doctor.png" /> <span class="review-label">상냥한
-								간호사 / 직원</span>
-						</div>
-						<div class="review-progress-fill" style="width: 40%;"></div>
-						<div class="review-count">40개</div>
-					</div>
-					<div class="review-progress-bar">
-						<div class="review-content">
-							<img src="/img/doctor.png" /> <span class="review-label">깨끗한
-								시설</span>
-						</div>
-						<div class="review-progress-fill" style="width: 20%;"></div>
-						<div class="review-count">20개</div>
-					</div>
-					<div class="review-progress-bar">
-						<div class="review-content">
-							<img src="/img/doctor.png" /> <span class="review-label">편한
-								교통.주차</span>
-						</div>
-						<div class="review-progress-fill" style="width: 10%;"></div>
-						<div class="review-count">10개</div>
-					</div>
+					<c:choose>
+					     <%-- 리뷰가 있을 때 --%>
+						<c:when test="${totalReviewCount == 0}">
+				      		<div class="review-empty">아직 등록된 리뷰가 없습니다.</div>
+						</c:when>
+						<c:otherwise>
+							<c:set var="safeTotal" value="${totalReviewCount > 0 ? totalReviewCount : 1}" />
+							<c:forEach var="contents" items="${reviewCounts}">
+								<c:set var="count" value="${contents.value}" />
+								<c:set var="percentage" value="${(count * 100.0) / safeTotal}" />	
+								<div class="review-progress-bar">
+									<div class="review-content">
+										<img src="/img/doctor.png" /> 
+										<span class="review-label">${contents.key}</span>
+									</div>
+									
+									<div class="review-progress-fill" style="width: ${percentage}%;"></div>
+									<div class="review-count">${count}개</div>
+								</div>
+							</c:forEach>					
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</section>
 			<hr class="section-divider">
