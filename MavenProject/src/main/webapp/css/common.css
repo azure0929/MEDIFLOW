@@ -115,6 +115,10 @@ header {
 	align-items: center;
 	z-index: 999;
 }
+header.scrolled {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(30px);
+}
 header > .header-inner {
 	width: 1440px;
 	margin: 0 auto;
