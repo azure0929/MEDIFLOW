@@ -451,8 +451,14 @@
 				</div>
 			</section>
 			<div class="hospital-buttons">
-				<button class="call-btn" data-phone="${hospital.hTel}" data-name="${hospital.hTitle}">전화문의</button>
-				<button class="share-btn">공유하기</button>
+				<button class="call-btn" data-phone="${hospital.hTel}" data-name="${hospital.hTitle}">
+					<span class="material-symbols-outlined">call</span>
+					<span>전화문의</span>
+					</button>
+				<button class="share-btn">
+					<span class="material-symbols-outlined">share</span>
+					<span>공유하기</span>
+				</button>
 			</div>
 			<hr class="section-divider">
 			<div class="hospital-tabs">
