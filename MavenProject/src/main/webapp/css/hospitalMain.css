@@ -169,7 +169,7 @@
 .card-detail {
 	display: flex;
 	flex-direction: column;
-	gap: 14px;
+	gap: 8px;
 }
 
 .top-title, .middle-state, .bottom-info {
@@ -191,7 +191,7 @@
 .hospital-location {
 	margin: 4px 0;
 	font-size: 14px;
-	color: #595959;
+	color: #393939;
 }
 
 /* .copy {
