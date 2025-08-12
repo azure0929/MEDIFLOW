@@ -53,7 +53,7 @@
 }
 
 .custom-select:focus + .icon-arrow {
-  transform: translateY(-50%) rotate(180deg);
+  transform: translateY(-50%) rotate(90deg);
 }
 
 .search-dropdown option{
@@ -91,6 +91,18 @@
     font-size: 16px;
     background-color: transparent;
     color: var(--text-color);
+}
+.no-result {
+	width: 100%;
+	 border-bottom: 1px solid rgba(0,0,0,0.4);
+	 text-align: center;
+	 padding: 10px;
+	 display: flex;
+	
+}
+.isEmpty-text {
+	font-size: 24px;
+	color: #393939;
 }
 
 .map-section {
