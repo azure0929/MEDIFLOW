@@ -9,9 +9,43 @@
 <title>MEDIFLOW</title>
 <link rel="stylesheet" href="/css/common.css" />
 <link rel="stylesheet" href="/css/hospitalMain.css" />
+<!-- 아이콘 css -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+<!-- copy Button 전용 외부 CSS, Script -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css" />
 <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+$(document).ready(function(){
+    $(".call-btn").on("click", function(){
+        const phone = $(this).data("phone");
+        const name = $(this).data("name");
+        Swal.fire({
+            title: name,
+            text: phone ? phone : '등록된 전화번호가 없습니다.',
+            icon: phone ? 'info' : 'warning',
+            confirmButtonText: '확인',
+            confirmButtonColor: '#3085d6',
+           
+        });
+    });
+});
+
+$(function(){
+    $(".hospital-card").on("click", function(e){
+        // 버튼이나 복사 버튼 클릭 시에는 동작 안 함
+        if ($(e.target).closest(".call-btn, sl-copy-button").length) return;
+
+        // 상세 페이지로 이동
+        var hNum = $(this).data("hnum");
+        location.href = "/hospital/detail?hNum=" + hNum;
+    });
+});
+</script>
 </head>
 <body>
 	<div class="inner">
@@ -46,7 +80,7 @@
 			<section class="hospital-list-section">
 				<ul class="list-container">
 					<c:forEach var="hospital" items="${hospitalList}">
-						<li class="hospital-card">
+						<li class="hospital-card" data-hnum="${hospital.hNum}">
 							<div class="card-wrap">
 								<div class="card-image">
 									<img src="${hospital.hUrl}" alt="병원 이미지">
@@ -73,8 +107,9 @@
 										</ul>
 									</div>
 									<div class="card-actions">
-										<button class="call-btn">전화하기</button>
-										<button class="booking-btn" onclick="location.href='/hospital/detail?hNum=${hospital.hNum}'">예약하기</button>
+										<button class="call-btn" data-phone="${hospital.hTel}" data-name="${hospital.hTitle}">전화하기</button>
+										<button class="booking-btn" >예약하기</button>
+										<%-- <button class="booking-btn" onclick="location.href='/hospital/detail?hNum=${hospital.hNum}'">예약하기</button> --%>
 									</div>
 								</div>
 							</div>

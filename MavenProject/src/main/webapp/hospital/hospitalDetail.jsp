@@ -455,29 +455,26 @@
 					<h2 class="section-title">병원 리뷰</h2>
 					<p class="review-all-count">총 ${totalReviewCount}개</p>
 				</div>
-
 				<div class="review-bar-wrap">
 					<c:choose>
-					     <%-- 리뷰가 없을 때 --%>
 						<c:when test="${totalReviewCount == 0}">
-							<div class="review-empty">아직 등록된 리뷰가 없습니다.</div>
+				      		<div class="review-empty">아직 등록된 리뷰가 없습니다.</div>
 						</c:when>
 						<c:otherwise>
-							<c:set var="safeTotal"
-								value="${totalReviewCount > 0 ? totalReviewCount : 1}" />
+							<c:set var="safeTotal" value="${totalReviewCount > 0 ? totalReviewCount : 1}" />
 							<c:forEach var="contents" items="${reviewCounts}">
 								<c:set var="count" value="${contents.value}" />
-								<c:set var="percentage" value="${(count * 100.0) / safeTotal}" />
+								<c:set var="percentage" value="${(count * 100.0) / safeTotal}" />	
 								<div class="review-progress-bar">
 									<div class="review-content">
-										<img src="/img/doctor.png" /> <span class="review-label">${contents.key}</span>
+										<img src="/img/doctor.png" /> 
+										<span class="review-label">${contents.key}</span>
 									</div>
-
-									<div class="review-progress-fill"
-										style="width: ${percentage}%;"></div>
+									
+									<div class="review-progress-fill" style="width: ${percentage}%;"></div>
 									<div class="review-count">${count}개</div>
 								</div>
-							</c:forEach>
+							</c:forEach>					
 						</c:otherwise>
 					</c:choose>
 				</div>
