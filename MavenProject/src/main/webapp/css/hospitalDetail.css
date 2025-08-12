@@ -33,6 +33,12 @@
 	color: var(--text-color);
 }
 
+.hospital-header {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
 /* 공통 Flexbox 스타일을 위한 클래스 통일 */
 .hospital-title-wrap, .hospital-state-wrap, .hospital-info-wrap,
 	.notice-wrap, .hospital-buttons, .info-section-title,
@@ -43,11 +49,8 @@
 	flex-wrap: wrap;
 }
 
-.hospital-title-wrap, .hospital-state-wrap, .hospital-info-wrap {
-	margin-bottom: 10px;
-}
-
-.hospital-time, .hospital-info {
+.hospital-time,
+.hospital-specialty{
 	color: #393939;
 }
 
@@ -56,6 +59,7 @@
 	padding: 4px 8px;
 	border-radius: 4px;
 	font-size: 12px;
+	color: #595959;
 }
 
 .notice-wrap {
@@ -77,6 +81,7 @@
 	font-size: 15px;
 	line-height: 1.4;
 	white-space: pre-line;
+	color: var(--text-color);
 }
 
 .hospital-buttons {
@@ -96,7 +101,8 @@
 	background-color: var(--text-white);
 }
 
-.share-btn:hover, .call-btn:hover {
+.share-btn:hover,
+.call-btn:hover {
 	background-color: var(--primary-color);
 	color: var(--text-white);
 }
@@ -150,7 +156,7 @@
 .info-section-wrap {
 	display: flex;
 	flex-direction: column;
-	gap: 20px;
+	gap: 14px;
 }
 
 .info-section-title {
@@ -161,7 +167,7 @@
 
 .section-title {
 	font-size: 24px;
-	font-weight: 400;
+	font-weight: 500;
 	color: var(--text-color);
 }
 
@@ -179,7 +185,7 @@
 
 .time-info-day {
 	font-size: 15px;
-	font-weight: 500;
+	font-weight: 600;
 	color: #393939;
 }
 
@@ -201,6 +207,10 @@
 	display: flex;
 	flex-direction: row;
 	gap: 10px;
+}
+
+.hospital-location{
+	color: var(--text-color);
 }
 
 .copy {
@@ -251,10 +261,16 @@
 	gap: 16px;
 }
 
-.review-label, .review-count, .review-all-count {
+.review-label, 
+.review-count, 
+.review-all-count {
 	font-size: 18px;
-	color: #2C3744;
+	color: var(--text-color);
 	font-weight: 600;
+}
+
+.review-empty {
+	color: var(--text-color);
 }
 
 .review-progress-bar {
