@@ -6,6 +6,7 @@ import com.service.spring.domain.Member;
 import com.service.spring.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,12 +17,14 @@ public class BookingController {
 	@Autowired
 	private BookingService bookingService;
 
+	// 예약 등록
 	@PostMapping("/booking/insert")
 	@ResponseBody
 	public String insertBook(@RequestParam("mNum") int mNum,
 	                         @RequestParam("hNum") int hNum,
 	                         @RequestParam("bDate") String bDate,
-	                         @RequestParam("bTime") String bTime) {
+	                         @RequestParam("bTime") String bTime,
+	                         Model model) {
 
 	    // 1. 요청 파라미터로 Member와 Hospital 객체를 직접 생성합니다.
 	    Member member = new Member();
@@ -46,7 +49,8 @@ public class BookingController {
 	        return "success";
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        return "fail";
+	        model.addAttribute("message", "예약 실패했습니다.");
+	        return "error";
 	    }
 	}
 }

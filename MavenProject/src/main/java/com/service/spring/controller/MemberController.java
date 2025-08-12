@@ -31,7 +31,7 @@ public class MemberController {
 	
 	// 로그인
 	@PostMapping("/login")
-	public String login(Member member, HttpSession session) {
+	public String login(Member member, HttpSession session, Model model) {
 		try {
 			Member loggedInMember = memberService.login(member);
 			System.out.println("로그인 성공: " + loggedInMember); 
@@ -43,30 +43,32 @@ public class MemberController {
 					return "redirect:/index.jsp"; 
 				}
 			} else {
-				return null;
+				model.addAttribute("message", "로그인에 실패했습니다.");
+				return "error";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			// 예외 발생 시 에러 페이지 또는 로그인 페이지로 리다이렉트
-			return "redirect:/login.jsp?error=internal_error";
+			model.addAttribute("message", "서버 오류가 발생했습니다.");
+			return "error";
 		}
 	}
 
 	// 회원가입
 	@PostMapping("/memberRegister")
-	public String insertMember(Member member) {
+	public String insertMember(Member member, Model model) {
 		try {
 			memberService.insertMember(member);
 			return "redirect:/index.jsp";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error.jsp";
+			model.addAttribute("message", "회원가입에 실패했습니다.");
+			return "error";
 		}
 	}
 
 	// 회원 탈퇴
 	@GetMapping("/deleteMember")
-	public String deleteMember(HttpSession session) {
+	public String deleteMember(HttpSession session, Model model) {
 		Member member = (Member) session.getAttribute("loggedInMember");
 		if (member == null) {
 			return "redirect:/index.jsp";
@@ -78,7 +80,8 @@ public class MemberController {
 			return "redirect:/index.jsp";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/error.jsp";
+			model.addAttribute("message", "회원탈퇴에 실패했습니다.");
+			return "error";
 		}
 	}
 
@@ -91,7 +94,7 @@ public class MemberController {
 
 	// 회원정보수정
     @PostMapping("/updateMember")
-    public String updateMember(Member member, HttpSession session) {
+    public String updateMember(Member member, HttpSession session, Model model) {
         Member loggedInMember = (Member) session.getAttribute("loggedInMember");
         if (loggedInMember == null) {
             return "redirect:/index.jsp";
@@ -114,11 +117,12 @@ public class MemberController {
             return "redirect:/member/bookings"; // mypage로 리다이렉트
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/member/bookings?error=update_failed";
+            model.addAttribute("message", "회원정보수정에 실패했습니다.");
+            return "error";
         }
     }
     
-    // 예약 내역을 JSON으로 반환하는 새로운 메서드
+    // 예약 내역을 JSON으로 반환
     @GetMapping("/member/bookings")
     public String getBookingsByMember(Model model, HttpSession session) {
         Member loggedInMember = (Member) session.getAttribute("loggedInMember");
@@ -136,7 +140,8 @@ public class MemberController {
             return "member/mypage";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/member/mypage?error=booking_failed";
+            model.addAttribute("message", "예약내역을 조회하는데 오류가 발생했습니.");
+            return "error";
         }
     }
     
@@ -148,13 +153,12 @@ public class MemberController {
     	}catch(Exception e) {
     		e.printStackTrace();
     	}
-    	
     	return "redirect:/member/bookings";
     }
     
-    //리뷰를 등록하는 메서드 (리뷰등록시 예약상태2로 변경)
+    //리뷰 등록 (리뷰등록시 예약상태 2로 변경)
     @PostMapping("/mypage/reviewRegister")
-    public String insertReview(Review review) {
+    public String insertReview(Review review, Model model) {
     	System.out.println(review);
     	System.out.println(review.getBooking().getbNum());
     	Map<String,Integer> map = new HashMap<>();
@@ -165,6 +169,8 @@ public class MemberController {
     		bookingService.updateBookingStatus(map);
     	}catch(Exception e) {
     		e.printStackTrace();
+    		model.addAttribute("message", "리뷰등록에 실패했습니다.");
+    		return "error";
     	}
     	
     	return "redirect:/member/bookings";

@@ -11,26 +11,38 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(() => {
-		$('#login').on('click', function() {
-			
-			$(".error-message").remove();
-			
-			const mId = $("#userid").val();
-			const mPassword = $("#password").val();
-			
-			if (!mId) {
-				$("#userid").after('<div class="error-message" style="color: #ff0000; font-size: 14px;">아이디를 입력해주세요.</div>');
-				return;
-			}
-			
-			if (!mPassword) {
-				$("#password").after('<div class="error-message" style="color: #ff0000; font-size: 14px;">비밀번호를 입력해주세요.</div>');
-				return;
-			}
-			
-			$('#loginForm').submit();
-		})
-	})
+	  function validateInput(inputElement) {
+      const value = $(inputElement).val().trim();
+      const errorMessageDiv = $(inputElement).closest('.input-group').find('.error-message');
+
+      if (value) {
+          errorMessageDiv.remove();
+          $(inputElement).removeClass('input-error');
+          return true;
+      } else {
+          if (errorMessageDiv.length === 0) {
+              const message = $(inputElement).attr('placeholder');
+              $(inputElement).closest('.input-group').append('<div class="error-message" style="color: #ff0000; font-size: 14px; margin-top: 5px;">' + message + '</div>');
+          }
+          $(inputElement).addClass('input-error');
+          return false;
+      }
+	  }
+	
+	  $('#userid, #password').on('input', function() {
+	      validateInput(this);
+	  });
+	
+	  $('#login').on('click', function(e) {
+      e.preventDefault();
+      const isIdValid = validateInput('#userid');
+      const isPasswordValid = validateInput('#password');
+
+      if (isIdValid && isPasswordValid) {
+          $('#loginForm').submit();
+      }
+	  });
+	});
 </script>
 
 <title>MEDIFLOW</title>
@@ -42,11 +54,17 @@
 		<main class="main">
 			<div class="container">
 				<form action="/login" method="post" id="loginForm">
-					<input id="userid" type="text" name="mId" placeholder="아이디를 입력해주세요." required autocomplete="off" />
-    			<input id="password" type="password" name="mPassword" placeholder="비밀번호를 입력해주세요." required autocomplete="off" />
-					<div class="loginbtn">
-						<button type="submit" id="login">로그인</button>
-					</div>
+			    <div class="logininfo">
+		        <div class="input-group">
+	            <input id="userid" type="text" name="mId" placeholder="아이디를 입력해주세요." autocomplete="off" />
+	        	</div>
+		        <div class="input-group">
+		            <input id="password" type="password" name="mPassword" placeholder="비밀번호를 입력해주세요." autocomplete="off" />
+		        </div>
+		   		</div>
+			    <div class="loginbtn">
+		        <button type="submit" id="login">로그인</button>
+			    </div>
 				</form>
 			</div>
 		</main>
