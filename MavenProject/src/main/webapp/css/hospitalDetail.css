@@ -361,6 +361,7 @@
 	font-size: 24px;
 	height: 56px;
 	line-height: 3rem;
+	padding: 10px 0;
 	text-align: center;
 	margin-bottom: 20px;
 }
@@ -391,65 +392,51 @@
 	text-align: end;
 }
 
-/* Flatpickr 커스텀 스타일 */
 .date-choice {
 	width: 360px;
 }
-/* Flatpickr 커스텀 스타일 */
 .flatpickr-calendar {
-	width: 360px; /* 고정 너비 설정 */
-	height: 406px; /* 고정 높이 설정 */
+	width: 360px;
+	height: 406px;
 	box-shadow: none;
 	border: 1px solid #ddd;
+	margin: 0 auto;
 }
-
-.flatpickr-calendar.inline {
-	width: 360px;
-}
-/* 내부 컨테이너가 부모의 크기를 채우도록 설정 */
 .flatpickr-calendar .flatpickr-innerContainer {
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 }
-/* 달력 월 이동 영역 */
 .flatpickr-calendar .flatpickr-months {
 	width: 100%;
 	flex-shrink: 0;
 }
-/* 달력 요일 영역 */
 .flatpickr-calendar .flatpickr-weekdays {
 	width: 100%;
 	flex-shrink: 0;
 }
-
 .flatpickr-calendar .flatpickr-days {
 	width: 360px;
 }
-/* 달력 날짜 영역 */
 .flatpickr-calendar .dayContainer {
 	width: 360px;
 	height: 350px;
 	display: flex;
 	flex-wrap: wrap;
 	flex-grow: 1;
-	align-content: space-around; /* 각 행의 간격을 균등하게 배분 */
+	align-content: space-around; 
 }
-
-/* 요일과 날짜 너비 조정 */
 .flatpickr-weekday, .flatpickr-day {
-	width: calc(100%/ 7); /* 부모의 너비를 7등분 */
+	width: calc(100%/ 7);
 	flex-grow: 1;
 }
-
 .flatpickr-months .flatpickr-month {
 	color: var(--text-white);
 	background-color: var(--primary-color);
 	border-bottom: 1px solid #ddd;
 	background-color: var(--primary-color);
 }
-
 .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange,
 	.flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange,
 	.flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus,
@@ -460,11 +447,9 @@
 	border-color: var(--primary-color);
 	background-color: var(--primary-color);
 }
-
 .flatpickr-day:hover {
-	background-color: #f0f8ff; /* 호버 시 배경색 변경 */
+	background-color: #f0f8ff; 
 }
-
 .flatpickr-day.today {
 	color: var(--primary-color);
 	border-color: var(--primary-color);
@@ -519,6 +504,16 @@
 	height: 56px;
 	font-size: 16px;
 	border-radius: 8px;
+	color: var(--primary-color);
+	border: 1px solid var(--primary-color);
+	background-color: #ffffff;
+	transition: .3s ease;
+}
+.time-choice .time-buttons .time-btn:hover {
+	color: var(--text-white);
+	background-color: var(--primary-color);
+}
+.time-choice .time-buttons .time-btn.selected {
 	color: var(--text-white);
 	background-color: var(--primary-color);
 }

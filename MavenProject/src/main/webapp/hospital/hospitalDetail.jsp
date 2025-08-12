@@ -142,8 +142,8 @@
 	    $('#time-error').hide();
 	    
 	    $('.time-btn').on('click', function() {
-	      $('.time-btn').removeClass('active');
-	      $(this).addClass('active');
+	      $('.time-btn').removeClass('selected');
+	      $(this).addClass('selected');
 	      selectedTime = $(this).data('time');
 	      localStorage.setItem('selectedTime', selectedTime);
 	    });
