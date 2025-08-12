@@ -505,72 +505,167 @@
 	<jsp:include page="/components/footer.jsp" />
 	
 	<script>
-		function collectAddresses() {
-			  const nodes = document.querySelectorAll('.hospital-location');
-			  const addresses = [...nodes]
-			    .map(el => el.dataset.address?.trim() || el.textContent.replace(/^📍\s*/, '').trim())
-			    .filter(a => a && a.length > 0);
-		
-			  // (옵션) 중복 제거
-			  return [...new Set(addresses)];
-			}
-		function loadKakaoMap() {
-		  const script = document.createElement('script');
-		  script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=05a7077a5f466aaa4ba854dc2c6e035a&autoload=false&libraries=services";
-		  script.onload = function () {
-		    console.log("✅ Kakao SDK 로딩 완료");
-		    kakao.maps.load(initMap); // 이제 kakao가 정의되어 있음
-		  };
-		  script.onerror = function () {
-		    console.error("❌ Kakao Maps SDK 로딩 실패");
-		  };
-		  document.head.appendChild(script);
-		}
-		
-		function initMap() {
-			  console.log("🗺 initMap 실행");
-		
-			  const geocoder = new kakao.maps.services.Geocoder();
-			  const map = new kakao.maps.Map(document.getElementById('map'), {
-			    center: new kakao.maps.LatLng(37.5665, 126.9780), // 임시 센터(시청)
-			    level: 5
-			  });
-				
-			  const addresses = collectAddresses();
-			  const bounds = new kakao.maps.LatLngBounds();
-			  const infoWindows = [];
-		
-			  addresses.forEach((address) => {
-			    geocoder.addressSearch(address, function(result, status) {
-			      if (status !== kakao.maps.services.Status.OK) return;
-		
-			      const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-			      bounds.extend(coords);
-		
-			      const marker = new kakao.maps.Marker({
-			        map: map,
-			        position: coords
-			      });
-		
-			      const infowindow = new kakao.maps.InfoWindow({
-			        content: `<div style="width:auto;padding:5px;font-size:13px;">${hospital.hTitle}</div>`
-			      });
-			      infoWindows.push(infowindow);
-		
-			      // 마커 클릭 시 해당 인포윈도우만 열리게
-			      kakao.maps.event.addListener(marker, 'click', function() {
-			        infoWindows.forEach(iw => iw.close());
-			        infowindow.open(map, marker);
-			      });
-		
-			      // 모든 마커가 보이도록 영역 맞춤
-			      map.setBounds(bounds);
-			    });
-			  });
-			}
-		
-		// 🔄 이 시점에서 kakao가 아직 정의 안 됐으므로 SDK 동적 로딩
-		window.onload = loadKakaoMap;
+	// ===== 유틸 =====
+	const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+	const jitter = (ms) => Math.floor(Math.random() * ms);
+
+	const GEO_CACHE_KEY = 'geoCache:v1';
+	const loadCache = () => {
+	  try { return JSON.parse(localStorage.getItem(GEO_CACHE_KEY)) || {}; }
+	  catch { return {}; }
+	};
+	const saveCache = (obj) => localStorage.setItem(GEO_CACHE_KEY, JSON.stringify(obj));
+
+	// geocoder를 Promise로
+	function geocodeOnce(geocoder, address) {
+	  return new Promise(resolve => {
+	    geocoder.addressSearch(address, (result, status) => resolve({ result, status }));
+	  });
+	}
+
+	// ===== 주소 수집 =====
+	function collectAddresses() {
+	  const nodes = document.querySelectorAll('.hospital-location');
+	  const addresses = [...nodes]
+	    .map(el => el.dataset.address?.trim() || el.textContent.replace(/^📍\s*/, '').trim())
+	    .filter(a => a && a.length > 0);
+	  return [...new Set(addresses)];
+	}
+
+	// ===== 순차 지오코딩 =====
+	async function geocodeAll(addresses, map, {
+	  baseDelayMs = 500,        // 기본 간격 (0.5초)
+	  baseJitterMs = 300,       // 랜덤 지터
+	  pauseOnErrorMs = 60_000,  // ERROR 시 전체 일시정지 1분
+	  backoffStartMs = 10_000,  // 개별 백오프 시작 10초
+	  backoffMaxMs = 120_000,   // 개별 백오프 최대 2분
+	  maxRetriesPerAddress = 2, // 재시도 횟수
+	} = {}) {
+	  const geocoder = new kakao.maps.services.Geocoder();
+	  const bounds = new kakao.maps.LatLngBounds();
+	  const infoWindows = [];
+	  const seen = new Set();
+	  const cache = loadCache();
+
+	  const unique = addresses.filter(a => !!a && !seen.has(a) && seen.add(a.trim().toLowerCase()));
+
+	  let globalPauseUntil = 0;
+	  let nextBackoffMs = backoffStartMs;
+
+	  const useCached = (address) => {
+	    const c = cache[address];
+	    if (!c) return null;
+	    if (c.notFound) return 'NOT_FOUND';
+	    if (typeof c.lat !== 'number' || typeof c.lng !== 'number') return null;
+	    return c;
+	  };
+
+	  for (const address of unique) {
+	    const now = Date.now();
+	    if (globalPauseUntil > now) {
+	      await sleep(globalPauseUntil - now);
+	    }
+
+	    const cached = useCached(address);
+	    if (cached && cached !== 'NOT_FOUND') {
+	      const pos = new kakao.maps.LatLng(cached.lat, cached.lng);
+	      bounds.extend(pos);
+	      makeMarker(map, pos, address, infoWindows);
+	      continue;
+	    } else if (cached === 'NOT_FOUND') {
+	      continue;
+	    }
+
+	    await sleep(baseDelayMs + jitter(baseJitterMs));
+
+	    let attempt = 0;
+	    let done = false;
+
+	    while (!done && attempt <= maxRetriesPerAddress) {
+	      const { result, status } = await geocodeOnce(geocoder, address);
+
+	      if (status === kakao.maps.services.Status.OK) {
+	        const lat = parseFloat(result[0].y);
+	        const lng = parseFloat(result[0].x);
+	        cache[address] = { lat, lng, ts: Date.now() };
+	        saveCache(cache);
+
+	        const pos = new kakao.maps.LatLng(lat, lng);
+	        bounds.extend(pos);
+	        makeMarker(map, pos, address, infoWindows);
+
+	        globalPauseUntil = 0;
+	        nextBackoffMs = backoffStartMs;
+	        done = true;
+
+	      } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+	        cache[address] = { notFound: true, ts: Date.now() };
+	        saveCache(cache);
+	        done = true;
+
+	      } else {
+	        attempt++;
+	        globalPauseUntil = Date.now() + pauseOnErrorMs;
+	        console.warn(`[Geocode ERROR] global pause ${pauseOnErrorMs}ms; retry #${attempt} :`, address);
+
+	        if (attempt > maxRetriesPerAddress) break;
+
+	        await sleep(nextBackoffMs);
+	        nextBackoffMs = Math.min(nextBackoffMs * 2, backoffMaxMs);
+	      }
+	    }
+	  }
+
+	  if (!bounds.isEmpty()) {
+	    map.setBounds(bounds);
+	  }
+	}
+
+	// ===== 마커 생성 =====
+	function makeMarker(map, pos, address, infoWindows) {
+	  const marker = new kakao.maps.Marker({ map, position: pos, title: address });
+	  const iw = new kakao.maps.InfoWindow({ content: `<div class="kakao-iw">${address}</div>` });
+	  infoWindows.push(iw);
+	  kakao.maps.event.addListener(marker, 'click', () => {
+	    infoWindows.forEach(x => x.close());
+	    iw.open(map, marker);
+	  });
+	}
+
+	// ===== 지도 초기화 =====
+	async function initMap() {
+	  const map = new kakao.maps.Map(document.getElementById('map'), {
+	    center: new kakao.maps.LatLng(37.5665, 126.9780),
+	    level: 5
+	  });
+
+	  const addresses = collectAddresses();
+	  if (!addresses.length) return;
+
+	  await geocodeAll(addresses, map, {
+	    baseDelayMs: 500,
+	    baseJitterMs: 300,
+	    pauseOnErrorMs: 60_000,
+	    backoffStartMs: 10_000,
+	    backoffMaxMs: 120_000,
+	    maxRetriesPerAddress: 2
+	  });
+	}
+
+	// ===== SDK 로드 =====
+	function loadKakaoMap() {
+	  const script = document.createElement('script');
+	  script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=05a7077a5f466aaa4ba854dc2c6e035a&autoload=false&libraries=services";
+	  script.onload = function () {
+	    kakao.maps.load(initMap);
+	  };
+	  script.onerror = function () {
+	    console.error("❌ Kakao Maps SDK 로딩 실패");
+	  };
+	  document.head.appendChild(script);
+	}
+
+	window.onload = loadKakaoMap;
 </script>
 </body>
 </html>
