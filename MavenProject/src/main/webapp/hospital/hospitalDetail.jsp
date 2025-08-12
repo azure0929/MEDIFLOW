@@ -29,6 +29,11 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
 
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>	
 	let selectedDate = null;
 	let flatpickrInstance = null;
@@ -356,6 +361,61 @@
 			showDayChoice();
 		});
 	});
+	
+	$(function(){
+	    $(".call-btn").on("click", function(){
+	        const phone = $(this).data("phone");
+	        const name = $(this).data("name");
+
+	        Swal.fire({
+	            title: name,
+	            text: phone ? phone : '등록된 전화번호가 없습니다.',
+	            icon: phone ? 'info' : 'warning',
+	            confirmButtonText: '확인',
+	            confirmButtonColor: '#568BFF'
+	        });
+	    });
+	    
+	    $(".share-btn").on("click", function(){
+	        // 현재 페이지 URL 복사
+	        const link = window.location.href;
+	        
+	        navigator.clipboard.writeText(link).then(function(){
+	            Swal.fire({
+	                text: '링크가 복사되었습니다.',
+	                icon: 'success',
+	                confirmButtonText: '확인',
+	                confirmButtonColor: '#568BFF'
+	            });
+	        }).catch(function(){
+	            Swal.fire({
+	                text: '복사에 실패했습니다.',
+	                icon: 'error',
+	                confirmButtonText: '확인',
+	                confirmButtonColor: '#d33'
+	            });
+	        });
+	    });
+	});
+	
+	$(function () {	
+		  var OFFSET = 120;
+
+		  $('.tab-item').on('click', function (e) {
+			    e.preventDefault();
+
+			    // 1) active 토글 (이건 무조건 수행)
+			    $('.tab-item').removeClass('active');
+			    $(this).addClass('active');
+
+			    // 2) 스크롤 이동 (타겟이 있을 때만)
+			    var target = $(this).data('target');
+			    if (target && $(target).length) {
+			      var top = $(target).offset().top - OFFSET;
+			      $('html, body').animate({ scrollTop: top }, 800);
+			    }
+			  });
+	});
 </script>
 </head>
 <body>
@@ -391,19 +451,18 @@
 				</div>
 			</section>
 			<div class="hospital-buttons">
-				<button class="btn-call">전화문의</button>
-				<button class="btn-share">공유하기</button>
+				<button class="call-btn" data-phone="${hospital.hTel}" data-name="${hospital.hTitle}">전화문의</button>
+				<button class="share-btn">공유하기</button>
 			</div>
 			<hr class="section-divider">
 			<div class="hospital-tabs">
 				<ul class="tab-list">
-					<li class="tab-item active">병원 정보</li>
-					<li class="tab-item">진료 과목</li>
-					<li class="tab-item">병원 리뷰</li>
+					<li class="tab-item active" data-target="#section-hours">병원 정보</li>
+					<li class="tab-item" data-target="#section-intro">병원 소개</li>
+					<li class="tab-item" data-target="#section-reviews">병원 리뷰</li>
 				</ul>
 			</div>
-
-			<section class="info-section-wrap">
+			<section id="section-hours" class="info-section-wrap">
 				<div class="info-section-title">
 					<h2 class="section-title">병원 운영 시간</h2>
 					<img src="/img/MedicalStatement_ing.png" alt="병원 상태">
@@ -445,12 +504,12 @@
 				<div id="map" class="info-map">[지도 API 영역]</div>
 			</section>
 			<hr class="section-divider">
-			<section class="info-section-wrap">
+			<section class="info-section-wrap" id="section-intro">
 				<h2 class="section-title">병원 소개</h2>
 				<pre class="info-list-item">${hospital.hContent}</pre>
 			</section>
 			<hr class="section-divider">
-			<section class="info-section-wrap">
+			<section class="info-section-wrap" id="section-reviews">
 				<div class="section-title-wrap">
 					<h2 class="section-title">병원 리뷰</h2>
 					<p class="review-all-count">총 ${totalReviewCount}개</p>

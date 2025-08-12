@@ -29,7 +29,7 @@ $(document).ready(function(){
             text: phone ? phone : '등록된 전화번호가 없습니다.',
             icon: phone ? 'info' : 'warning',
             confirmButtonText: '확인',
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#568BFF',
            
         });
     });

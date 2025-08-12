@@ -84,7 +84,7 @@
 	flex-direction: row;
 }
 
-.btn-call, .btn-share {
+.call-btn, .share-btn {
 	width: 392px;
 	height: 56px;
 	border-radius: 8px;
@@ -96,7 +96,7 @@
 	background-color: var(--text-white);
 }
 
-.btn-share:hover, .btn-call:hover {
+.share-btn:hover, .call-btn:hover {
 	background-color: var(--primary-color);
 	color: var(--text-white);
 }
