@@ -75,6 +75,7 @@ public class HospitalController {
 			
 			model.addAttribute("searchType", searchType);
 			model.addAttribute("keyword", trimmedKeyword);
+			model.addAttribute("isEmpty", hospitals.isEmpty());
 			return "hospital/main";
 			
 		} catch (Exception e) {
