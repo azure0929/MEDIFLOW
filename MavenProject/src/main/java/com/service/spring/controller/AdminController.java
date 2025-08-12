@@ -36,7 +36,7 @@ public class AdminController {
 	
 	//회원 관리 부분
 	@GetMapping("/adminMain")
-	public String searchAllMember(@RequestParam(defaultValue = "1")int pageNum,Model model) {
+	public String searchAllMember(@RequestParam(defaultValue = "1")int pageNum, Model model) {
 		try {
 			Map<String,Integer> map = new HashMap<>();
 			int pageSize = 15;
@@ -51,11 +51,13 @@ public class AdminController {
 			model.addAttribute("memberList",list);
 		}catch(Exception e) {
 			e.printStackTrace();
-			return "";
+			model.addAttribute("message", "모든 회원 정보를 조회하는데 오류가 발생했습니다.");
+			return "error";
 		}
 		return "admin/adminMain";
 	}
 	
+	// 조건별 회원 조회
 	@GetMapping("/searchMember")
 	public String searchMember(Member member, Model model) {
 		System.out.println(member);
@@ -64,7 +66,8 @@ public class AdminController {
 			model.addAttribute("memberList",list);
 		}catch(Exception e) {
 			e.printStackTrace();
-			return "";
+			model.addAttribute("message", "회원 정보를 조회하는데 오류가 발생했습니다.");
+			return "error";
 		}
 		return "admin/adminMain";
 	}
@@ -89,10 +92,12 @@ public class AdminController {
 			return "admin/adminHospital";
 		}catch(Exception e) {
 			e.printStackTrace();
-			return null;
+			model.addAttribute("message", "모든 병원 정보를 조회하는데 오류가 발생했습니다.");
+			return "error";
 		}
 	}
 	
+	// 조건별 병원 조회
 	@GetMapping("/searchHospital")
 	public String searchHospital(Hospital hospital, Model model) {
 		try {
@@ -101,44 +106,48 @@ public class AdminController {
 			return "admin/adminHospital";
 		}catch(Exception e) {
 			e.printStackTrace();
-			return "";
+			model.addAttribute("message", "조건별 병원 정보를 조회하는데 오류가 발생했습니다.");
+			return "error";
 		}
 	}
 	
+	// 병원 등록
 	@PostMapping("/hospitalRegister")
 	public String insertHospital(Hospital hospital,@RequestParam("uploadFile") MultipartFile file, Model model) {
 		 try {	
-//			 	System.out.println(hospital);
-//			 	System.out.println(file);
-		        // 1. 병원 이름을 파일명으로 사용 (공백 제거 및 확장자 추가)
-		        String originalTitle = hospital.gethTitle(); // 예: "서울삼성병원"
-		        String sanitizedTitle = originalTitle.replaceAll("\\s+", ""); // 공백 제거
-		        String savedFileName = sanitizedTitle + ".webp"; // 고정 확장자 사용
-
-		        // 2. 저장 경로 (src/main/webapp/img)
-		        String uploadPath = new File("src/main/webapp/img").getAbsolutePath();
-		        File saveFile = new File(uploadPath, savedFileName);
-
-		        // 3. 저장 디렉토리 없으면 생성
-		        if (!saveFile.getParentFile().exists()) {
-		            saveFile.getParentFile().mkdirs();
-		        }
-
-		        // 4. 저장 (덮어쓰기 허용)
-		        file.transferTo(saveFile);
-
-		        // 5. 이미지 URL을 VO에 저장
-		        String imageUrl = "/img/" + savedFileName;
-		        hospital.sethUrl(imageUrl);
-		        hospitalService.insertHospital(hospital);
-		        
-		        return "redirect:/admin/searchAllHospital";
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		        return "errorPage";
-		    }
+//			System.out.println(hospital);
+//			System.out.println(file);
+	        // 1. 병원 이름을 파일명으로 사용 (공백 제거 및 확장자 추가)
+	        String originalTitle = hospital.gethTitle(); // 예: "서울삼성병원"
+	        String sanitizedTitle = originalTitle.replaceAll("\\s+", ""); // 공백 제거
+	        String savedFileName = sanitizedTitle + ".webp"; // 고정 확장자 사용
+	
+	        // 2. 저장 경로 (src/main/webapp/img)
+	        String uploadPath = new File("src/main/webapp/img").getAbsolutePath();
+	        File saveFile = new File(uploadPath, savedFileName);
+	
+	        // 3. 저장 디렉토리 없으면 생성
+	        if (!saveFile.getParentFile().exists()) {
+	            saveFile.getParentFile().mkdirs();
+	        }
+	
+	        // 4. 저장 (덮어쓰기 허용)
+	        file.transferTo(saveFile);
+	
+	        // 5. 이미지 URL을 VO에 저장
+	        String imageUrl = "/img/" + savedFileName;
+	        hospital.sethUrl(imageUrl);
+	        hospitalService.insertHospital(hospital);
+	        
+	        return "redirect:/admin/searchAllHospital";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("message", "병원 등록에 실패했습니다.");
+	        return "error";
+	    }
 	}
 	
+	// 병원 정보 수정 - 특정 병원 응답
 	@GetMapping("/hospitalUpdatePage")
 	public String searchHospitalByNum(int hNum, Model model) {
 		try {
@@ -148,34 +157,39 @@ public class AdminController {
 			return "admin/adminHospitalUpdate";
 		}catch(Exception e) {
 			e.printStackTrace();
-			return "";
+			model.addAttribute("message", "특정 병원 정보를 불러오는데 오류가 발생했습니다.");
+			return "error";
 		}
 	}
 	
+	// 병원 정보 수정 요청
 	@PostMapping("/hospitalUpdate")
-	public String updateHospital(Hospital hospital) {
+	public String updateHospital(Hospital hospital, Model model) {
 		try {
 			System.out.println(hospital);
 			hospitalService.updateHospital(hospital);
 			return "redirect:/admin/searchAllHospital";
 		}catch(Exception e) {
 			e.printStackTrace();
-			return "";
+			model.addAttribute("message", "병원 정보를 수정하는데 오류가 발생했습니다.");
+			return "error";
 		}
 	}
 	
+	// 병원 정보 삭제
 	@GetMapping("/hospitalDelete")
-	public String deleteHospital(int hNum) {
+	public String deleteHospital(int hNum, Model model) {
 		try {
 			hospitalService.deleteHospital(hNum);
 			return "redirect:/admin/searchAllHospital";
 		}catch(Exception e) {
 			e.printStackTrace();
-			return "";
+			model.addAttribute("mesage", "병원 정보를 삭제하는데 오류가 발생했습니다.");
+			return "error";
 		}
 	}
-	//통계 관리 부분
 	
+	//통계 관리 부분
 	//동기처리 방식일때 사용햇음
 //	@GetMapping("/adminDashboard")
 //	public String countBookingByAge(Model model) {

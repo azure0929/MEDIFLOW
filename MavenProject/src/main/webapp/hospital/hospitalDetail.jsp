@@ -227,8 +227,6 @@
 			  success: function(response) {
 				  if(response === 'success') {
 					  resultresverve();
-				  } else {
-					  alert('예약 실패했습니다!');
 				  }
 			  },
 		  });

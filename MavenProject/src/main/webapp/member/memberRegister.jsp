@@ -69,9 +69,6 @@
 			const $this = $(this);
 			const userId = $this.val();
 			
-			// 이전에 표시된 에러 메시지 제거
-			$this.next('.error-message').remove();
-			
 			if (userId.length > 0 && (userId.length < 4 || userId.length > 30)) {
 				$this.addClass('input-error');
 				$this.after('<span class="error-message">아이디는 최소 4자리 이상 최대 30자 이내로 입력해주세요.</span>');
@@ -84,9 +81,6 @@
 		$('#password').on('input', function() {
 			const $this = $(this);
 			const password = $this.val();
-			
-			// 이전에 표시된 에러 메시지 제거
-			$this.next('.error-message').remove();
 			
 			if (password.length > 0 && (password.length < 4 || password.length > 30)) {
 				$this.addClass('input-error');
