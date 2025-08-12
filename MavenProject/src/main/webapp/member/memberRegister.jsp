@@ -56,7 +56,7 @@
 	    }
 	
 	    const age = parseInt(value, 10);
-	    if (isNaN(age) || age < 1 || age > 99) {
+	    if (age < 1 || age > 99) {
 	      alert('1부터 99까지 숫자만 입력할 수 있습니다.');
 	      $(this).val('');
 	    } else {
@@ -68,6 +68,8 @@
 		$('#userid').on('input', function() {
 			const $this = $(this);
 			const userId = $this.val();
+			
+			$this.next('.error-message').remove();
 			
 			if (userId.length > 0 && (userId.length < 4 || userId.length > 30)) {
 				$this.addClass('input-error');
@@ -81,6 +83,8 @@
 		$('#password').on('input', function() {
 			const $this = $(this);
 			const password = $this.val();
+			
+			$this.next('.error-message').remove();
 			
 			if (password.length > 0 && (password.length < 4 || password.length > 30)) {
 				$this.addClass('input-error');
@@ -140,6 +144,7 @@
 	      alert('나이는 1~99 사이로 입력해주세요.');
 	      return;
 	    }
+	    $('#age').val(mAge);
 
 	    const member = {
 	      mId: userId,
@@ -154,35 +159,8 @@
 	      return;
 	    }
 			
-			// 아이디 중복 확인 (서버 통신)
-			$.ajax({
-				url: '/checkUserId', // 아이디 중복 확인을 위한 서버 엔드포인트
-				type: 'POST',
-				data: { mId: member.mId },
-				success: function(response) {
-					if (response.isDuplicate) { // 서버에서 중복 여부를 JSON으로 반환한다고 가정
-						$('#userid').addClass('input-error');
-						$('#userid').after('<span class="error-message">이미 등록된 아이디입니다.</span>');
-					} else {
-						// 중복이 아니면 폼 제출 로직 실행
-						// mAge 값을 숨겨서 보냄
-						$('<input>').attr({
-							type: 'hidden',
-							name: 'mAge',
-							value: mAge
-						}).appendTo('#memberRegisterForm');
-
-						// 기존 age input 제거 (중복 방지)
-						$('#age').remove();
-						
-						// 모든 유효성 검사 통과 후 폼 제출
-						$('#memberRegisterForm').submit();
-					}
-				},
-				error: function() {
-					alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
-				}
-			});
+			
+	    $('#memberRegisterForm').submit();
 		});
 	});
 </script>
@@ -198,7 +176,7 @@
 				<form action="/memberRegister" method="post" id="memberRegisterForm">
 					<div class="memberinfo">
 						<div><input type="text" name="mName" id="username" placeholder="이름을 입력해주세요." required autocomplete="off" /></div>
-						<div><input type="text" name="mAge" maxlength="2" id="age" placeholder="1~99" required autocomplete="off" /></div>
+						<div><input type="text" name="mAge" maxlength="2" id="age" placeholder="나이를 입력해주세요." required autocomplete="off" /></div>
 						<div><input type="text" name="mId" id="userid" placeholder="아이디를 입력해주세요." required autocomplete="off" /></div>
 						<div><input type="password" name="mPassword" id="password" placeholder="비밀번호를 입력해주세요." required autocomplete="off" /></div>
 						<div><input type="text" name="mPhone" id="phone" placeholder="전화번호를 입력해주세요." required autocomplete="off" /></div>
