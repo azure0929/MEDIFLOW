@@ -143,54 +143,6 @@ function loadKakaoMap() {
   document.head.appendChild(script);
 }
 
-/* async function initMap() {
-	  console.log("🗺 initMap 실행");
-
-	  const map = new kakao.maps.Map(document.getElementById('map'), {
-	    center: new kakao.maps.LatLng(37.5665, 126.9780), // 임시 센터(시청)
-	    level: 5
-	  });
-		
-	  const addresses = collectAddresses();
-	  if (!addresses || addresses.length === 0) return;
-	  await geocodeAll(addresses, map);
-}
-
-async function geocodeAll(addresses, map) {
-	  const geocoder = new kakao.maps.services.Geocoder();
-	  const bounds = new kakao.maps.LatLngBounds();
-	  const infoWindows = [];
-	  const seen = new Set();
-
-	  // 동시성 1, 호출 간격 300ms (상황에 따라 200~500 조절)
-	  for (const address of addresses) {
-	    if (!address || seen.has(address)) continue;
-	    seen.add(address);
-
-	    await new Promise(r => setTimeout(r, 500));
-	    await new Promise(resolve => {
-	      geocoder.addressSearch(address, (result, status) => {
-	        if (status === kakao.maps.services.Status.OK) {
-	          const lat = parseFloat(result[0].y);
-	          const lng = parseFloat(result[0].x);
-	          const pos = new kakao.maps.LatLng(lat, lng);
-	          bounds.extend(pos);
-
-	          const marker = new kakao.maps.Marker({ map, position: pos, title: address });
-	          const iw = new kakao.maps.InfoWindow({ content: '<div class="kakao-iw">' + address + '</div>' });
-	          infoWindows.push(iw);
-	          kakao.maps.event.addListener(marker, 'click', () => {
-	            infoWindows.forEach(x => x.close());
-	            iw.open(map, marker);
-	          });
-	        }
-	        resolve();
-	      });
-	    });
-	  }
-	  if (!bounds.isEmpty()) map.setBounds(bounds);
-	}
- */
 //===== utils =====
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 const jitter = (ms) => Math.floor(Math.random() * ms); // 0~ms 랜덤 지터
