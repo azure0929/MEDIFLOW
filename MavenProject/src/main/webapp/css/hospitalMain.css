@@ -113,10 +113,10 @@
 .list-container {
 	width: fit-content;
 	margin: 0 auto;
-	cursor: pointer;
 }
 
 .hospital-card {
+	cursor: pointer;
 	width: 810px;
 	height: 300px;
 	display: flex;
@@ -242,10 +242,21 @@
 	color: var(--primary-color);
 }
 
+.call-btn:hover {
+	background: var(--primary-color);
+	color: white;
+	border: none;
+}
+
 .booking-btn {
 	background: var(--primary-color);
 	color: white;
 	border: none;
+}
+
+.call-btn,
+.booking-btn:active {
+  transform: scale(0.97);
 }
 
 .kakao-iw {
