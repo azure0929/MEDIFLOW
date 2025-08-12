@@ -44,4 +44,16 @@ public class ReviewService {
 		    }
 		return result;
 	}	
+	
+    // 총 리뷰 수 (합산)
+    public int getTotalReviewCountByHospital(int hNum) throws Exception {
+        Map<String, Integer> m = countReviewByContent(hNum);
+        int sum = 0;
+        for (int v : m.values()) sum += v;
+        return sum;
+    }
+	
+    public List<String> getCategoryOrder() {
+        return CATEGORY_ORDER;
+    }
 }

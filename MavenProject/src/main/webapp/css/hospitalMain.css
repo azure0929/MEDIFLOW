@@ -113,6 +113,7 @@
 .list-container {
 	width: fit-content;
 	margin: 0 auto;
+	cursor: pointer;
 }
 
 .hospital-card {
