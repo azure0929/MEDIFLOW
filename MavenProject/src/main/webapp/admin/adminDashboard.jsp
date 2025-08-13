@@ -42,6 +42,9 @@
 </div>
 </body>
 <script>
+$(function(){
+	ageChart();
+});//ready
 let addressChartInstance = null;
 const ageChart = function(){
 	$('#ageChart').attr('class','dash-menu-active');
@@ -269,7 +272,6 @@ const departmentChart = function(){
 		  if (addressChartInstance) {
 			    addressChartInstance.destroy();
 			  }
-		  console.log(result);
 			//const departmentCtx=$('#chart-canvas');
 			const departmentCtx = document.getElementById('chart-canvas');
 			const resultDatas = result;
