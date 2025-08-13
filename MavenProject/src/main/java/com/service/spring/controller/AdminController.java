@@ -60,7 +60,6 @@ public class AdminController {
 	// 조건별 회원 조회
 	@GetMapping("/searchMember")
 	public String searchMember(Member member, Model model) {
-		System.out.println(member);
 		try {
 			List<Member> list=memberService.searchMember(member);
 			model.addAttribute("memberList",list);
@@ -115,8 +114,6 @@ public class AdminController {
 	@PostMapping("/hospitalRegister")
 	public String insertHospital(Hospital hospital,@RequestParam("uploadFile") MultipartFile file, Model model) {
 		 try {	
-//			System.out.println(hospital);
-//			System.out.println(file);
 	        // 1. 병원 이름을 파일명으로 사용 (공백 제거 및 확장자 추가)
 	        String originalTitle = hospital.gethTitle(); // 예: "서울삼성병원"
 	        String sanitizedTitle = originalTitle.replaceAll("\\s+", ""); // 공백 제거
@@ -166,7 +163,6 @@ public class AdminController {
 	@PostMapping("/hospitalUpdate")
 	public String updateHospital(Hospital hospital, Model model) {
 		try {
-			System.out.println(hospital);
 			hospitalService.updateHospital(hospital);
 			return "redirect:/admin/searchAllHospital";
 		}catch(Exception e) {
@@ -190,23 +186,6 @@ public class AdminController {
 	}
 	
 	//통계 관리 부분
-	//동기처리 방식일때 사용햇음
-//	@GetMapping("/adminDashboard")
-//	public String countBookingByAge(Model model) {
-//		try {
-//			Map<String, Integer> map = bookingService.countBookingByAge();
-//			System.out.println(map);
-//			ObjectMapper mapper = new ObjectMapper();
-//	        String jsonMap = mapper.writeValueAsString(map); // → {"20대":4,"30대":3}
-//	        System.out.println(jsonMap);
-//	        model.addAttribute("countBookingByAgeJson", jsonMap);
-//			return "admin/adminDashboard";
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//			return "";
-//		}
-//	}
-	
 	@GetMapping("/ageChart")
 	@ResponseBody
 	public Map<String, Integer> getAgeChartData() {
@@ -222,8 +201,6 @@ public class AdminController {
 	@ResponseBody
 	public Map<String, Map<String, Integer>> getaddressChartData() {
 		try {
-//			Map<String, Map<String, Integer>> map=bookingService.countBookingByDistrictDept();
-//			System.out.println(map);
 			 return bookingService.countBookingByDistrictDept();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -235,8 +212,6 @@ public class AdminController {
 	@ResponseBody
 	public Map<String, Map<String, Integer>> getdepartmentChartData() {
 		try {
-//			Map<String, Map<String, Integer>> map=bookingService.countBookingByDeptAge();
-//			System.out.println(map);
 			 return bookingService.countBookingByDeptAge();
 		}catch(Exception e) {
 			e.printStackTrace();
