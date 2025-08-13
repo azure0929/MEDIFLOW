@@ -567,7 +567,7 @@
 	</div>
 	<jsp:include page="/components/footer.jsp" />
 	
-	<script>
+<!-- 	<script>
 	// ===== 유틸 =====
 	const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 	const jitter = (ms) => Math.floor(Math.random() * ms);
@@ -729,6 +729,6 @@
 	}
 
 	window.onload = loadKakaoMap;
-</script>
+</script> -->
 </body>
 </html>
