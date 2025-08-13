@@ -129,7 +129,7 @@ $(function(){
 		</main>
 	</div>
 	<jsp:include page="/components/footer.jsp" />
-<script>
+<!-- <script>
 function collectAddresses() {
 	  const nodes = document.querySelectorAll('.hospital-location');
 	  const addresses = [...nodes]
@@ -308,6 +308,6 @@ async function initMap() {
 	}
 // 🔄 이 시점에서 kakao가 아직 정의 안 됐으므로 SDK 동적 로딩
 window.onload = loadKakaoMap;
-</script>
+</script> -->
 </body>
 </html>
