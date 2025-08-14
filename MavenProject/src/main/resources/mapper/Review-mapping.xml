@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ReviewMapper">
+	<resultMap id="reviewRM" type="Review">
+	    <id property="rNum" column="r_num" />
+	    <result property="rContent" column="r_content" />
+		
+		<association property="booking" javaType="Booking">
+			<id property="bNum" column="b_num"/>
+			<result property="bDate" column="b_date" />
+	    	<result property="bTime" column="b_time" />
+	    	<result property="bStatus" column="b_status" />
+		</association>
+		
+	    <association property="hospital" javaType="Hospital">
+	        <id property="hNum" column="h_num" />
+	        <result property="hDepartment" column="h_department" />
+	        <result property="hTitle" column="h_title" />
+	    </association>
+	
+	    <association property="member" javaType="Member">
+	        <id property="mNum" column="m_num" />
+	        <result property="mId" column="m_id" />
+	        <result property="mName" column="m_name" />
+	        <result property="mPhone" column="m_phone" />
+	        <result property="mAge" column="m_age" />
+	    </association>
+	</resultMap>
+	
+	<!-- 리뷰 등록 -->
+	<insert id="insertReview" parameterType="review" useGeneratedKeys="true"  keyProperty="rNum">
+		INSERT INTO REVIEW(B_NUM,M_NUM,H_NUM,R_CONTENT)
+		VALUES (#{booking.bNum}, #{member.mNum}, #{hospital.hNum}, #{rContent})
+	</insert>
+	
+	<!-- 병원리뷰정보 조회 -->
+	<select id="searchReviewByHospital" parameterType="int" resultMap="reviewRM">
+	    SELECT R.R_CONTENT,R.H_NUM,R.M_NUM, H.H_TITLE, M.M_NAME
+	    FROM REVIEW R
+	    JOIN HOSPITAL H ON R.H_NUM = H.H_NUM
+	    JOIN MEMBER M ON R.M_NUM = M.M_NUM
+	    WHERE R.H_NUM = #{VALUE}
+	</select>
+	
+	<!-- 병원리뷰별 횟수 조회  -->
+	<select id="countReviewByContent" resultType="map" parameterType="int">
+	    SELECT R_CONTENT, COUNT(*) AS count
+	    FROM REVIEW R
+	    JOIN HOSPITAL H ON R.H_NUM = H.H_NUM
+	    WHERE R.H_NUM = #{VALUE}
+	    GROUP BY R_CONTENT
+	</select>
+</mapper>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

@@ -11,7 +11,7 @@
 	 </settings>
 	 
 	<typeAliases>
-		<package name="com.service.spring.domain"/> <!-- book, user -->
+		<package name="com.service.spring.domain"/> <!-- booking, member,review, hospital -->
 	</typeAliases>
 	
 <!-- 2. MyBatis Framework Unit Test하기 위한 DataSource 설정부분 -->
@@ -26,9 +26,12 @@
 			</dataSource>
 		</environment>
 	</environments> 
- 
 
 	<mappers>
 		<mapper resource="mapper/Member-mapping.xml"/>
+		<mapper resource="mapper/Hospital-mapping.xml"/>
+		<mapper resource="mapper/Booking-mapping.xml"/>
+		<mapper resource="mapper/Review-mapping.xml"/>
+		
 	</mappers>
 </configuration>

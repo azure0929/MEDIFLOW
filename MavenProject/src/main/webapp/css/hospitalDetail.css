@@ -1,0 +1,663 @@
+@charset "UTF-8";
+
+.inner {
+	padding-top: 80px;
+}
+
+.main-content {
+	width: 810px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+}
+
+.hospital-img-wrap {
+	width: 810px;
+	height: 480px;
+	overflow: hidden;
+	border-radius: 8px;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.hospital-img-wrap img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* --- 헤더 및 기본 정보 --- */
+.hospital-title {
+	font-size: 32px;
+	color: var(--text-color);
+}
+
+.hospital-header {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+/* 공통 Flexbox 스타일을 위한 클래스 통일 */
+.hospital-title-wrap, .hospital-state-wrap, .hospital-info-wrap,
+	.notice-wrap, .hospital-buttons, .info-section-title,
+	.info-location-wrap, .section-title-wrap {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.hospital-time,
+.hospital-specialty{
+	color: #393939;
+}
+
+.hospital-info {
+	background: #f0f0f0;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 12px;
+	color: #595959;
+}
+
+.notice-wrap {
+	justify-content: space-between;
+}
+
+.notice-box {
+	width: 100%;
+	height: 126px;
+	background-color: #E7F6FF;
+	border-radius: 8px;
+	padding: 8px; /* pre 텍스트 너무 딱 붙는 것 방지 */
+	white-space: pre-wrap;
+}
+
+.notice-text {
+	text-align: center;
+	margin: 0 auto;
+	font-size: 15px;
+	line-height: 1.4;
+	white-space: pre-line;
+	color: var(--text-color);
+}
+
+.hospital-buttons {
+	justify-content: space-between;
+	flex-direction: row;
+}
+
+.call-btn, .share-btn {
+	width: 392px;
+	height: 56px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	cursor: pointer;
+	border: 1px solid var(--primary-color);
+	color: var(--primary-color);
+	background-color: var(--text-white);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	flex-grow: 1;
+}
+
+.share-btn:hover,
+.call-btn:hover {
+	background-color: var(--primary-color);
+	color: var(--text-white);
+}
+
+.hospital-tabs {
+	border-bottom: 1px solid #ADADAD;
+}
+
+.tab-list {
+	display: flex;
+	gap: 24px;
+}
+
+.tab-item {
+	font-size: 14px;
+	color: var(--text-color);
+	padding: 14px;
+	position: relative;
+	cursor: pointer;
+}
+
+.tab-item::after {
+	content: "";
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	width: 100%;
+	height: 3px;
+	background-color: transparent;
+	transition: background-color 0.3s, transform 0.3s;
+	transform: scaleX(0);
+	transform-origin: left;
+}
+
+.tab-item.active {
+	color: #1a1a1a;
+	font-weight: 600;
+}
+
+.tab-item.active::after {
+	background-color: var(--primary-color);
+	transform: scaleX(1);
+}
+
+.section-divider {
+	border: none;
+	border-top: 1px solid #ADADAD;
+	margin: 0; /* 이 코드를 추가하여 hr의 기본 상하 마진을 제거합니다. */
+}
+
+.info-section-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+ㅊ
+.info-section-title {
+	display: flex;
+	flex-direction: row;
+	gap: 14px;
+}
+
+.section-title {
+	font-size: 24px;
+	font-weight: 500;
+	color: var(--text-color);
+}
+
+.time-info-grid {
+	margin-top: 24px;
+	display: grid;
+	grid-template-columns: 300px 300px;
+	row-gap: 14px;
+}
+
+.time-info-list {
+	display: flex;
+	gap: 10px;
+}
+
+.time-info-day {
+	font-size: 15px;
+	font-weight: 600;
+	color: #393939;
+}
+
+.time-info-hour {
+	color: var(--text-color);
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.text-blue {
+	color: var(--primary-color);
+}
+
+.text-red {
+	color: var(--error-color);
+}
+
+.info-location-wrap {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+}
+
+.hospital-location{
+	color: var(--text-color);
+}
+
+.copy {
+	padding: 4px 8px;
+	color: var(--text-color);
+	font-size: 12px;
+	cursor: pointer;
+	border-radius: 8px;
+	background-color: var(--secondary-color);
+	/* margin-top: 4px; */
+}
+
+.info-map {
+	width: 810px;
+	height: 410px;
+	background-color: var(--secondary-color);
+	border-radius: 8px;
+}
+
+.info-contents-wrap {
+	display:flex;
+	flex-flow:row wrap;
+	width: 810px;
+}
+
+.info-list-item {
+	font-size: 16px;
+	/* color: var(--text-color); */
+	color: #393939;
+	line-height: 1.4;
+	white-space: pre-wrap;        /* 개행 유지 + 줄바꿈 허용 */
+	overflow-wrap: anywhere;      /* 긴 단어/URL 강제 줄바꿈 (현대 브라우저) */
+	word-break: break-word;       /* 구형 브라우저 호환 */
+	max-width: 100%;
+}
+
+.section-title-wrap {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	justify-content: space-between;
+}
+
+/* 병원 리뷰 */
+.review-bar-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.review-label, 
+.review-count, 
+.review-all-count {
+	font-size: 18px;
+	color: var(--text-color);
+	font-weight: 600;
+}
+
+.review-empty {
+	color: var(--text-color);
+}
+
+.review-progress-bar {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-grow: 1;
+	height: 56px;
+	background-color: #F9F7F5;
+	border-radius: 14px;
+	overflow: hidden;
+}
+
+.review-content {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding-left: 14px;
+	flex-grow: 1;
+	z-index: 1;
+}
+
+.review-progress-fill {
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	height: 100%;
+	z-index: 0;
+	background-color: var(--secondary-color);
+	border-radius: 14px;
+}
+
+.review-count {
+	padding: 16px;
+	text-align: center;
+}
+
+.booking-btn {
+	width: 100%;
+	padding: 16px 0;
+	background-color: var(--primary-color);
+	color: var(--text-white);
+	font-size: 18px;
+	font-weight: bold;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	margin-top: 24px;
+}
+
+.review-bar-wrap img {
+	width: 40px;
+	height: 40px;
+}
+
+/* 병원 상세 페이지 - 예약 모달 */
+.booking-modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+}
+
+.booking-modal .modal-wrap {
+	width: 600px;
+	position: absolute;
+	left: 50%;
+	bottom: -660px;
+	transform: translateX(-50%);
+	background-color: #ffffff;
+	border-radius: 20px 20px 0 0;
+	transition: .6s;
+	padding: 0 40px;
+	box-sizing: border-box;
+}
+
+.booking-modal .modal-wrap .modal-title {
+	font-size: 24px;
+	height: 56px;
+	line-height: 3rem;
+	padding: 10px 0;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.booking-modal .modal-contents {
+	height: calc(100% - 100px); /* 제목과 버튼 영역 제외 */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.booking-modal .modal-contents .date-choice {
+	text-align: center;
+}
+
+.booking-modal .modal-contents .date-choice .choice-title {
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.booking-modal .modal-contents .date-choice .date-error {
+	color: #ff0000;
+	font-size: 14px;
+	margin-top: 10px;
+	font-weight: 500;
+	text-align: end;
+}
+
+.date-choice {
+	width: 360px;
+}
+.flatpickr-calendar {
+	width: 360px;
+	height: 406px;
+	box-shadow: none;
+	border: 1px solid #ddd;
+	margin: 0 auto;
+}
+.flatpickr-calendar .flatpickr-innerContainer {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.flatpickr-calendar .flatpickr-months {
+	width: 100%;
+	flex-shrink: 0;
+}
+.flatpickr-calendar .flatpickr-weekdays {
+	width: 100%;
+	flex-shrink: 0;
+}
+.flatpickr-calendar .flatpickr-days {
+	width: 360px;
+}
+.flatpickr-calendar .dayContainer {
+	width: 360px;
+	height: 350px;
+	display: flex;
+	flex-wrap: wrap;
+	flex-grow: 1;
+	align-content: space-around; 
+}
+.flatpickr-weekday, .flatpickr-day {
+	width: calc(100%/ 7);
+	flex-grow: 1;
+}
+.flatpickr-months .flatpickr-month {
+	color: var(--text-white);
+	background-color: var(--primary-color);
+	border-bottom: 1px solid #ddd;
+	background-color: var(--primary-color);
+}
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange,
+	.flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange,
+	.flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus,
+	.flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus,
+	.flatpickr-day.selected:hover, .flatpickr-day.startRange:hover,
+	.flatpickr-day.endRange:hover, .flatpickr-day.inRange {
+	color: var(--text-white);
+	border-color: var(--primary-color);
+	background-color: var(--primary-color);
+}
+.flatpickr-day:hover {
+	background-color: #f0f8ff; 
+}
+.flatpickr-day.today {
+	color: var(--primary-color);
+	border-color: var(--primary-color);
+}
+
+/* 모달 하단 버튼 */
+.modal-buttons {
+	display: flex;
+	gap: 16px;
+	justify-content: center;
+	margin: 54px auto 32px;
+}
+.modal-buttons .modal-btn {
+	height: 56px;
+	border-radius: 8px;
+}
+.modal-buttons .prev-btn {
+	width: 122px;
+	color: var(--primary-color);
+	border: 1px solid var(--primary-color);
+	background-color: #ffffff;
+}
+.modal-buttons .next-btn {
+	width: 224px;
+	background-color: #507CFF;
+	color: #fff;
+}
+
+/* 진료 시간 선택 버튼 */
+.time-choice {
+	text-align: center;
+	margin: 138px 0 104px 0;
+}
+.time-choice .choice-title {
+	font-size: 24px;
+	font-weight: 600;
+	margin-bottom: 14px;
+}
+.time-choice .choice-title.time {
+	margin-top: 56px;
+}
+.selected-date {
+	font-size: 16px;
+	font-weight: 400;
+}
+.time-choice .time-buttons {
+	display: flex;
+	gap: 16px;
+}
+.time-choice .time-buttons .time-btn {
+	width: 122px;
+	height: 56px;
+	font-size: 16px;
+	border-radius: 8px;
+	color: var(--primary-color);
+	border: 1px solid var(--primary-color);
+	background-color: #ffffff;
+	transition: .3s ease;
+}
+.time-choice .time-buttons .time-btn:hover {
+	color: var(--text-white);
+	background-color: var(--primary-color);
+}
+.time-choice .time-buttons .time-btn.selected {
+	color: var(--text-white);
+	background-color: var(--primary-color);
+}
+
+/* 예약 확인 */
+.confirmation-wrap {
+	width: 300px;
+	margin-top: 86px;
+}
+.confirmation-lists {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.confirmation-list {
+	display: flex;
+	justify-content: space-between;
+}
+.confirmation-list:first-child {
+	margin-bottom: 40px;
+}
+.confirmation-label {
+	font-size: 24px;
+	font-weight: 700;
+}
+.confirmation-item span {
+	display: inline-block;
+	width: 100%;
+	margin-top: 14px;
+	font-size: 20px;
+	font-weight: 400;
+}
+.reserveconfirm-message {
+	margin-top: 168px;
+	text-align: center;
+	font-size: 36px;
+}
+.reservestatebtn {
+	width: 172px;
+	height: 56px;
+	border-radius: 8px;
+	font-size: 16px;
+}
+.reservestatebtn-confirm {
+	color: var(--text-white);
+	background-color: var(--primary-color);
+}
+.reservestatebtn-cancle{
+	color: var(--primary-color);
+	background-color: #ffffff;
+	border: 1px solid var(--primary-color);
+}
+.time-error {
+	color: #ff0000;
+	font-size: 14px;
+	margin-top: 10px;
+	font-weight: 500;
+	text-align: end;
+}
+
+/* 예약 최종 확인 메시지 모달 */
+.result-message-wrap {
+	width: 526px;
+	margin: 0 auto;
+}
+.result-message-wrap .result-message-title p {
+	font-size: 26px;
+	padding: 0 50px;
+	line-height: 130%;
+	margin-top: 40px;
+}
+.result-message-wrap .result-message-title p span.user-value {
+	color: var(--primary-color);
+}
+.result-message-wrap .result-message-contents {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	height: 276px;
+	margin-top: 40px;
+}
+.result-message-wrap .result-message-contents .photo {
+	width: 134px;
+	height: 134px;
+}
+.result-message-wrap .result-message-contents .photo img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.result-message-wrap .user-reserveinfo {
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+}
+.result-message-wrap .user-reserveinfo .reserveinfo-lists {
+	width: 374px;
+	height: 258px;
+	border-radius: 20px;
+	background-color: #FDF9F9;
+	padding: 30px;
+}
+.result-message-wrap .reserveinfo-lists .reserveinfo-list {
+	display: flex;
+	justify-content: space-between;
+}
+.result-message-wrap .reserveinfo-lists .reserveinfo-list:first-child {
+	margin-bottom: 78px;
+}
+.result-message-wrap .reserveinfo-lists .reserveinfo-list .reserveinfo-item .reserveinfo-label {
+	font-size: 24px;
+	font-weight: 600;
+}
+.result-message-wrap .reserveinfo-lists .reserveinfo-list .reserveinfo-item span {
+	display: inline-block;
+	font-size: 16px;
+	font-weight: 400;
+	margin-top: 8px;
+}
+.result-message-wrap .reserveinfo-notice {
+	margin-top: 54px;
+	display: flex;
+	gap: 14px;
+	align-items: center;
+	padding: 20px 30px;
+	background-color: #E3F5FF;
+	border-radius: 20px;
+}
+.result-message-wrap .reserveinfo-notice .noticeinfo p {
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 130%;
+}
+.reservestatebtns {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 32px;
+}
+.reservestatebtns .reservestatebtn-success {
+	margin-top: 44px;
+	width: 172px;
+	height: 56px;
+	border-radius: 8px;
+	font-size: 16px;
+	color: var(--text-white);
+	background-color: var(--primary-color);
+}
